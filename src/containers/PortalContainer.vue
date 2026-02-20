@@ -84,46 +84,17 @@ onUnmounted(() => {
     <div class="ambient-glow"></div>
 
     <div class="content-wrapper">
-      <!-- <div class="identity-label">Identity Practice</div> -->
-
-      <div class="logo-section">
-        <BlockRenderer
-          v-for="(block, i) in props.schema.blocks.filter(
-            (b) => b.type === 'lotus_logo',
-          )"
-          :key="'logo-' + i"
-          :block="block"
-        />
-      </div>
-
-      <div class="divider-line"></div>
-
-      <div class="text-block">
-        <BlockRenderer
-          v-for="(block, i) in props.schema.blocks.filter(
-            (b) => b.type === 'headline',
-          )"
-          :key="'head-' + i"
-          :block="block"
-        />
-        <BlockRenderer
-          v-for="(block, i) in props.schema.blocks.filter(
-            (b) => b.type === 'subtext',
-          )"
-          :key="'sub-' + i"
-          :block="block"
-        />
-      </div>
-
-      <div class="cta-section">
-        <BlockRenderer
-          v-for="(block, i) in props.schema.blocks.filter(
-            (b) => b.type === 'primary_button',
-          )"
-          :key="'cta-' + i"
-          :block="block"
-        />
-      </div>
+      <BlockRenderer
+        v-for="(block, i) in props.schema.blocks"
+        :key="'block-' + i"
+        :block="block"
+        :class="{
+          'logo-section': block.type === 'lotus_logo',
+          'text-block': block.type === 'headline' || block.type === 'subtext',
+          'cta-section': block.type === 'primary_button',
+          'seeking-section': block.type === 'chip_list'
+        }"
+      />
     </div>
   </div>
 </template>

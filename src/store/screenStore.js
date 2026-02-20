@@ -92,6 +92,7 @@ export const useScreenStore = defineStore("screen", () => {
   }
 
   return {
+    currentKey,
     currentScreen,
     currentTheme,
     currentMood,

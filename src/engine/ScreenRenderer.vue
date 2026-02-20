@@ -1,6 +1,7 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useScreenStore } from "../store/screenStore";
+import { mockScreens } from "../mock/screens";
 
 import PortalContainer from "../containers/PortalContainer.vue";
 import ChoiceStackContainer from "../containers/ChoiceStackContainer.vue";
@@ -47,6 +48,16 @@ const currentComponent = computed(() => {
 
 const themeClass = computed(() => `theme-${screenStore.currentTheme}`);
 const moodClass = computed(() => `mood-${screenStore.currentMood}`);
+
+// --- DEV TOOLS: Check any states ---
+const isDevMode = ref(true);
+const allScreenKeys = Object.keys(mockScreens);
+
+function jumpToScreen(event) {
+  if (event.target.value) {
+    screenStore.loadScreen(event.target.value);
+  }
+}
 </script>
 
 <template>
@@ -55,6 +66,17 @@ const moodClass = computed(() => `mood-${screenStore.currentMood}`);
       :is="currentComponent" 
       :schema="screenStore.currentScreen" 
     />
+
+    <!-- DEV MODE OVERLAY FOR TESTING -->
+    <div v-if="isDevMode" class="dev-state-picker">
+      <label>DevTools: View States</label>
+      <select @change="jumpToScreen" :value="screenStore.currentKey">
+        <option value="" disabled selected>Select a State (68+)</option>
+        <option v-for="key in allScreenKeys" :key="key" :value="key">
+          {{ key }}
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -68,5 +90,41 @@ const moodClass = computed(() => `mood-${screenStore.currentMood}`);
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+/* DEV TOGGLE STYLES */
+.dev-state-picker {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99999;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(201, 168, 76, 0.5);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dev-state-picker label {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #c9a84c;
+  letter-spacing: 1px;
+}
+
+.dev-state-picker select {
+  font-family: var(--font-sans), monospace;
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  max-width: 250px;
 }
 </style>

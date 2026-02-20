@@ -1,3 +1,5 @@
+import { ContainerRegistry } from "./allContainers";
+
 export const mockScreens = {
   // --- PHASE 1: ENTRY ---
   portal_splash: {
@@ -590,3 +592,21 @@ export const mockScreens = {
     ]
   }
 };
+
+// Inject all 68 JSON states directly into the mock registry so they can be routed to freely
+Object.keys(ContainerRegistry).forEach((registryKey) => {
+  const container = ContainerRegistry[registryKey];
+  const containerId = container.container_id;
+  
+  if (container.states) {
+    Object.keys(container.states).forEach((stateKey) => {
+      // Create a flat entry for each state from JSON
+      // So if "welcome_portal" is requested, it automatically maps to the correct state block and container
+      mockScreens[stateKey] = {
+        id: stateKey,
+        container_id: containerId,
+        ...container.states[stateKey]
+      };
+    });
+  }
+});
