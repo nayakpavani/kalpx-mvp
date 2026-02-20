@@ -2,6 +2,7 @@ import {
   generateCompanionResponse,
   generateHelpMeChooseResponse,
   generatePranaBaseline,
+  generatePathEvolutionScreen,
 } from "./dynamicContentEngine";
 
 /**
@@ -37,8 +38,22 @@ export function executeAction(action, context) {
       const inputData = {
         friction: screenState["help_me_choose_1"],
         intention: screenState["help_me_choose_2"],
+        isReanalysis: !!screenState["scan_focus"],
       };
       const resultScreen = generateHelpMeChooseResponse(inputData);
+      loadScreen(resultScreen);
+      break;
+    }
+
+    case "evolve_path": {
+      const { newFocus } = payload;
+      const oldFocus = screenState["scan_focus"] || "peacecalm";
+      
+      const resultScreen = generatePathEvolutionScreen(oldFocus, newFocus);
+      
+      setScreenValue(newFocus, "scan_focus");
+      setScreenValue(newFocus, "suggested_focus");
+      
       loadScreen(resultScreen);
       break;
     }

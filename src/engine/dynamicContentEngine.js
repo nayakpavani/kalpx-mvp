@@ -782,7 +782,7 @@ export function generateInfoScreen(type, data) {
   };
 }
 export function generateHelpMeChooseResponse(inputData) {
-  const { friction, intention } = inputData;
+  const { friction, intention, isReanalysis } = inputData;
 
   // Logic to suggest focus based on friction
   let suggestedFocus = "peacecalm";
@@ -846,11 +846,13 @@ export function generateHelpMeChooseResponse(inputData) {
       { type: "subtext", content: analysisText, position: "content" },
       {
         type: "primary_button",
-        label: `Begin ${focusLabel} Path →`,
-        action: {
-          type: "fast_track_baseline",
-          payload: { focus: suggestedFocus },
-        },
+        label: isReanalysis ? `Preview ${focusLabel} Focus →` : `Begin ${focusLabel} Path →`,
+        action: isReanalysis 
+          ? { type: "evolve_path", payload: { newFocus: suggestedFocus } }
+          : {
+              type: "fast_track_baseline",
+              payload: { focus: suggestedFocus },
+            },
         style: "gold",
         position: "footer",
       },

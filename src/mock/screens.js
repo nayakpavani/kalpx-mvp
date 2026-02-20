@@ -1,5 +1,14 @@
 export const mockScreens = {
   // --- PHASE 1: ENTRY ---
+  portal_splash: {
+    id: "portal_splash",
+    container_id: "portal_splash",
+    tone: { theme: "gold_dark", mood: "steady" },
+    blocks: [
+      { type: "lotus_logo" },
+    ],
+  },
+
   portal: {
     id: "portal",
     container_id: "portal",
@@ -290,13 +299,15 @@ export const mockScreens = {
     tone: { theme: "gold_dark", mood: "steady" },
     day_title: "Day 4 of 14 — Karma & Clarity",
     day_number: 4,
+    triggered_action: { type: "navigate", target: "help_me_choose_1" },
+    checkin_action: { type: "navigate", target: "insights_day_7" },
     blocks: [
       {
         id: "practice_chant",
         type: "practice_card",
         title: "Chant",
-        description: "OM SHANTI",
-        meta: "27 repetitions • 7 minutes",
+        description: "Om Namah Shivaya",
+        meta: "27 repetitions • 3 minutes",
         icon: "fas fa-om",
         action_label: "Start →",
         action: {
@@ -304,7 +315,7 @@ export const mockScreens = {
           target: {
             container_id: "practice_runner",
             variant: "mantra_runner",
-            mantra_text: "OM SHANTI",
+            mantra_text: "Om Namah Shivaya",
             target_count: 27,
           },
         },
@@ -313,18 +324,26 @@ export const mockScreens = {
         id: "practice_embody",
         type: "practice_card",
         title: "Embody",
-        description: "“I am the silent witness.”",
+        description: "“I act sincerely and release attachment to outcomes.”",
         icon: "fas fa-fire",
         action_label: "I Embody This →",
+        action_style: "outline",
       },
       {
         id: "practice_act",
         type: "practice_card",
-        title: "Karma Action",
-        purpose: "REAL-WORLD INTEGRATION",
-        description: "Practice 'Stillness': Observe without joining.",
+        title: "Act",
+        description: "Complete one focused 20-minute Karma block.",
         icon: "fas fa-mountain",
-        action_label: "Action Sealed →",
+        action_label: "Mark Focus Complete →",
+        action_style: "outline",
+      },
+      {
+        type: "subtext",
+        content: "Reflect before resting →",
+        variant: "link",
+        position: "footer",
+        action: { type: "navigate", target: "day_complete" },
       },
     ],
   },
@@ -363,33 +382,211 @@ export const mockScreens = {
     ],
   },
 
-  daily_checkin_2: {
-    id: "daily_checkin_2",
-    container_id: "cycle_transitions",
+  cycle_complete_review: {
+    id: "cycle_complete_review",
+    container_id: "sadhana_deepen",
     tone: { theme: "light_sandal", mood: "steady" },
-    tag: "RITUAL ALIGNMENT",
     blocks: [
-      { type: "lotus_logo", position: "header" },
-      { type: "headline", content: "Stay or Deepen?", position: "header" },
+      { type: "subtext", variant: "small", content: "CYCLE COMPLETE", position: "header" },
+      { type: "headline", content: "You have completed 7 days.", position: "header" },
+      { type: "subtext", variant: "italic", content: "Consistency builds character.\nChoice builds mastery.", position: "header" },
+      {
+        type: "insight_card",
+        position: "content",
+        description: "You began this cycle feeling anxious.\nNow your clarity is steadier."
+      },
+      { type: "spacer", height: 24, position: "content" },
+      {
+        type: "choice_card",
+        selection_mode: "auto",
+        position: "content",
+        options: [
+          {
+            id: "continue",
+            title: "Continue This Path",
+            description: "Go deeper into the same practice. Depth creates transformation.",
+            icon: "fas fa-fire",
+            action: { type: "navigate", target: "sadhana_extension" }
+          },
+          {
+            id: "deepen",
+            title: "Deepen Your Practice",
+            description: "Re-analyze your current state and discover a new alignment focus.",
+            icon: "fas fa-leaf",
+            action: { type: "navigate", target: "help_me_choose_1" }
+          }
+        ]
+      },
       {
         type: "subtext",
-        content: "Your current roots: OM SHANTI (7 mins). Growth requires either steady repetition or intentional deepening.",
+        content: "Repetition builds steadiness.\nExpansion builds mastery.",
+        position: "footer",
+        variant: "italic_multiline"
+      }
+    ]
+  },
+
+  insights_day_7: {
+    id: "insights_day_7",
+    container_id: "insight_summary",
+    tone: { theme: "light_sandal", mood: "steady" },
+    blocks: [
+      { type: "subtext", variant: "small", content: "DAY 7 INSIGHT — KARMA & CLARITY SADHANA", position: "header" },
+      { type: "headline", content: "Your growth is becoming visible.", position: "header" },
+      { type: "subtext", variant: "italic", content: "Awareness precedes transformation.", position: "header" },
+      {
+        type: "insight_card",
         position: "content",
+        description: "You paused before reacting 6 times this week.\nEarlier, those moments passed unnoticed."
+      },
+      {
+        type: "trend_chart",
+        position: "content",
+        title: "Calm & Clarity Trend",
+        data: [
+          { label: "Calm", values: [4, 6, 3, 5, 5, 7, 7] },
+          { label: "Clarity", values: [5, 4, 3, 3, 4, 6, 7] }
+        ],
+        footer_text: "Your mind steadiness increased steadily after Day 3."
+      },
+      {
+        type: "insight_card",
+        position: "content",
+        list: [
+          { icon: "fas fa-eye", text: "You felt most restless before work conversations" },
+          { icon: "fas fa-lotus", text: "You returned to your Sankalp faster mid-week" },
+          { icon: "fas fa-fire", text: "Your calm improved on days you completed Sadhana early" }
+        ]
+      },
+      {
+        type: "insight_card",
+        position: "content",
+        title: "I act sincerely and release attachment to outcomes.",
+        description: "You embodied this Sankalp on 4 of 7 days.",
+        meta: "Embodiment grows through repetition."
+      },
+      { type: "subtext", variant: "italic_multiline", content: "Progress is not about never slipping.\nIt is about returning with awareness.", position: "content" },
+      {
+        type: "primary_button",
+        label: "Continue for 7 more days",
+        meta: "Deepen steadiness.",
+        action: { type: "navigate", target: "cycle_complete_review" },
+        style: "gold",
+        position: "footer"
+      },
+      {
+        type: "subtext",
+        content: "Explore a new focus\nShift consciously.",
+        variant: "link",
+        position: "footer",
+        action: { type: "navigate", target: "help_me_choose_1" }
+      },
+      {
+        type: "subtext",
+        content: "You are training the mind — not chasing outcomes.",
+        position: "footer",
+        variant: "italic"
+      }
+    ]
+  },
+
+  sadhana_refine: {
+    id: "sadhana_refine",
+    container_id: "sadhana_deepen",
+    tone: { theme: "light_sandal", mood: "steady" },
+    blocks: [
+      { type: "subtext", variant: "small", content: "DEEPEN YOUR SADHANA", position: "header" },
+      { type: "headline", content: "Strengthen What You Have Begun", position: "header" },
+      { type: "subtext", content: "You will keep your core mantra and sankalp.\nWe will refine your discipline.", position: "header" },
+      {
+        type: "insight_card",
+        position: "content",
+        title: "Your Core:",
+        list: [
+          { text: "Mantra: Om Namah Shivaya" },
+          { text: "Sankalp: I act sincerely and release attachment to outcomes" },
+          { text: "Anchor: Focused Karma Sadhana" }
+        ],
+        meta: "The roots remain. Only depth increases."
+      },
+      {
+        type: "choice_card",
+        selection_mode: "manual",
+        position: "content",
+        title: "Choose Your Refinement Layer",
+        options: [
+          {
+            id: "deepen",
+            title: "Deepen Through Repetition",
+            description: "Increase mantra reps and\nextend anchor duration.\n\n• 27 → 54 reps\n• Anchor practice +5 minutes",
+            icon: "fas fa-link",
+            meta: "Strength comes from repetition.",
+            selected: true
+          },
+          {
+            id: "observe",
+            title: "Add Inner Observation",
+            description: "Introduce a mid-day awareness\npause and deeper reflection question.\n\n• 1 trigger awareness reminder\n• 1 advanced svādhyāya prompt daily",
+            icon: "fas fa-lotus",
+            meta: "Refinement sharpens awareness."
+          },
+          {
+            id: "action",
+            title: "Activate Dharma in Action",
+            description: "Apply your Sankalp consciously\nin real-world situations.\n\n• 1 daily real-world application task\n• Evening accountability check",
+            icon: "fas fa-arrow-up",
+            meta: "Transformation must enter action."
+          }
+        ]
+      },
+      {
+        type: "subtext",
+        content: "You are not changing your path. You are strengthening it.",
+        position: "footer",
+        variant: "italic"
       },
       {
         type: "primary_button",
-        label: "Keep Current Ritual →",
-        action: { type: "navigate", target: "dashboard" },
+        label: "Begin Next 7 Days →",
+        action: { type: "navigate", target: "sadhana_extension" },
         style: "gold",
-        position: "footer",
+        position: "footer"
       },
       {
         type: "subtext",
-        content: "I want to refine my practice →",
+        content: "Return to Current Practice",
         variant: "link",
-        action: { type: "navigate", target: "routine_setup" },
         position: "footer",
-      },
-    ],
+        action: { type: "navigate", target: "dashboard" }
+      }
+    ]
   },
+  
+  sadhana_extension: {
+    id: "sadhana_extension",
+    container_id: "sadhana_deepen",
+    tone: { theme: "light_sandal", mood: "steady" },
+    blocks: [
+      { type: "subtext", variant: "small", content: "CONTINUING YOUR PATH", position: "header" },
+      { type: "headline", content: "The Roots Deepen.", position: "header" },
+      { type: "subtext", content: "You are choosing steadiness over novelty. That is how depth is formed.", position: "header" },
+      {
+        type: "insight_card",
+        position: "content",
+        title: "Your Current Anchor:",
+        list: [
+          { text: "Mantra: Om Namah Shivaya", icon: "fas fa-om" },
+          { text: "Sankalp: I act sincerely and release attachment to outcomes", icon: "fas fa-heart" },
+        ],
+        meta: "The practice remains the same. Your attention must become subtler."
+      },
+      {
+        type: "primary_button",
+        label: "Begin Extended Practice →",
+        action: { type: "navigate", target: "dashboard" },
+        style: "gold",
+        position: "footer"
+      }
+    ]
+  }
 };

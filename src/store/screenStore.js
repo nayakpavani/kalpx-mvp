@@ -4,8 +4,9 @@ import { mockScreens } from "../mock/screens";
 import { executeAction } from "../engine/actionExecutor";
 
 export const useScreenStore = defineStore("screen", () => {
-  // const currentKey = ref("daily_checkin_2");
-  const currentKey = ref("portal");
+  // MOCK: Toggle this boolean to switch between fresher and experienced user flow
+  const isExperiencedUser = true; // Set to false to test fresh user flow
+  const currentKey = ref(isExperiencedUser ? "portal_splash" : "portal");
 
   const dynamicScreen = ref(null);
   const history = ref([]);

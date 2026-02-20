@@ -13,6 +13,9 @@ import PracticeRunnerContainer from "../containers/PracticeRunnerContainer.vue";
 import EmbodimentChallengeRunnerContainer from "../containers/EmbodimentChallengeRunnerContainer.vue";
 import AwarenessTriggerContainer from "../containers/AwarenessTriggerContainer.vue";
 import InsightsProgressContainer from "../containers/InsightsProgressContainer.vue";
+import PortalSplashContainer from "../containers/PortalSplashContainer.vue";
+import InsightSummaryContainer from "../containers/InsightSummaryContainer.vue";
+import SadhanaDeepenContainer from "../containers/SadhanaDeepenContainer.vue";
 import CycleTransitionsContainer from "../containers/CycleTransitionsContainer.vue";
 import StableScanContainer from "../containers/StableScanContainer.vue";
 
@@ -20,6 +23,7 @@ const screenStore = useScreenStore();
 
 const containerMap = {
   portal: PortalContainer,
+  portal_splash: PortalSplashContainer,
   choice_stack: ChoiceStackContainer,
   composer: ComposerContainer,
   lock_ritual: LockRitualOverlay,
@@ -30,6 +34,8 @@ const containerMap = {
   embodiment_runner: EmbodimentChallengeRunnerContainer,
   awareness_trigger: AwarenessTriggerContainer,
   insights_progress: InsightsProgressContainer,
+  insight_summary: InsightSummaryContainer,
+  sadhana_deepen: SadhanaDeepenContainer,
   cycle_transitions: CycleTransitionsContainer,
   stable_scan: StableScanContainer,
 };

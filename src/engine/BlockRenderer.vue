@@ -10,6 +10,7 @@ import LotusLogo from "../blocks/LotusLogo.vue";
 import ChoiceCard from "../blocks/ChoiceCard.vue";
 import BaselineSlider from "../blocks/BaselineSlider.vue";
 import PracticeCard from "../blocks/PracticeCard.vue";
+import InsightCard from "../blocks/InsightCard.vue";
 import PranaSelectorBlock from "../blocks/PranaSelectorBlock.vue";
 import BreathOrbBlock from "../blocks/BreathOrbBlock.vue";
 import AlignmentChoiceBlock from "../blocks/AlignmentChoiceBlock.vue";
@@ -28,6 +29,7 @@ const blockMap = {
   choice_card: ChoiceCard,
   baseline_slider: BaselineSlider,
   practice_card: PracticeCard,
+  insight_card: InsightCard,
   chip_list: ChipListBlock,
   prana_selector: PranaSelectorBlock,
   triggered_orb: BreathOrbBlock,
