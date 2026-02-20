@@ -5,7 +5,7 @@ import { executeAction } from "../engine/actionExecutor";
 
 export const useScreenStore = defineStore("screen", () => {
   // MOCK: Toggle this boolean to switch between fresher and experienced user flow
-  const isExperiencedUser = true; // Set to false to test fresh user flow
+  const isExperiencedUser = false; // Set to false to test fresh user flow
   const currentKey = ref(isExperiencedUser ? "portal_splash" : "portal");
 
   const dynamicScreen = ref(null);
