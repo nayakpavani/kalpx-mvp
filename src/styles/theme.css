@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Raleway:wght@200;300;400;600&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Design Tokens */
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Raleway', sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
+
+  --transition-slow: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  --transition-base: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+
+  --radius-sm: 8px;
+  --radius-md: 18px;
+  --radius-lg: 32px;
+
+  --gold-gradient: linear-gradient(135deg, #B8922A 0%, #E8C060 45%, #C9A84C 100%);
+  --gold-glow: 0 0 25px rgba(201, 168, 76, 0.4);
+
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(12px);
+}
+
+/* Themes */
+.theme-gold_dark {
+  --bg-primary: #111417;
+  --bg-gradient: radial-gradient(ellipse 55% 50% at 50% 44%, rgba(201,168,76,0.08) 0%, transparent 70%),
+                 radial-gradient(ellipse 100% 100% at 50% 50%, #0e1012 55%, #080a0c 100%);
+  --text-primary: #fdfaf3;
+  --text-secondary: rgba(253, 250, 243, 0.7);
+  --surface-1: rgba(30, 41, 59, 0.6);
+  --surface-2: rgba(51, 65, 85, 0.6);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --accent-primary: #d4af37;
+  --glass-effect: blur(20px) saturate(180%);
+}
+
+.theme-light_sandal {
+  --bg-primary: #fdfaf3;
+  --bg-gradient: radial-gradient(circle at top, #fffaf0 0%, #f4eee0 100%);
+  --text-primary: #2d2b26;
+  --text-secondary: rgba(45, 43, 38, 0.65);
+  --surface-1: rgba(255, 255, 255, 0.7);
+  --surface-2: rgba(255, 255, 255, 0.9);
+  --border-color: rgba(191, 165, 138, 0.2);
+  --accent-primary: #bfa58a;
+  --gold-accent: #c9a227;
+  --glass-effect: blur(15px) saturate(120%);
+}
+
+/* Base Body Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: var(--transition-base);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+h1, h2, h3, .serif {
+  font-family: var(--font-serif);
+  letter-spacing: -0.02em;
+}
+
+/* Global Container Utility */
+.rendering-engine-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-gradient);
+  transition: var(--transition-slow);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Shared Premium Card Styles */
+.premium-card {
+  background: var(--surface-1);
+  backdrop-filter: var(--glass-effect);
+  -webkit-backdrop-filter: var(--glass-effect);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: var(--transition-base);
+}
+
+.premium-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* Premium Button Styles */
+.btn-gold {
+  position: relative;
+  background: linear-gradient(110deg, #B8721A, #E8943A 40%, #C9A84C 70%, #E8943A);
+  background-size: 300% 100%;
+  color: #1a0a00;
+  font-weight: 600;
+  border: none;
+  padding: 17px 50px;
+  border-radius: 100px;
+  cursor: pointer;
+  box-shadow: 0 4px 30px rgba(232, 148, 58, 0.3);
+  transition: all 0.4s ease;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  animation: bg-shimmer 5s ease-in-out infinite;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 45px rgba(201,168,76,0.45);
+}
+
+.btn-gold:active {
+  transform: scale(0.99);
+}
+
+@keyframes bg-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Pulse Rings */
+.btn-gold-pulse::before,
+.btn-gold-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 100px;
+  border: 1px solid rgba(232, 148, 58, 0.35);
+  animation: pulse-out 2.5s ease-out infinite;
+  pointer-events: none;
+}
+
+.btn-gold-pulse::after {
+  animation-delay: 1.25s;
+}
+
+@keyframes pulse-out {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(1.18); opacity: 0; }
+}
