@@ -15,6 +15,7 @@ function handleClick() {
 </script>
 <template>
   <p
+    v-if="block.id ? (screenStore.screenState[block.id] || block.content) : block.content"
     :class="[
       'subtext',
       block.variant === 'link' ? 'link-text' : '',
@@ -25,7 +26,7 @@ function handleClick() {
     ]"
     @click="handleClick"
   >
-    {{ block.content }}
+    {{ block.id ? (screenStore.screenState[block.id] || block.content) : block.content }}
   </p>
 </template>
 

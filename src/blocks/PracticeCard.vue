@@ -10,7 +10,9 @@
           block.purpose
         }}</span>
         <div class="title-row">
-          <h3 class="title">{{ block.title }}</h3>
+          <h3 class="title">
+            {{ block.id ? (screenStore.screenState[block.id + '_title'] || block.title) : block.title }}
+          </h3>
           <button
             v-if="block.info_action"
             class="info-btn"
@@ -19,8 +21,12 @@
             <i class="fas fa-info-circle"></i>
           </button>
         </div>
-        <p class="description">{{ block.description }}</p>
-        <p v-if="block.meta" class="meta">{{ block.meta }}</p>
+        <p class="description">
+          {{ block.id ? (screenStore.screenState[block.id + '_description'] || block.description) : block.description }}
+        </p>
+        <p v-if="block.meta || (block.id && screenStore.screenState[block.id + '_meta'])" class="meta">
+          {{ block.id ? (screenStore.screenState[block.id + '_meta'] || block.meta) : block.meta }}
+        </p>
       </div>
     </div>
     <button v-if="!isCompleted" class="action-btn" @click.stop="handleAction">
@@ -64,22 +70,21 @@ function handleInfo() {
 
 <style scoped>
 .practice-card {
-  background: var(--surface-1);
-  backdrop-filter: blur(10px);
+  background: var(--surface-2);
+  backdrop-filter: var(--glass-effect);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: var(--radius-md);
+  padding: 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-  transition: all 0.4s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  transition: var(--transition-base);
 }
 
 .practice-card.completed {
-  background: var(--surface-1);
   opacity: 0.6;
 }
 
@@ -90,6 +95,7 @@ function handleInfo() {
   bottom: 0;
   width: 4px;
   background: var(--gold-gradient);
+  opacity: 0.8;
 }
 
 .completed .gold-accent-line {
@@ -105,10 +111,14 @@ function handleInfo() {
 
 .icon-section {
   font-size: 28px;
-  color: var(--gold-accent);
-  width: 40px;
+  color: var(--gold-accent, #c9a84c);
+  width: 48px;
+  height: 48px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  background: rgba(191, 165, 138, 0.05);
+  border-radius: 12px;
 }
 
 .completed .icon-section {
@@ -127,11 +137,11 @@ function handleInfo() {
 }
 
 .title {
-  font-family: var(--font-serif);
-  font-size: 20px;
+  font-family: var(--font-sans);
+  font-size: 18px;
   color: var(--text-primary);
   margin: 0;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .info-btn {
@@ -144,61 +154,68 @@ function handleInfo() {
   align-items: center;
   transition: all 0.2s ease;
   font-size: 14px;
+  opacity: 0.6;
 }
 
 .info-btn:hover {
   color: var(--gold-accent);
   transform: scale(1.1);
+  opacity: 1;
 }
 
 .description {
   font-size: 14px;
   color: var(--text-secondary);
-  margin: 4px 0 0;
-  line-height: 1.4;
+  margin: 2px 0 0;
+  line-height: 1.5;
+  font-style: italic;
 }
 
 .meta {
-  font-size: 12px;
-  color: var(--gold-accent);
-  margin: 4px 0 0;
-  font-style: italic;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin: 6px 0 0;
+  opacity: 0.8;
+  letter-spacing: 0.5px;
 }
 
 .action-btn {
   background: var(--gold-gradient);
   color: #fff;
   border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
   margin-left: 16px;
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .action-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(201, 162, 39, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(184, 114, 26, 0.2);
 }
 
 .completed-badge {
   color: #10b981;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-left: 16px;
 }
 
 .purpose-tag {
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 1.5px;
   color: #bfa58a;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   display: inline-block;
 }
 </style>

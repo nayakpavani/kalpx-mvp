@@ -127,9 +127,12 @@ export const useScreenStore = defineStore("screen", () => {
       if (typeof value === "string") {
         // Simple regex to find {{keyword}}
         value = value.replace(/\{\{(.+?)\}\}/g, (match, p1) => {
-          return screenState[p1.trim()] !== undefined
-            ? screenState[p1.trim()]
-            : match;
+          const keys = p1.trim().split(".");
+          let val = screenState;
+          for (const k of keys) {
+            val = val?.[k];
+          }
+          return val !== undefined && val !== null ? val : "";
         });
       } else if (typeof value === "object") {
         value = interpolate(value);

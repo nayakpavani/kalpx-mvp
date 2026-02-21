@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from "vue";
+import { useScreenStore } from "../store/screenStore";
 import HeadlineBlock from "../blocks/HeadlineBlock.vue";
 import SubtextBlock from "../blocks/SubtextBlock.vue";
 import PrimaryButtonBlock from "../blocks/PrimaryButtonBlock.vue";
@@ -82,11 +83,34 @@ const props = defineProps({
   block: Object,
 });
 
-const component = computed(() => blockMap[props.block?.type]);
+const screenStore = useScreenStore();
+
+const interpolatedBlock = computed(() => {
+  if (!props.block) return null;
+  const newBlock = { ...props.block };
+  
+  // Scrape all string values for {{key}} patterns and replace with screenState[key]
+  Object.keys(newBlock).forEach(key => {
+    if (typeof newBlock[key] === 'string') {
+      newBlock[key] = newBlock[key].replace(/\{\{(.*?)\}\}/g, (match, p1) => {
+        const keys = p1.trim().split(".");
+        let v = screenStore.screenState;
+        for (const k of keys) {
+          v = v?.[k];
+        }
+        return v !== undefined && v !== null ? v : "";
+      });
+    }
+  });
+  
+  return newBlock;
+});
+
+const component = computed(() => blockMap[interpolatedBlock.value?.type]);
 </script>
 
 <template>
-  <component :is="component" v-if="component" :block="props.block" />
+  <component :is="component" v-if="component" :block="interpolatedBlock" />
   <div v-else class="unknown-block">Unknown block: {{ props.block?.type }}</div>
 </template>
 

@@ -84,23 +84,13 @@ const daysRemaining = computed(() => 14 - (props.schema.day_number || 1));
       />
     </div>
 
-    <!-- Render any floating buttons or overlays -->
-    <BlockRenderer
-      v-for="(block, i) in schema.blocks.filter(
-        (b) => b.type === 'floating_button',
-      )"
-      :key="'floating-' + i"
-      :block="block"
-    />
-    <!-- 
     <div class="quick-actions">
-       <button class="action-btn gold" @click="screenStore.handleAction(schema.triggered_action)">
-         I Feel Triggered
-       </button>
-       <button class="action-btn outline" @click="screenStore.handleAction(schema.checkin_action)">
-         Quick Check-In
-       </button>
-    </div> -->
+      <BlockRenderer
+        v-for="(block, i) in schema.blocks.filter((b) => b.position === 'footer_actions')"
+        :key="'action-' + i"
+        :block="block"
+      />
+    </div>
 
     <div class="dashboard-footer">
       <div class="divider">

@@ -2,6 +2,7 @@ import {
   generateCompanionResponse,
   generateHelpMeChooseResponse,
   generatePathEvolutionScreen,
+  generateInfoScreenData
 } from "./dynamicContentEngine";
 
 /**
@@ -25,6 +26,22 @@ export function executeAction(action, context) {
       goBack();
       break;
 
+    case "view_info": {
+      const { type } = payload;
+      const masterData = screenState[`master_${type}`];
+      if (!masterData) break;
+
+      const infoData = generateInfoScreenData(type, masterData);
+      setScreenValue(infoData, "info");
+      
+      // Navigate to a dedicated info reveal state within cycle_transitions
+      loadScreen({
+        container_id: "cycle_transitions",
+        state_id: "info_reveal",
+      });
+      break;
+    }
+
 
     case "generate_help_me_choose": {
       const inputData = {
@@ -32,8 +49,23 @@ export function executeAction(action, context) {
         intention: screenState["help_me_choose_2"],
         isReanalysis: !!screenState["scan_focus"],
       };
-      const resultScreen = generateHelpMeChooseResponse(inputData);
-      loadScreen(resultScreen);
+      
+      const data = generateHelpMeChooseResponse(inputData);
+      
+      setScreenValue(data.intro, "help_me_choose_intro");
+      setScreenValue(data.analysisText, "help_me_choose_analysis");
+      setScreenValue(data.buttonLabel, "help_me_choose_button_label");
+      
+      const nextAction = data.isReanalysis
+        ? { type: "evolve_path", payload: { newFocus: data.suggestedFocus } }
+        : { type: "fast_track_baseline", payload: { focus: data.suggestedFocus } };
+      
+      setScreenValue(nextAction, "help_me_choose_button_action");
+      
+      loadScreen({
+        container_id: "cycle_transitions",
+        state_id: "help_me_choose_reveal",
+      });
       break;
     }
 
@@ -41,12 +73,16 @@ export function executeAction(action, context) {
       const { newFocus } = payload;
       const oldFocus = screenState["scan_focus"] || "peacecalm";
       
-      const resultScreen = generatePathEvolutionScreen(oldFocus, newFocus);
+      const data = generatePathEvolutionScreen(oldFocus, newFocus);
       
+      setScreenValue(data.evolutionText, "path_evolution_text");
       setScreenValue(newFocus, "scan_focus");
       setScreenValue(newFocus, "suggested_focus");
       
-      loadScreen(resultScreen);
+      loadScreen({
+        container_id: "cycle_transitions",
+        state_id: "path_evolution_reveal",
+      });
       break;
     }
 
@@ -81,9 +117,24 @@ export function executeAction(action, context) {
       setScreenValue(focus, "scan_focus");
       setScreenValue(focus, "suggested_focus");
 
-      // 3. Generate and load companion reveal
-      const dynamicScreen = generateCompanionResponse(inputData);
-      loadScreen(dynamicScreen);
+      // 3. Generate companion data and populate store
+      const data = generateCompanionResponse(inputData);
+      
+      setScreenValue(data.intro, "analysis_intro");
+      setScreenValue(data.metricsSummary, "analysis_metrics");
+      setScreenValue(data.insightText, "analysis_insight");
+      
+      setScreenValue(data.ritual.title, "card_ritual_description");
+      setScreenValue(data.ritual.meta, "card_ritual_meta");
+      
+      setScreenValue(data.sankalpa.line, "card_sankalpa_description");
+      setScreenValue(data.mantra.line, "card_mantra_description");
+
+      // 4. Navigate to static reveal screen
+      loadScreen({
+        container_id: "cycle_transitions",
+        state_id: "companion_analysis",
+      });
       break;
     }
 
@@ -93,7 +144,7 @@ export function executeAction(action, context) {
         focus: screenState["scan_focus"] || screenState["suggested_focus"],
         sub_focus: screenState["prana_baseline_selection"],
         baseline_metrics: screenState, // Send full state to extract sliders
-        depth: screenState["routine_setup"],
+        depth: screenState["routine_depth"] || screenState["routine_setup"] || "standard",
         intention: screenState["composer_intent"],
         day_number: screenState["day_number"] || 1,
       };
@@ -103,11 +154,45 @@ export function executeAction(action, context) {
         inputData.focus = "peacecalm";
       }
 
-      // 2. Generate dynamic response
-      const dynamicScreen = generateCompanionResponse(inputData);
+      // 2. Generate companion data and populate store
+      const data = generateCompanionResponse(inputData);
+      
+      // Reveal Screen Data
+      setScreenValue(data.intro, "analysis_intro");
+      setScreenValue(data.metricsSummary, "analysis_metrics");
+      setScreenValue(data.insightText, "analysis_insight");
+      
+      setScreenValue(data.ritual.title, "card_ritual_description");
+      setScreenValue(data.ritual.meta, "card_ritual_meta");
+      
+      setScreenValue(data.sankalpa.line, "card_sankalpa_description");
+      setScreenValue(data.mantra.line, "card_mantra_description");
+      
+      // Foundational Journey Data (for Dashboard & Runners)
+      setScreenValue(data.mantra.line, "mantra_text");
+      setScreenValue(data.mantra.iast, "mantra_iast");
+      setScreenValue(data.mantra.title || data.mantra.iast, "mantra_title");
+      
+      setScreenValue(data.sankalpa.line, "sankalp_text");
+      setScreenValue(data.sankalpa.line, "sankalp_title");
+      
+      setScreenValue(data.ritual.title, "practice_title");
+      setScreenValue(data.ritual.meta, "practice_meta");
+      
+      setScreenValue(inputData.day_number, "day_number");
+      setScreenValue(inputData.focus, "active_focus");
+      setScreenValue(data.focusName, "focus_name");
 
-      // 3. Load the dynamic screen
-      loadScreen(dynamicScreen);
+      // Save master data for info screens
+      setScreenValue(data.masterData.selectedMantra, "master_mantra");
+      setScreenValue(data.masterData.selectedSankalp, "master_sankalp");
+      setScreenValue(data.masterData.selectedPractice, "master_practice");
+
+      // 3. Load the static reveal screen
+      loadScreen({
+        container_id: "cycle_transitions",
+        state_id: "companion_analysis",
+      });
       break;
     }
 

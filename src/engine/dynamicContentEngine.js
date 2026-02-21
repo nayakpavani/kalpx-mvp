@@ -27,8 +27,7 @@ function getRandomItem(list, focus, locale = "en") {
 }
 
 export function generateCompanionResponse(inputData) {
-  const { focus, sub_focus, baseline_metrics, intention, depth, day_number } =
-    inputData;
+  const { focus, sub_focus, baseline_metrics, intention, depth } = inputData;
 
   const focusNames = {
     careerprosperity: "Career & Prosperity",
@@ -68,718 +67,74 @@ export function generateCompanionResponse(inputData) {
 
   // Summarize baseline metrics for display
   const metricsSummary = Object.entries(baseline_metrics || {})
-    .filter(([key, val]) => typeof val === "number" && key !== "day_number")
+    .filter(
+      ([key, val]) =>
+        typeof val === "number" && key !== "day_number" && val > 0,
+    )
     .map(([key, val]) => `• ${key}: ${val}/10`)
     .join("\n");
 
-  // Build the dynamic reveal screen (AI insight)
+  // Return data only (no screen construction)
   return {
-    container_id: "cycle_transitions",
-    tone: { theme: "gold_dark", mood: "steady" },
-    tag: "AI COMPANION ANALYSIS",
-    blocks: [
-      { type: "lotus_logo", position: "header" },
-      { type: "headline", content: "Your Path is Set.", position: "header" },
-      {
-        type: "subtext",
-        content: `I have analyzed your request for ${
-          focusNames[focus] || focus
-        }. You identified your current state as "${
-          sub_focus || "uncentered"
-        }" with the following baseline prana levels:`,
-        position: "content",
-      },
-      {
-        type: "subtext",
-        content: metricsSummary,
-        variant: "small",
-        position: "content",
-      },
-      { type: "subtext", content: insightText, position: "content" },
-      {
-        type: "practice_card",
-        title: "Selected Ritual",
-        description: practice,
-        meta: `${iast} ${
-          devanagari ? `(${devanagari})` : ""
-        } • ${duration} daily (${depth?.toUpperCase()} depth)`,
-        icon: "fas fa-leaf",
-        position: "content",
-        info_action: {
-          type: "navigate",
-          target: generateInfoScreen("practice", selectedPractice),
-        },
-      },
-      {
-        type: "practice_card",
-        title: "Sankalpa",
-        description: `“${sankalpa}”`,
-        icon: "fas fa-heart",
-        meta: "Your spiritual intention.",
-        position: "content",
-        info_action: {
-          type: "navigate",
-          target: generateInfoScreen("sankalp", selectedSankalp),
-        },
-      },
-      {
-        type: "practice_card",
-        title: "Mantra",
-        description: mantra,
-        icon: "fas fa-om",
-        meta: "The sound of transformation.",
-        position: "content",
-        info_action: {
-          type: "navigate",
-          target: generateInfoScreen("mantra", selectedMantra),
-        },
-      },
-      {
-        type: "primary_button",
-        label: "Seal & Enter Dashboard →",
-        action: {
-          type: "navigate",
-          target: generateDashboard({
-            selectedMantra,
-            selectedSankalp,
-            selectedPractice,
-            theme,
-            duration,
-            day_number: day_number || 1,
-          }),
-        },
-        style: "gold",
-        position: "footer",
-      },
-      {
-        type: "subtext",
-        content: "Repetition is the mother of transformation.",
-        position: "footer",
-      },
-    ],
+    focusName: focusNames[focus] || focus,
+    intro: `I have analyzed your request for ${
+      focusNames[focus] || focus
+    }. You identified your current state as "${
+      sub_focus || "uncentered"
+    }" with the following baseline prana levels:`,
+    metricsSummary,
+    insightText,
+    ritual: {
+      title: practice,
+      meta: `${iast} ${
+        devanagari ? `(${devanagari})` : ""
+      } • ${duration} daily (${depth?.toUpperCase()} depth)`,
+    },
+    sankalpa: {
+      line: `“${sankalpa}”`,
+      title: sankalpa,
+    },
+    mantra: {
+      line: mantra,
+      iast,
+      title: selectedMantra?.title || iast,
+      devanagari,
+    },
+    theme,
+    masterData: {
+      selectedMantra,
+      selectedSankalp,
+      selectedPractice,
+    },
   };
 }
 
-function generateDashboard({
-  selectedMantra,
-  selectedSankalp,
-  selectedPractice,
-  theme,
-  duration,
-  day_number = 1,
-}) {
-  const mantra = selectedMantra?.iast || selectedMantra?.title || "OM SHANTI";
-  const sankalpa = selectedSankalp?.line || "I am present and grounded.";
-  const practice = selectedPractice?.title || "Mindful Breathing";
-  // 1. Generate a Post-Practice Reflection Screen for middle of cycle (Day 4+)
-  // function generateReflectionScreen(day) {
-  //   const isBrainMilestone = day >= 6;
-
-  //   return {
-  //     container_id: "cycle_transitions",
-  //     tone: { theme: theme, mood: "steady" },
-  //     tag: `DAY ${day} INSIGHT`,
-  //     blocks: [
-  //       { type: "lotus_logo", position: "header" },
-  //       {
-  //         type: "headline",
-  //         content: isBrainMilestone
-  //           ? "Your brain is adapting."
-  //           : "Holding the Center.",
-  //         position: "header",
-  //       },
-  //       {
-  //         type: "subtext",
-  //         content: isBrainMilestone
-  //           ? "You've stayed steady for 6 days. Your neural pathways are beginning to favor this new rhythm."
-  //           : "How did you hold your center today? Was the mantra a shield or a mirror?",
-  //         position: "content",
-  //       },
-  //       {
-  //         type: "primary_button",
-  //         label: "Return to Dashboard →",
-  //         action: { type: "navigate", target: "dashboard" },
-  //         style: "gold",
-  //         position: "footer",
-  //       },
-  //       {
-  //         type: "subtext",
-  //         content:
-  //           day >= 7
-  //             ? "Feeling ready for more? Refine My Sadhana →"
-  //             : "Stick to the roots.",
-  //         variant: "link",
-  //         action:
-  //           day >= 7 ? { type: "navigate", target: "routine_setup" } : null,
-  //         position: "footer",
-  //       },
-  //     ],
-  //   };
-  // }
-
-  // Choose which screen to show after practice
-  const nextTarget =
-    day_number >= 4 ? generateReflectionScreen(day_number) : "dashboard";
-
-  // Post-practice completion screen for a single item
-  const itemCompleteScreen = {
-    container_id: "day_complete",
-    tone: { theme: theme, mood: "steady" },
-    tag: day_number > 1 ? `DAY ${day_number} PROGRESS` : "FOCUS COMPLETE",
-    blocks: [
-      { type: "lotus_logo", position: "header" },
-      {
-        type: "headline",
-        content:
-          day_number >= 6
-            ? "Congratulations! 6 Days Sealed."
-            : "Steady Progress.",
-        position: "header",
-      },
-      {
-        type: "subtext",
-        content:
-          day_number >= 6
-            ? "You are halfway to a new habit. Your persistence is rewriting your baseline."
-            : "You have completed this part of your anchor.",
-        position: "content",
-      },
-      {
-        type: "subtext",
-        content: "How are you feeling now?",
-        variant: "small",
-        position: "content",
-      },
-      {
-        type: "chip_list",
-        options: [
-          { id: "calm_now", label: "Calm now" },
-          { id: "better_now", label: "Better now" },
-          { id: "energized_now", label: "Energized" },
-          { id: "neutral_now", label: "Neutral" },
-        ],
-        position: "content",
-      },
-      {
-        type: "primary_button",
-        label: "Next →",
-        action: { type: "navigate", target: nextTarget },
-        style: "gold",
-        position: "footer",
-      },
-      {
-        type: "subtext",
-        content: "Skip Reflection",
-        variant: "link",
-        action: { type: "navigate", target: nextTarget },
-        position: "footer",
-      },
-    ],
-  };
-
-  const triggeredScreen = {
-    container_id: "cycle_transitions",
-    tone: { theme: "gold_dark", mood: "steady" },
-    tag: "AWARENESS PAUSE",
-    blocks: [
-      { type: "lotus_logo", position: "header" },
-      { type: "headline", content: "Pause.", position: "header" },
-      {
-        type: "subtext",
-        content: "The world can wait 15 seconds.",
-        position: "header",
-      },
-      {
-        type: "triggered_orb",
-        sankalpa_text: sankalpa,
-        position: "content",
-      },
-      {
-        type: "subtext",
-        content: "Is this reaction aligned with your Sankalp?",
-        position: "content",
-      },
-      {
-        type: "primary_button",
-        label: "I Choose to Respond",
-        action: {
-          type: "record_pause",
-          payload: { success: true },
-          target: generateTriggeredOutcomeScreen(true, theme),
-        },
-        style: "gold",
-        position: "content",
-      },
-      {
-        type: "primary_button",
-        label: "I Am Reacting",
-        action: {
-          type: "record_pause",
-          payload: { success: false },
-          target: generateTriggeredOutcomeScreen(false, theme),
-        },
-        style: "outline",
-        position: "content",
-      },
-    ],
-  };
-
-  function generateReflectionScreen(day, theTheme) {
-    return {
-      container_id: "cycle_transitions",
-      tone: { theme: theTheme, mood: "steady" },
-      tag: `DAY ${day} REFLECTION`,
-      blocks: [
-        { type: "lotus_logo", position: "header" },
-        {
-          type: "headline",
-          content: "How did you hold your center today?",
-          position: "header",
-        },
-        {
-          type: "subtext",
-          content: "This is awareness, not judgment.",
-          variant: "italic",
-          position: "header",
-        },
-        {
-          type: "alignment_selector",
-          id: "daily_alignment",
-          options: [
-            {
-              id: "aligned",
-              label: "I stayed aligned",
-              subtext: "I acted with steadiness.",
-              color: "green",
-              icon: "fas fa-check",
-            },
-            {
-              id: "slipped",
-              label: "I slipped, but returned",
-              subtext: "I noticed and came back.",
-              color: "gold",
-            },
-            {
-              id: "lost",
-              label: "I lost my center today",
-              subtext: "I reacted more than I wished.",
-              color: "blue",
-            },
-          ],
-          position: "content",
-        },
-        {
-          type: "reflection_input",
-          id: "awareness_moment",
-          label: "What was one moment of awareness today?",
-          placeholder: "It can be small. Even a pause counts.",
-          position: "content",
-        },
-        {
-          type: "baseline_slider",
-          label: "Mind Today:",
-          id: "mind_state_today",
-          min: 0,
-          max: 10,
-          position: "content",
-        },
-        {
-          type: "subtext",
-          content:
-            "You are not building perfection.\nYou are building steadiness.",
-          variant: "label",
-          position: "content",
-        },
-        {
-          type: "primary_button",
-          label: "Close the Day",
-          action: { type: "seal_day" },
-          style: "gold",
-          position: "footer",
-        },
-        {
-          type: "subtext",
-          content: "Rest. The path continues tomorrow.",
-          variant: "small",
-          position: "footer",
-        },
-      ],
-    };
-  }
-
-  const checkinScreen = {
-    container_id: "cycle_transitions",
-    tone: { theme: theme, mood: "steady" },
-    tag: "QUICK CHECK-IN",
-    blocks: [
-      { type: "lotus_logo", position: "header" },
-      {
-        type: "headline",
-        content: "How is your Prana right now?",
-        position: "header",
-      },
-      {
-        type: "subtext",
-        content: "Just notice. No fixing required.",
-        position: "header",
-      },
-      {
-        type: "prana_selector",
-        id: "quick_prana",
-        options: [
-          { id: "energized", label: "Energized", icon: "fas fa-sun" },
-          { id: "balanced", label: "Balanced", icon: "fas fa-balance-scale" },
-          { id: "agitated", label: "Agitated", icon: "fas fa-bolt" },
-          { id: "drained", label: "Drained", icon: "fas fa-arrow-down" },
-        ],
-        position: "content",
-      },
-      {
-        type: "primary_button",
-        label: "Reflect & Close Day →",
-        action: {
-          type: "navigate",
-          target: generateReflectionScreen(day_number, theme),
-        },
-        style: "gold",
-        position: "footer",
-      },
-      {
-        type: "subtext",
-        content: "Return to Dashboard",
-        variant: "link",
-        action: { type: "navigate", target: "dashboard" },
-        position: "footer",
-      },
-    ],
-  };
-
-  return {
-    id: "dashboard",
-    container_id: "dashboard",
-    tone: { theme: theme, mood: "steady" },
-    day_title: `Day ${day_number} of 14 — Karma & Clarity`,
-    sub_header:
-      day_number >= 5
-        ? "The rhythm is deepening. Keep the flame steady."
-        : "Same roots daily. Growth comes from repetition.",
-    day_number: day_number,
-    triggered_action: { type: "navigate", target: triggeredScreen },
-    checkin_action: { type: "navigate", target: checkinScreen },
-    blocks: [
-      {
-        id: "practice_chant",
-        type: "practice_card",
-        title: "Chant",
-        description: mantra,
-        meta: `27 repetitions • ${duration}`,
-        icon: "fas fa-om",
-        action_label: "Start →",
-        info_action: selectedMantra
-          ? {
-              type: "navigate",
-              target: generateInfoScreen("mantra", selectedMantra),
-            }
-          : null,
-        action: {
-          type: "navigate",
-          target: {
-            container_id: "practice_runner",
-            variant: "mantra_runner",
-            mantra_text: mantra,
-            target_count: 27,
-            complete_action: {
-              type: "submit",
-              payload: { practiceId: "practice_chant", completed: true },
-              target: itemCompleteScreen,
-            },
-          },
-        },
-      },
-      {
-        id: "practice_embody",
-        type: "practice_card",
-        title: "Embody",
-        description: `“${sankalpa}”`,
-        icon: "fas fa-fire",
-        action_label: "I Embody This →",
-        info_action: selectedSankalp
-          ? {
-              type: "navigate",
-              target: generateInfoScreen("sankalp", selectedSankalp),
-            }
-          : null,
-        action: {
-          type: "navigate",
-          target: {
-            container_id: "practice_runner",
-            variant: "sankalp_embody",
-            sankalp_text: sankalpa,
-            complete_action: {
-              type: "submit",
-              payload: { practiceId: "practice_embody", completed: true },
-              target: itemCompleteScreen,
-            },
-          },
-        },
-      },
-      {
-        id: "practice_act",
-        type: "practice_card",
-        title: "Karma Action",
-        purpose: "REAL-WORLD INTEGRATION",
-        description: practice,
-        meta: "Practice this in your day-to-day life.",
-        icon: "fas fa-mountain",
-        action_label: "Action Sealed →",
-        info_action: selectedPractice
-          ? {
-              type: "navigate",
-              target: generateInfoScreen("practice", selectedPractice),
-            }
-          : null,
-        action: {
-          type: "submit",
-          payload: { practiceId: "practice_act", completed: true },
-          target: itemCompleteScreen,
-        },
-      },
-      {
-        type: "subtext",
-        content:
-          day_number >= 7 ? "Deepen my Sadhana →" : "Reflect before resting →",
-        variant: "link",
-        action:
-          day_number >= 7
-            ? { type: "navigate", target: "routine_setup" }
-            : null,
-        position: "footer",
-      },
-    ],
-  };
-}
-
-/**
- * Generates an Outcome screen after a Triggered Pause (Victory or Acknowledgment)
- */
-function generateTriggeredOutcomeScreen(isVictory) {
-  return {
-    container_id: "cycle_transitions",
-    tone: { theme: isVictory ? "gold_dark" : "light_sandal", mood: "steady" },
-    tag: isVictory ? "CONSCIOUS CHOICE" : "AWARENESS SEALED",
-    blocks: [
-      { type: "lotus_logo", position: "header" },
-      {
-        type: "headline",
-        content: isVictory ? "Sankalpa Sealed." : "Noticed.",
-        position: "header",
-      },
-      {
-        type: "subtext",
-        content: isVictory
-          ? "You chose awareness over impulse. Every pause builds a stronger center and rewrites your baseline."
-          : "Awareness of the reaction is the first step toward freedom. Be gentle with yourself and return to the center.",
-        position: "content",
-      },
-      {
-        type: "primary_button",
-        label: "Return to Dashboard →",
-        action: { type: "navigate", target: "dashboard" },
-        style: "gold",
-        position: "footer",
-      },
-    ],
-  };
-}
-
-/**
- * Generates an Info/Detail screen for a master data item.
- */
-export function generateInfoScreen(type, data) {
+export function generateInfoScreenData(type, data) {
   if (!data) return null;
 
-  const blocks = [
-    { type: "lotus_logo", position: "header" },
-    {
-      type: "headline",
-      content: data.title || data.iast || "Wisdom Portal",
-      position: "header",
-    },
-  ];
-
   if (type === "mantra") {
-    // 1. Devanagari (Centered Sacred Verse)
-    if (data.devanagari) {
-      blocks.push({
-        type: "headline",
-        content: data.devanagari,
-        variant: "serif_gold_multiline",
-        position: "content",
-      });
-    }
-
-    // 2. IAST Transliteration
-    if (data.iast) {
-      blocks.push({
-        type: "subtext",
-        content: "PRONUNCIATION (IAST):",
-        variant: "label",
-        position: "content",
-      });
-      blocks.push({
-        type: "subtext",
-        content: data.iast,
-        variant: "italic_multiline",
-        position: "content",
-      });
-    }
-
-    // 3. Meaning & Essence
-    blocks.push({
-      type: "subtext",
-      content: "MEANING:",
-      variant: "label",
-      position: "content",
-    });
-    blocks.push({
-      type: "subtext",
-      content: data.meaning,
-      position: "content",
-    });
-
-    if (data.essence) {
-      blocks.push({
-        type: "subtext",
-        content: "SPIRITUAL SIGNIFICANCE:",
-        variant: "label",
-        position: "content",
-      });
-      blocks.push({
-        type: "subtext",
-        content: data.essence,
-        variant: "italic",
-        position: "content",
-      });
-    }
-
-    // 4. Deity & Tags
-    if (data.deity) {
-      blocks.push({
-        type: "subtext",
-        content: `DEITY: ${data.deity}`,
-        variant: "small",
-        position: "footer",
-      });
-    }
-
-    if (data.tags && data.tags.length > 0) {
-      blocks.push({
-        type: "subtext",
-        content: `FOCUS: ${data.tags.join(" • ")}`,
-        variant: "small",
-        position: "footer",
-      });
-    }
-
-    // 5. Source
-    if (data.source) {
-      blocks.push({
-        type: "subtext",
-        content: `SOURCE: ${data.source}`,
-        variant: "small",
-        position: "footer",
-      });
-    }
+    return {
+      title: data.title || data.iast,
+      subtitle: data.devanagari || data.iast || "",
+      description: data.meaning || data.essence || "",
+      meta: data.source ? `Source: ${data.source}` : "",
+    };
   } else if (type === "sankalp") {
-    blocks.push({
-      type: "subtext",
-      content: "AFFIRMATION:",
-      variant: "label",
-      position: "content",
-    });
-    blocks.push({ type: "subtext", content: data.line, position: "content" });
-
-    blocks.push({
-      type: "subtext",
-      content: "PHILOSOPHICAL INSIGHT:",
-      variant: "label",
-      position: "content",
-    });
-    blocks.push({
-      type: "subtext",
-      content: data.insight,
-      position: "content",
-    });
-
-    if (data.how_to_live && data.how_to_live.length > 0) {
-      blocks.push({
-        type: "subtext",
-        content: "HOW TO LIVE THIS TODAY:",
-        variant: "label",
-        position: "content",
-      });
-      data.how_to_live.forEach((step) => {
-        blocks.push({
-          type: "subtext",
-          content: `• ${step}`,
-          position: "content",
-        });
-      });
-    }
+    return {
+      title: "Sankalpa",
+      subtitle: data.line,
+      description: data.insight || "",
+      meta: "Your spiritual intention.",
+    };
   } else if (type === "practice") {
-    blocks.push({
-      type: "subtext",
-      content: "PRACTICE OVERVIEW:",
-      variant: "label",
-      position: "content",
-    });
-    blocks.push({
-      type: "subtext",
-      content: data.summary,
-      position: "content",
-    });
-
-    if (data.steps && data.steps.length > 0) {
-      blocks.push({
-        type: "subtext",
-        content: "CORE STEPS:",
-        variant: "label",
-        position: "content",
-      });
-      data.steps.forEach((step, i) => {
-        blocks.push({
-          type: "subtext",
-          content: `${i + 1}. ${step}`,
-          position: "content",
-        });
-      });
-    }
-
-    if (data.benefits && data.benefits.length > 0) {
-      blocks.push({
-        type: "subtext",
-        content: `SCIENTIFIC & SPIRITUAL BENEFITS: ${data.benefits.join(", ")}`,
-        variant: "small",
-        position: "footer",
-      });
-    }
+    return {
+      title: data.title,
+      subtitle: "",
+      description: data.summary || "",
+      steps_text: data.steps ? data.steps.map((s, i) => `${i + 1}. ${s}`).join("\n") : "",
+      meta: data.benefits ? data.benefits.join(" • ") : "",
+    };
   }
-
-  blocks.push({
-    type: "primary_button",
-    label: "← Back",
-    action: { type: "back" },
-    style: "gold",
-    position: "footer",
-  });
-
-  return {
-    id: `info_${data.id || type}`,
-    container_id: "cycle_transitions",
-    tone: { theme: "light_sandal", mood: "steady" },
-    tag: "SANATAN WISDOM",
-    blocks: blocks,
-  };
 }
 export function generateHelpMeChooseResponse(inputData) {
   const { friction, intention, isReanalysis } = inputData;
@@ -830,39 +185,39 @@ export function generateHelpMeChooseResponse(inputData) {
   const focusLabel = focusNames[suggestedFocus] || "New";
 
   return {
-    container_id: "cycle_transitions",
-    tone: { theme: "light_sandal", mood: "steady" },
-    tag: "AI ANALYSIS COMPLETE",
-    blocks: [
-      { type: "lotus_logo", position: "header" },
-      { type: "headline", content: "Your Path Awaits.", position: "header" },
-      {
-        type: "subtext",
-        content: `I've analyzed your current friction and your intention to "${
-          intention || "seek growth"
-        }".`,
-        position: "content",
-      },
-      { type: "subtext", content: analysisText, position: "content" },
-      {
-        type: "primary_button",
-        label: isReanalysis ? `Preview ${focusLabel} Focus →` : `Begin ${focusLabel} Path →`,
-        action: isReanalysis 
-          ? { type: "evolve_path", payload: { newFocus: suggestedFocus } }
-          : {
-              type: "fast_track_baseline",
-              payload: { focus: suggestedFocus },
-            },
-        style: "gold",
-        position: "footer",
-      },
-      {
-        type: "subtext",
-        content: "I will tailor your 14-day practices to this focus.",
-        variant: "small",
-        position: "footer",
-      },
-    ],
+    suggestedFocus,
+    focusLabel,
+    intro: `I've analyzed your current friction and your intention to "${
+      intention || "seek growth"
+    }".`,
+    analysisText,
+    buttonLabel: isReanalysis
+      ? `Preview ${focusLabel} Focus →`
+      : `Begin ${focusLabel} Path →`,
+    isReanalysis,
+  };
+}
+
+export function generatePathEvolutionScreen(oldFocus, newFocus) {
+  const focusNames = {
+    careerprosperity: "Career & Prosperity",
+    focusmotivation: "Focus & Motivation",
+    emotionalhealing: "Emotional Healing",
+    gratitudepositivity: "Gratitude & Positivity",
+    spiritualgrowth: "Spiritual Growth",
+    healthwellbeing: "Health & Wellbeing",
+    peacecalm: "Inner Calm",
+  };
+
+  return {
+    oldFocusName: focusNames[oldFocus] || oldFocus,
+    newFocusName: focusNames[newFocus] || newFocus,
+    evolutionText: `You are shifting from ${
+      focusNames[oldFocus] || oldFocus
+    } to ${
+      focusNames[newFocus] || newFocus
+    }. This transition reflects an expanding level of awareness as you integrate previous learnings into a new dimension of your practice.`,
+    theme: "light_sandal",
   };
 }
 

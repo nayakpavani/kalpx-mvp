@@ -8,17 +8,21 @@ const props = defineProps({
 const screenStore = useScreenStore();
 
 function handleClick() {
-  screenStore.handleAction(props.block.action);
+  const dynamicAction = props.block.id ? screenStore.screenState[props.block.id + '_action'] : null;
+  screenStore.handleAction(dynamicAction || props.block.action);
 }
 </script>
 
 <template>
   <button 
-    :class="['primary-btn', block.style === 'gold' ? 'btn-gold btn-gold-pulse' : '']" 
+    :class="[
+      'primary-btn', 
+      block.style === 'gold' ? 'btn-gold btn-gold-pulse' : '',
+      block.style === 'outline' ? 'btn-outline' : ''
+    ]" 
     @click="handleClick"
   >
-    <span>{{ block.label }}</span>
-    <span v-if="block.label.includes('→')" class="arrow">→</span>
+    <span>{{ block.id && screenStore.screenState[block.id + '_label'] ? screenStore.screenState[block.id + '_label'] : block.label }}</span>
   </button>
 </template>
 
@@ -44,6 +48,16 @@ function handleClick() {
 
 .primary-btn:active {
   transform: translateY(0);
+}
+
+.btn-outline {
+  background: white;
+  border: 1px solid var(--gold-accent, #c9a84c);
+  color: #3d3b38;
+}
+
+.btn-outline:hover {
+  background: rgba(201, 168, 76, 0.05);
 }
 
 .arrow {

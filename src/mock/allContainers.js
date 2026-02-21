@@ -348,7 +348,8 @@ export const ChoiceStackContainer = {
         },
         {
           type: "subtext",
-          content: "You will repeat the same core practice daily. Repetition builds transformation.",
+          content:
+            "You will repeat the same core practice daily. Repetition builds transformation.",
           position: "header",
         },
         {
@@ -644,54 +645,12 @@ export const LockRitualContainer = {
             },
           },
           on_complete: {
-            type: "navigate",
-            target: {
-              container_id: "lock_ritual_overlay",
-              state_id: "lock_confirmation",
-            },
+            type: "generate_companion",
           },
         },
         {
           type: "helper_text",
           content: "Structure builds identity.",
-        },
-      ],
-    },
-
-    // 2️⃣ CYCLE LOCK CONFIRMATION (GOLDEN TRANSITION)
-    lock_confirmation: {
-      overlay: true,
-      tone: { theme: "gold_accent", mood: "grounded" },
-
-      meta: {
-        transition_duration_ms: 900,
-        gold_edge_highlight: true,
-        radial_glow_outward: true,
-        persist_cycle_to_backend: true,
-        generate_cycle_id: true,
-        initialize_day_one: true,
-      },
-
-      blocks: [
-        {
-          type: "headline",
-          content: "Cycle Locked.",
-        },
-        {
-          type: "subtext",
-          content: "Begin tomorrow with clarity.",
-        },
-        {
-          type: "primary_button",
-          label: "Enter Day 1",
-          action: {
-            type: "navigate",
-            target: {
-              container_id: "companion_dashboard",
-              state_id: "day_active",
-            },
-          },
-          style: "dark",
         },
       ],
     },
@@ -1020,7 +979,7 @@ export const CompanionDashboardContainer = {
   states: {
     // 1️⃣ COMMAND DASHBOARD (Day X of 14)
     day_active: {
-      tone: { theme: "dark_base", mood: "steady" },
+      tone: { theme: "light_sandal", mood: "steady" },
 
       meta: {
         requires_active_cycle: true,
@@ -1030,29 +989,28 @@ export const CompanionDashboardContainer = {
       blocks: [
         {
           type: "headline",
-          content: "DAY 11 of 14",
-        },
-        {
-          type: "headline",
-          content: "{{identity_headline}}",
+          content: "Day {{day_number}} of 14 — {{focus_name}}",
+          position: "header",
         },
         {
           type: "subtext",
-          content: "{{identity_subtext}}",
-        },
-
-        // Identity State Indicator block rendered separately
-        {
-          type: "identity_indicator",
-          state: "{{identity_state}}", // steady | reactive | drifting
+          content: "Same roots daily. Growth comes from repetition.",
+          position: "header",
         },
 
         // Practice Access Cards
         {
           type: "practice_card",
-          id: "mantra_practice",
-          title: "Mantra Practice",
-          meta: "{{mantra_progress}}",
+          id: "practice_chant",
+          title: "Chant",
+          description: "{{mantra_text}}",
+          meta: "27 repetitions • 3 minutes",
+          icon: "fas fa-om",
+          action_label: "Start →",
+          info_action: {
+            type: "view_info",
+            payload: { type: "mantra" },
+          },
           action: {
             type: "navigate",
             target: {
@@ -1063,9 +1021,15 @@ export const CompanionDashboardContainer = {
         },
         {
           type: "practice_card",
-          id: "sankalp_embodiment",
-          title: "Sankalp Embodiment",
-          meta: "{{sankalp_status}}",
+          id: "practice_embody",
+          title: "Embody",
+          description: "{{sankalp_text}}",
+          icon: "fas fa-fire",
+          action_label: "I Embody This →",
+          info_action: {
+            type: "view_info",
+            payload: { type: "sankalp" },
+          },
           action: {
             type: "navigate",
             target: {
@@ -1076,44 +1040,62 @@ export const CompanionDashboardContainer = {
         },
         {
           type: "practice_card",
-          id: "anchor_practice",
-          title: "Anchor Stability",
-          meta: "{{anchor_status}}",
+          id: "practice_act",
+          title: "Act",
+          description: "{{practice_title}}",
+          meta: "{{practice_meta}}",
+          icon: "fas fa-mountain",
+          action_label: "Mark Focus Complete →",
+          info_action: {
+            type: "view_info",
+            payload: { type: "practice" },
+          },
           action: {
-            type: "navigate",
-            target: {
-              container_id: "practice_runner",
-              state_id: "anchor_timer",
-            },
+            type: "submit",
+            payload: { practiceId: "practice_act", completed: true },
           },
         },
 
-        // Embodiment Challenge Entry
+        // Bottom Actions
         {
-          type: "practice_card",
-          id: "embodiment_challenge",
-          title: "Dharma in Action",
-          meta: "{{challenge_text}}",
-          action: {
-            type: "navigate",
-            target: {
-              container_id: "embodiment_challenge_runner",
-              state_id: "challenge_view",
-            },
-          },
-        },
-
-        // Persistent Trigger Entry
-        {
-          type: "floating_button",
-          label: "I feel triggered",
+          type: "primary_button",
+          label: "I Feel Triggered",
+          style: "gold",
           action: {
             type: "navigate",
             target: {
               container_id: "awareness_trigger",
-              state_id: "trigger_entry", // FIXED
+              state_id: "trigger_entry",
             },
           },
+          position: "footer_actions",
+        },
+        {
+          type: "primary_button",
+          label: "Quick Check-In",
+          style: "outline",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "cycle_transitions",
+              state_id: "quick_checkin",
+            },
+          },
+          position: "footer_actions",
+        },
+
+        {
+          type: "subtext",
+          content: "Reflect before resting →",
+          variant: "link",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "cycle_transitions",
+              state_id: "daily_reflection",
+            },
+          },
+          position: "footer",
         },
       ],
     },
@@ -1996,7 +1978,232 @@ export const CycleTransitionsContainer = {
       ],
     },
 
-    // 8️⃣ RESET WITH AWARENESS
+    // 8️⃣ COMPANION ANALYSIS (REVEAL)
+    companion_analysis: {
+      overlay: true,
+      tone: { theme: "gold_dark", mood: "steady" },
+      tag: "AI COMPANION ANALYSIS",
+      blocks: [
+        { type: "lotus_logo", position: "header" },
+        { type: "headline", content: "Your Path is Set.", position: "header" },
+        {
+          id: "analysis_intro",
+          type: "subtext",
+          content: "I have analyzed your request.",
+          position: "content",
+        },
+        {
+          id: "analysis_metrics",
+          type: "subtext",
+          content: "",
+          variant: "small",
+          position: "content",
+        },
+        {
+          id: "analysis_insight",
+          type: "subtext",
+          content: "",
+          position: "content",
+        },
+        {
+          id: "card_ritual",
+          type: "practice_card",
+          title: "Selected Ritual",
+          description: "Mindful Breathing",
+          meta: "7 minutes daily",
+          icon: "fas fa-leaf",
+          position: "content",
+        },
+        {
+          id: "card_sankalpa",
+          type: "practice_card",
+          title: "Sankalpa",
+          description: "I am present.",
+          icon: "fas fa-heart",
+          meta: "Your spiritual intention.",
+          position: "content",
+        },
+        {
+          id: "card_mantra",
+          type: "practice_card",
+          title: "Mantra",
+          description: "OM SHANTI",
+          icon: "fas fa-om",
+          meta: "The sound of transformation.",
+          position: "content",
+        },
+        {
+          type: "primary_button",
+          label: "Seal & Enter Dashboard →",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
+          },
+          style: "gold",
+          position: "footer",
+        },
+        {
+          type: "subtext",
+          content: "Repetition is the mother of transformation.",
+          position: "footer",
+        },
+      ],
+    },
+
+    // 9️⃣ HELP ME CHOOSE REVEAL
+    help_me_choose_reveal: {
+      overlay: true,
+      tone: { theme: "light_sandal", mood: "steady" },
+      tag: "AI ANALYSIS COMPLETE",
+      blocks: [
+        { type: "lotus_logo", position: "header" },
+        { type: "headline", content: "Your Path Awaits.", position: "header" },
+        {
+          id: "help_me_choose_intro",
+          type: "subtext",
+          content: "",
+          position: "content",
+        },
+        {
+          id: "help_me_choose_analysis",
+          type: "subtext",
+          content: "",
+          position: "content",
+        },
+        {
+          id: "help_me_choose_button",
+          type: "primary_button",
+          label: "Begin Path →",
+          action: {
+            type: "fast_track_baseline",
+            payload: { focus: "" }, // Will be filled dynamically by action executor or store
+          },
+          style: "gold",
+          position: "footer",
+        },
+        {
+          type: "subtext",
+          content: "I will tailor your 14-day practices to this focus.",
+          variant: "small",
+          position: "footer",
+        },
+      ],
+    },
+
+    // 🔟 PATH EVOLUTION REVEAL
+    path_evolution_reveal: {
+      overlay: true,
+      tone: { theme: "light_sandal", mood: "steady" },
+      tag: "PATH EVOLUTION",
+      blocks: [
+        { type: "lotus_logo", position: "header" },
+        {
+          type: "headline",
+          content: "The Journey Evolves.",
+          position: "header",
+        },
+        {
+          id: "path_evolution_text",
+          type: "subtext",
+          content: "",
+          position: "content",
+        },
+        {
+          type: "primary_button",
+          label: "Continue to Baseline →",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "stable_scan",
+              state_id: "prana_baseline",
+            },
+          },
+          style: "gold",
+          position: "footer",
+        },
+      ],
+    },
+
+    // 1️⃣1️⃣ INFO REVEAL (MODAL)
+    info_reveal: {
+      overlay: true,
+      tone: { theme: "light_sandal", mood: "steady" },
+      blocks: [
+        {
+          type: "headline",
+          content: "{{info.title}}",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "{{info.subtitle}}",
+          variant: "italic",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "{{info.description}}",
+          variant: "italic_multiline",
+          position: "content",
+        },
+        {
+          type: "subtext",
+          content: "{{info.steps_text}}",
+          variant: "italic_multiline",
+          position: "content",
+        },
+        {
+          type: "subtext",
+          content: "{{info.meta}}",
+          variant: "small",
+          position: "content",
+        },
+        {
+          type: "primary_button",
+          label: "Got it",
+          action: { type: "back" },
+          position: "footer",
+        },
+      ],
+    },
+
+    // 1️⃣2️⃣ QUICK CHECK-IN
+    quick_checkin: {
+      overlay: true,
+      tone: { theme: "light_sandal", mood: "steady" },
+      blocks: [
+        { type: "headline", content: "How are you holding the roots?" },
+        { 
+          type: "primary_button", 
+          label: "Steady & Present", 
+          action: { type: "back" } 
+        },
+        { 
+          type: "primary_button", 
+          label: "Slightly Drifting", 
+          action: { type: "back" } 
+        },
+      ]
+    },
+
+    // 1️⃣3️⃣ DAILY REFLECTION
+    daily_reflection: {
+      tone: { theme: "light_sandal", mood: "steady" },
+      blocks: [
+        { type: "headline", content: "Reflect on Day {{day_number}}" },
+        { type: "textarea", placeholder: "What did you learn today?" },
+        {
+          type: "primary_button",
+          label: "Seal Day & Advance →",
+          action: { type: "seal_day" }
+        }
+      ]
+    },
+
+    // 1️⃣1️⃣ RESET WITH AWARENESS
     reset_with_awareness: {
       tone: { theme: "light_sandal", mood: "neutral" },
 

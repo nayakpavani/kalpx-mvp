@@ -18,7 +18,8 @@ function startHold() {
     progress.value += 5;
     if (progress.value >= 100) {
       clearInterval(interval);
-      screenStore.handleAction(props.schema.lock_action);
+      const lockAction = props.schema.lock_action || props.schema.blocks.find(b => b.type === 'hold_button')?.on_complete;
+      screenStore.handleAction(lockAction);
     }
   }, 50);
 }
@@ -43,20 +44,31 @@ function stopHold() {
     </div>
 
     <div class="ritual-center">
-      <div 
-        class="hold-button-wrap"
-        @mousedown="startHold"
-        @mouseup="stopHold"
-        @mouseleave="stopHold"
-        @touchstart="startHold"
-        @touchend="stopHold"
-      >
-        <div class="progress-ring" :style="{ height: progress + '%' }"></div>
-        <button class="lock-btn" :class="{ holding: isHolding }">
-          {{ isHolding ? 'Committing...' : schema.button_label || 'Hold to Lock' }}
-        </button>
-      </div>
-      <p class="hint">Structure builds identity.</p>
+      <template v-if="schema.id === 'hold_to_lock'">
+        <div 
+          class="hold-button-wrap"
+          @mousedown="startHold"
+          @mouseup="stopHold"
+          @mouseleave="stopHold"
+          @touchstart="startHold"
+          @touchend="stopHold"
+        >
+          <div class="progress-ring" :style="{ height: progress + '%' }"></div>
+          <button class="lock-btn" :class="{ holding: isHolding }">
+            {{ isHolding ? 'Committing...' : schema.button_label || 'Hold to Lock' }}
+          </button>
+        </div>
+        <p class="hint">Structure builds identity.</p>
+      </template>
+      <template v-else>
+        <div class="blocks-container">
+          <BlockRenderer
+            v-for="(block, i) in schema.blocks.filter(b => !b.position || b.position === 'content')"
+            :key="i"
+            :block="block"
+          />
+        </div>
+      </template>
     </div>
 
     <div class="footer">
@@ -136,5 +148,13 @@ function stopHold() {
 
 .footer {
   margin-top: 60px;
+}
+
+.blocks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
 }
 </style>
