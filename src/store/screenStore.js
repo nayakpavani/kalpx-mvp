@@ -6,7 +6,7 @@ import { executeAction } from "../engine/actionExecutor";
 export const useScreenStore = defineStore("screen", () => {
   // MOCK: Toggle this boolean to switch between fresher and experienced user flow
   const isExperiencedUser = false; // Set to false to test fresh user flow
-  const currentKey = ref(isExperiencedUser ? "portal_splash" : "portal");
+  const currentKey = ref(isExperiencedUser ? "splash_portal" : "portal");
 
   const dynamicScreen = ref(null);
   const history = ref([]);
@@ -22,9 +22,27 @@ export const useScreenStore = defineStore("screen", () => {
     challenge_text: "Choose patience in traffic.",
     day_number: 11,
     cycle_history: [
-      { id: 1, name: "Peace & Calm", date: "Jan 2026", status: "Completed", growth: "+12%" },
-      { id: 2, name: "Focus & Drive", date: "Feb 2026", status: "Completed", growth: "+8%" },
-      { id: 3, name: "Emotional Resilience", date: "Current", status: "Active", growth: "In Progress" },
+      {
+        id: 1,
+        name: "Peace & Calm",
+        date: "Jan 2026",
+        status: "Completed",
+        growth: "+12%",
+      },
+      {
+        id: 2,
+        name: "Focus & Drive",
+        date: "Feb 2026",
+        status: "Completed",
+        growth: "+8%",
+      },
+      {
+        id: 3,
+        name: "Emotional Resilience",
+        date: "Current",
+        status: "Active",
+        growth: "In Progress",
+      },
     ],
     identity_delta: [
       { label: "Stability", initial: 3, current: 7 },
@@ -51,16 +69,47 @@ export const useScreenStore = defineStore("screen", () => {
     anchor_duration: "14 Minutes",
     refinement_layer: "Prana Awareness",
     reflection_questions: [
-      { id: "obstacle", label: "What was your biggest obstacle today?", type: "textarea", placeholder: "Describe the friction..." },
-      { id: "victory", label: "What was a small victory?", type: "text", placeholder: "Even a single breath counts..." },
-      { id: "tomorrow", label: "One intention for tomorrow?", type: "text", placeholder: "I will be..." }
+      {
+        id: "obstacle",
+        label: "What was your biggest obstacle today?",
+        type: "textarea",
+        placeholder: "Describe the friction...",
+      },
+      {
+        id: "victory",
+        label: "What was a small victory?",
+        type: "text",
+        placeholder: "Even a single breath counts...",
+      },
+      {
+        id: "tomorrow",
+        label: "One intention for tomorrow?",
+        type: "text",
+        placeholder: "I will be...",
+      },
     ],
     dharmic_response_options: [
-      { id: "patient", title: "Radical Patience", description: "Wait with zero internal friction." },
-      { id: "disciplined", title: "Focused Action", description: "Execute without overthinking." },
-      { id: "surrendered", title: "Graceful Yield", description: "Let go of control entirely." },
-      { id: "compassionate", title: "Silent Empathy", description: "Feel without reacting." }
-    ]
+      {
+        id: "patient",
+        title: "Radical Patience",
+        description: "Wait with zero internal friction.",
+      },
+      {
+        id: "disciplined",
+        title: "Focused Action",
+        description: "Execute without overthinking.",
+      },
+      {
+        id: "surrendered",
+        title: "Graceful Yield",
+        description: "Let go of control entirely.",
+      },
+      {
+        id: "compassionate",
+        title: "Silent Empathy",
+        description: "Feel without reacting.",
+      },
+    ],
   });
 
   // Helper to resolve {{variable}} placeholders
@@ -144,7 +193,11 @@ export const useScreenStore = defineStore("screen", () => {
         lastGeneratedDashboard.value = target;
       }
 
-      // If it's a navigation target pointing to a variant, resolve it
+      // If it's a navigation target pointing to a state/variant, resolve it
+      if (target.state_id && mockScreens[target.state_id]) {
+        loadScreen(target.state_id);
+        return;
+      }
       if (target.variant && mockScreens[target.variant]) {
         loadScreen(target.variant);
         return;
@@ -175,9 +228,9 @@ export const useScreenStore = defineStore("screen", () => {
   }
 
   // Smart Resume: Skip onboarding if a cycle is already active
-  if (currentKey.value === "portal" && screenState.day_number >= 2) {
-    currentKey.value = "daily_checkin_1";
-  }
+  // if (currentKey.value === "portal" && screenState.day_number >= 2) {
+  //   currentKey.value = "daily_checkin_1";
+  // }
 
   return {
     currentKey,

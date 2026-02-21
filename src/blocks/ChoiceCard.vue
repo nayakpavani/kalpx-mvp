@@ -26,12 +26,34 @@ if (initialSelected) {
 
 function selectOption(option) {
   selectedId.value = option.id;
+  
+  // Update store with selection
+  screenStore.setScreenValue(option.id, props.block.id || "current_choice");
 
-  if (props.block.selection_mode === "auto") {
-    screenStore.handleAction(option.action);
-  } else {
-    // Save selection to store instead of mutating props
-    screenStore.setScreenValue(option.id, props.block.id || "current_choice");
+  const selectionMode = props.block.selection_mode;
+  const isAuto = selectionMode === "auto" || selectionMode === "single_auto_advance";
+
+  if (isAuto) {
+    // 1. Check for action on the option itself
+    if (option.action) {
+      screenStore.handleAction(option.action);
+      return;
+    }
+
+    // 2. Check for state-level on_select mapping
+    const onSelect = screenStore.currentScreen?.on_select;
+    if (onSelect) {
+      const targetAction = onSelect[option.id] || onSelect["default"];
+      if (targetAction) {
+        screenStore.handleAction(targetAction);
+        return;
+      }
+    }
+
+    // 3. If no specific action, handle as simple navigation if target exists
+    if (props.block.target) {
+       screenStore.handleAction({ type: 'navigate', target: props.block.target });
+    }
   }
 }
 </script>

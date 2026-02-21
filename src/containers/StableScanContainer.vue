@@ -11,29 +11,31 @@ const screenStore = useScreenStore();
 
 // Dynamically compute blocks to include sub-category specific sliders
 const dynamicBlocks = computed(() => {
-  const baseBlocks = [...props.schema.blocks];
+  // Deep clone blocks to avoid side effects on schema
+  const baseBlocks = props.schema.blocks.map(b => JSON.parse(JSON.stringify(b)));
   
-  // If we have a subCategorySliders mapping in the schema
-  if (props.schema.subCategorySliders) {
-    // Find the chip list ID to look up the current selection
-    const selectionBlock = baseBlocks.find(b => b.id === 'prana_baseline_selection');
+  // Find the chip list ID to look up the current selection
+  const selectionBlock = baseBlocks.find(b => b.id === 'prana_baseline_selection');
+  
+  if (selectionBlock) {
+    // 1. FILTER OPTIONS based on the global scan_focus (discipline)
+    const focus = screenStore.screenState['scan_focus'] || 'peacecalm';
+    if (props.schema.optionsMap && props.schema.optionsMap[focus]) {
+      selectionBlock.options = props.schema.optionsMap[focus];
+    }
+
+    // 2. Add dynamic sliders based on current chip selection
+    const defaultInternal = selectionBlock.options[0]?.id;
+    const selectedId = screenStore.screenState['prana_baseline_selection'] || defaultInternal;
     
-    if (selectionBlock) {
-      // Get selected ID from store OR use the one marked 'selected' in the schema as default
-      const defaultInternal = selectionBlock.options.find(o => o.selected)?.id;
-      const selectedId = screenStore.screenState['prana_baseline_selection'] || defaultInternal;
-      
+    if (props.schema.subCategorySliders) {
       const sliders = props.schema.subCategorySliders[selectedId];
-      
       if (sliders) {
-        // Map slider configs to baseline_slider blocks
         const sliderBlocks = sliders.map(s => ({
           type: "baseline_slider",
           label: s.label,
           value: s.value
         }));
-        
-        // Return base blocks + dynamic sliders
         return [...baseBlocks, ...sliderBlocks];
       }
     }

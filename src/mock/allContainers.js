@@ -7,7 +7,7 @@ export const PortalContainer = {
       actions: { primary: null, secondary: null },
     },
 
-    welcome_portal: {
+    portal: {
       tone: { theme: "gold_dark", mood: "steady" },
       blocks: [
         { type: "lotus_logo" },
@@ -32,7 +32,7 @@ export const PortalContainer = {
             type: "navigate",
             target: {
               container_id: "choice_stack",
-              variant: "mode_toggle",
+              state_id: "discipline_select",
             },
           },
           style: "gold",
@@ -53,7 +53,7 @@ export const PortalContainer = {
             type: "navigate",
             target: {
               container_id: "choice_stack",
-              variant: "mode_toggle",
+              state_id: "mode_toggle",
             },
           },
           style: "gold",
@@ -74,7 +74,7 @@ export const PortalContainer = {
             type: "navigate",
             target: {
               container_id: "choice_stack",
-              variant: "mode_toggle",
+              state_id: "mode_toggle",
             },
           },
           style: "gold",
@@ -95,7 +95,7 @@ export const PortalContainer = {
             type: "navigate",
             target: {
               container_id: "insights_progress", // FIXED
-              variant: "resume_restart_recalibrate",
+              state_id: "resume_restart_recalibrate",
             },
           },
           style: "gold",
@@ -116,7 +116,7 @@ export const PortalContainer = {
             type: "navigate",
             target: {
               container_id: "choice_stack",
-              variant: "mode_toggle",
+              state_id: "mode_toggle",
             },
           },
           style: "gold",
@@ -163,6 +163,15 @@ export const ChoiceStackContainer = {
           ],
         },
       ],
+      on_select: {
+        default: {
+          type: "navigate",
+          target: {
+            container_id: "choice_stack",
+            state_id: "discipline_select",
+          },
+        },
+      },
     },
 
     // 2️⃣ DISCIPLINE SELECT (this replaces scan_focus)
@@ -172,16 +181,17 @@ export const ChoiceStackContainer = {
       blocks: [
         {
           type: "headline",
-          content: "Select your core discipline.",
+          content: "What feels most important right now ?",
           position: "header",
         },
         {
           type: "subtext",
-          content: "Strength grows through repetition.",
+          content: "Choose one plan to focus for 14 days",
           position: "header",
         },
         {
           type: "choice_card",
+          id: "scan_focus",
           selection_mode: "manual",
           options: [
             {
@@ -227,8 +237,8 @@ export const ChoiceStackContainer = {
           action: {
             type: "navigate",
             target: {
-              container_id: "choice_stack",
-              variant: "domain_select",
+              container_id: "stable_scan",
+              state_id: "prana_baseline",
             },
           },
           style: "gold",
@@ -285,7 +295,7 @@ export const ChoiceStackContainer = {
             type: "navigate",
             target: {
               container_id: "composer",
-              variant: "sankalp_composer",
+              state_id: "sankalp_composer",
             },
           },
           style: "gold",
@@ -324,6 +334,57 @@ export const ChoiceStackContainer = {
               description: "Increase awareness discipline.",
             },
           ],
+        },
+      ],
+    },
+    // 5️⃣ DEPTH SELECTION
+    depth_selection: {
+      tone: { theme: "light_sandal", mood: "steady" },
+      blocks: [
+        {
+          type: "headline",
+          content: "Choose your depth.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "You will repeat the same core practice daily. Repetition builds transformation.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          id: "routine_depth",
+          selection_mode: "manual",
+          options: [
+            {
+              id: "gentle",
+              title: "Gentle",
+              description: "A seed of awareness. 3 minutes daily.",
+            },
+            {
+              id: "standard",
+              title: "Standard",
+              description: "The steady flame. 7 minutes daily.",
+            },
+            {
+              id: "deep",
+              title: "Deep",
+              description: "The warrior's path. 14 minutes daily.",
+            },
+          ],
+        },
+        {
+          type: "primary_button",
+          label: "PROCEED TO LOCK → →",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "lock_ritual_overlay",
+              state_id: "hold_to_lock",
+            },
+          },
+          style: "gold",
+          position: "footer",
         },
       ],
     },
@@ -381,7 +442,7 @@ export const ComposerContainer = {
             type: "navigate",
             target: {
               container_id: "composer",
-              variant: "ai_suggestions",
+              state_id: "ai_suggestions",
             },
           },
           position: "footer",
@@ -394,7 +455,7 @@ export const ComposerContainer = {
             type: "navigate",
             target: {
               container_id: "routine_builder",
-              variant: "mantra_reps_picker",
+              state_id: "mantra_reps_picker",
             },
           },
           validation: {
@@ -441,7 +502,7 @@ export const ComposerContainer = {
             type: "navigate",
             target: {
               container_id: "choice_stack",
-              variant: "mode_toggle",
+              state_id: "mode_toggle",
             },
           },
           style: "gold",
@@ -469,7 +530,7 @@ export const ComposerContainer = {
             type: "navigate",
             target: {
               container_id: "composer",
-              variant: "sankalp_composer",
+              state_id: "sankalp_composer",
             },
           },
         },
@@ -502,7 +563,7 @@ export const ComposerContainer = {
             type: "navigate",
             target: {
               container_id: "routine_locked",
-              variant: "locked_summary",
+              state_id: "locked_summary",
             },
           },
         },
@@ -529,7 +590,7 @@ export const ComposerContainer = {
             type: "navigate",
             target: {
               container_id: "routine_locked",
-              variant: "locked_summary",
+              state_id: "locked_summary",
             },
           },
         },
@@ -586,7 +647,7 @@ export const LockRitualContainer = {
             type: "navigate",
             target: {
               container_id: "lock_ritual_overlay",
-              variant: "lock_confirmation",
+              state_id: "lock_confirmation",
             },
           },
         },
@@ -627,7 +688,7 @@ export const LockRitualContainer = {
             type: "navigate",
             target: {
               container_id: "companion_dashboard",
-              variant: "day_active",
+              state_id: "day_active",
             },
           },
           style: "dark",
@@ -667,7 +728,7 @@ export const RoutineBuilderContainer = {
             type: "navigate",
             target: {
               container_id: "routine_builder",
-              variant: "anchor_duration_picker",
+              state_id: "anchor_duration_picker",
             },
           },
         },
@@ -701,7 +762,7 @@ export const RoutineBuilderContainer = {
             type: "navigate",
             target: {
               container_id: "routine_builder",
-              variant: "refinement_layer_menu",
+              state_id: "refinement_layer_menu",
             },
           },
         },
@@ -733,7 +794,7 @@ export const RoutineBuilderContainer = {
             type: "navigate",
             target: {
               container_id: "routine_builder",
-              variant: "routine_review_summary",
+              state_id: "routine_review_summary",
             },
           },
         },
@@ -822,7 +883,7 @@ export const RoutineBuilderContainer = {
             type: "navigate",
             target: {
               container_id: "lock_ritual_overlay",
-              variant: "hold_to_lock",
+              state_id: "hold_to_lock",
             },
           },
           style: "gold",
@@ -865,7 +926,7 @@ export const RoutineLockedContainer = {
             type: "navigate",
             target: {
               container_id: "routine_locked",
-              variant: "adjust_with_intention",
+              state_id: "adjust_with_intention",
             },
           },
         },
@@ -911,14 +972,14 @@ export const RoutineLockedContainer = {
           type: "navigate",
           target: {
             container_id: "routine_builder",
-            variant: "mantra_reps_picker",
+            state_id: "mantra_reps_picker",
           },
         },
         cancel_adjust: {
           type: "navigate",
           target: {
             container_id: "routine_locked",
-            variant: "locked_summary",
+            state_id: "locked_summary",
           },
         },
       },
@@ -944,7 +1005,7 @@ export const RoutineLockedContainer = {
             type: "navigate",
             target: {
               container_id: "companion_dashboard",
-              variant: "day_active",
+              state_id: "day_active",
             },
           },
         },
@@ -996,7 +1057,7 @@ export const CompanionDashboardContainer = {
             type: "navigate",
             target: {
               container_id: "practice_runner",
-              variant: "mantra_runner",
+              state_id: "mantra_runner",
             },
           },
         },
@@ -1009,7 +1070,7 @@ export const CompanionDashboardContainer = {
             type: "navigate",
             target: {
               container_id: "practice_runner",
-              variant: "sankalp_embody",
+              state_id: "sankalp_embody",
             },
           },
         },
@@ -1022,7 +1083,7 @@ export const CompanionDashboardContainer = {
             type: "navigate",
             target: {
               container_id: "practice_runner",
-              variant: "anchor_timer",
+              state_id: "anchor_timer",
             },
           },
         },
@@ -1037,7 +1098,7 @@ export const CompanionDashboardContainer = {
             type: "navigate",
             target: {
               container_id: "embodiment_challenge_runner",
-              variant: "challenge_view",
+              state_id: "challenge_view",
             },
           },
         },
@@ -1050,7 +1111,7 @@ export const CompanionDashboardContainer = {
             type: "navigate",
             target: {
               container_id: "awareness_trigger",
-              variant: "trigger_entry", // FIXED
+              state_id: "trigger_entry", // FIXED
             },
           },
         },
@@ -1130,7 +1191,7 @@ export const PracticeRunnerContainer = {
         type: "navigate",
         target: {
           container_id: "practice_runner",
-          variant: "mantra_complete",
+          state_id: "mantra_complete",
         },
       },
     },
@@ -1168,7 +1229,7 @@ export const PracticeRunnerContainer = {
             type: "navigate",
             target: {
               container_id: "companion_dashboard",
-              variant: "day_active",
+              state_id: "day_active",
             },
           },
         },
@@ -1195,7 +1256,7 @@ export const PracticeRunnerContainer = {
             type: "navigate",
             target: {
               container_id: "practice_runner",
-              variant: "sankalp_confirm",
+              state_id: "sankalp_confirm",
             },
           },
         },
@@ -1222,7 +1283,7 @@ export const PracticeRunnerContainer = {
             type: "navigate",
             target: {
               container_id: "companion_dashboard",
-              variant: "day_active",
+              state_id: "day_active",
             },
           },
         },
@@ -1253,7 +1314,7 @@ export const PracticeRunnerContainer = {
         type: "navigate",
         target: {
           container_id: "practice_runner",
-          variant: "anchor_complete",
+          state_id: "anchor_complete",
         },
       },
     },
@@ -1278,7 +1339,7 @@ export const PracticeRunnerContainer = {
             type: "navigate",
             target: {
               container_id: "companion_dashboard",
-              variant: "day_active",
+              state_id: "day_active",
             },
           },
         },
@@ -1334,21 +1395,21 @@ export const EmbodimentChallengeRunnerContainer = {
           type: "navigate",
           target: {
             container_id: "embodiment_challenge_runner",
-            variant: "challenge_confirm",
+            state_id: "challenge_confirm",
           },
         },
         avoided: {
           type: "navigate",
           target: {
             container_id: "embodiment_challenge_runner",
-            variant: "challenge_confirm",
+            state_id: "challenge_confirm",
           },
         },
         not_tested: {
           type: "navigate",
           target: {
             container_id: "embodiment_challenge_runner",
-            variant: "challenge_confirm",
+            state_id: "challenge_confirm",
           },
         },
       },
@@ -1374,7 +1435,7 @@ export const EmbodimentChallengeRunnerContainer = {
             type: "navigate",
             target: {
               container_id: "companion_dashboard",
-              variant: "day_active",
+              state_id: "day_active",
             },
           },
         },
@@ -1407,7 +1468,7 @@ export const AwarenessTriggerContainer = {
             type: "navigate",
             target: {
               container_id: "awareness_trigger",
-              variant: "response_matrix",
+              state_id: "response_matrix",
             },
           },
         },
@@ -1437,7 +1498,7 @@ export const AwarenessTriggerContainer = {
           type: "navigate",
           target: {
             container_id: "awareness_trigger",
-            variant: "breath_reset",
+            state_id: "breath_reset",
           },
         },
       },
@@ -1459,7 +1520,7 @@ export const AwarenessTriggerContainer = {
             type: "navigate",
             target: {
               container_id: "awareness_trigger",
-              variant: "breath_reset",
+              state_id: "breath_reset",
             },
           },
         },
@@ -1481,7 +1542,7 @@ export const AwarenessTriggerContainer = {
         type: "navigate",
         target: {
           container_id: "awareness_trigger",
-          variant: "quick_mantra",
+          state_id: "quick_mantra",
         },
       },
     },
@@ -1505,7 +1566,7 @@ export const AwarenessTriggerContainer = {
         type: "navigate",
         target: {
           container_id: "awareness_trigger",
-          variant: "trigger_reflection",
+          state_id: "trigger_reflection",
         },
       },
     },
@@ -1531,7 +1592,7 @@ export const AwarenessTriggerContainer = {
             type: "navigate",
             target: {
               container_id: "awareness_trigger",
-              variant: "dharmic_response",
+              state_id: "dharmic_response",
             },
           },
         },
@@ -1559,7 +1620,7 @@ export const AwarenessTriggerContainer = {
           type: "navigate",
           target: {
             container_id: "awareness_trigger",
-            variant: "post_trigger_reinforcement",
+            state_id: "post_trigger_reinforcement",
           },
         },
       },
@@ -1585,7 +1646,7 @@ export const AwarenessTriggerContainer = {
             type: "navigate",
             target: {
               container_id: "companion_dashboard",
-              variant: "day_active",
+              state_id: "day_active",
             },
           },
         },
@@ -1638,7 +1699,7 @@ export const AwarenessTriggerContainer = {
             type: "navigate",
             target: {
               container_id: "practice_runner",
-              variant: "anchor_timer",
+              state_id: "anchor_timer",
             },
           },
         },
@@ -1665,7 +1726,7 @@ export const InsightsProgressContainer = {
             type: "navigate",
             target: {
               container_id: "insights_progress",
-              variant: "resistance_reflection",
+              state_id: "resistance_reflection",
             },
           },
         },
@@ -1713,7 +1774,7 @@ export const InsightsProgressContainer = {
           label: "Deepen",
           action: {
             type: "navigate",
-            target: { container_id: "choice_stack", variant: "deepen_select" },
+            target: { container_id: "choice_stack", state_id: "deepen_select" },
           },
         },
       ],
@@ -1845,7 +1906,7 @@ export const CycleTransitionsContainer = {
             type: "navigate",
             target: {
               container_id: "companion_dashboard",
-              variant: "day_active",
+              state_id: "day_active",
             },
           },
         },
@@ -1894,7 +1955,7 @@ export const CycleTransitionsContainer = {
           label: "Begin New Cycle",
           action: {
             type: "navigate",
-            target: { container_id: "choice_stack", variant: "mode_toggle" },
+            target: { container_id: "choice_stack", state_id: "mode_toggle" },
           },
         },
       ],
@@ -1928,7 +1989,7 @@ export const CycleTransitionsContainer = {
             type: "navigate",
             target: {
               container_id: "companion_dashboard",
-              variant: "day_active",
+              state_id: "day_active",
             },
           },
         },
@@ -1946,13 +2007,246 @@ export const CycleTransitionsContainer = {
           label: "Return to Portal",
           action: {
             type: "navigate",
-            target: { container_id: "portal", variant: "welcome_portal" },
+            target: { container_id: "portal", state_id: "portal" },
           },
         },
       ],
     },
   },
 };
+export const StableScanContainer = {
+  container_id: "stable_scan",
+  states: {
+    prana_baseline: {
+      tone: { theme: "light_sandal", mood: "steady" },
+      blocks: [
+        {
+          type: "headline",
+          content: "Reflecting on your Path.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Where do you stand today in this area? Be honest.",
+          position: "header",
+        },
+        {
+          id: "prana_baseline_selection",
+          type: "chip_list",
+          label: "YOUR CURRENT STATE",
+          options: [],
+        },
+        {
+          type: "primary_button",
+          label: "Set My Baseline →",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "choice_stack",
+              state_id: "depth_selection",
+            },
+          },
+          style: "gold",
+          position: "footer",
+        },
+      ],
+      optionsMap: {
+        careerprosperity: [
+          { id: "stagnant", label: "Feeling Stagnant" },
+          { id: "undervalued", label: "Undervalued" },
+          { id: "imposter", label: "Imposter Syndrome" },
+          { id: "directionless", label: "Lack of Direction" },
+          { id: "work_overwhelm", label: "Work Overwhelm" },
+        ],
+        peacecalm: [
+          { id: "overthinking", label: "Overthinking" },
+          { id: "restless", label: "Internal Restlessness" },
+          { id: "anxious", label: "Anxious Energy" },
+          { id: "noisy", label: "Mental Noise" },
+          { id: "scattered", label: "Scattered Focus" },
+        ],
+        emotionalhealing: [
+          { id: "heavy_heart", label: "Heavy Heart" },
+          { id: "resentful", label: "Feeling Resentful" },
+          { id: "lonely", label: "Loneliness" },
+          { id: "disconnected", label: "Disconnected" },
+          { id: "grieving", label: "Emotional Weight" },
+        ],
+        focusmotivation: [
+          { id: "distracted", label: "Highly Distracted" },
+          { id: "uninspired", label: "Uninspired" },
+          { id: "procrastinating", label: "Procrastinating" },
+          { id: "mental_fog", label: "Mental Fog" },
+          { id: "low_drive", label: "Low Drive" },
+        ],
+        gratitudepositivity: [
+          { id: "cynical", label: "Feeling Cynical" },
+          { id: "lack_mindset", label: "Focusing on Lack" },
+          { id: "pessimistic", label: "Pessimistic" },
+          { id: "unappreciated", label: "Unappreciated" },
+          { id: "comparing", label: "Comparison Trap" },
+        ],
+        healthwellbeing: [
+          { id: "low_vitality", label: "Low Vitality" },
+          { id: "burned_out", label: "Burned Out" },
+          { id: "physically_tense", label: "Body Tension" },
+          { id: "sluggish", label: "Sluggish" },
+          { id: "neglectful", label: "Ignoring Body Needs" },
+        ],
+        spiritualgrowth: [
+          { id: "lost", label: "Spiritually Lost" },
+          { id: "void", label: "Inner Void" },
+          { id: "meaningless", label: "Meaningless Routine" },
+          { id: "material_chain", label: "Materially Bound" },
+          { id: "doubting", label: "Doubting the Path" },
+        ],
+      },
+      subCategorySliders: {
+        stagnant: [
+          { label: "Momentum", value: 3 },
+          { label: "Creative Flow", value: 3 },
+        ],
+        undervalued: [
+          { label: "Self-Worth", value: 3 },
+          { label: "Recognition", value: 4 },
+        ],
+        imposter: [
+          { label: "Confidence", value: 2 },
+          { label: "Internal Truth", value: 4 },
+        ],
+        directionless: [
+          { label: "Vision", value: 3 },
+          { label: "Purpose", value: 3 },
+        ],
+        work_overwhelm: [
+          { label: "Structure", value: 2 },
+          { label: "Inner Calm", value: 3 },
+        ],
+        overthinking: [
+          { label: "Stillness", value: 2 },
+          { label: "Presence", value: 4 },
+        ],
+        restless: [
+          { label: "Groundedness", value: 3 },
+          { label: "Peace", value: 3 },
+        ],
+        anxious: [
+          { label: "Breath Depth", value: 3 },
+          { label: "Release", value: 2 },
+        ],
+        noisy: [
+          { label: "Internal Silence", value: 2 },
+          { label: "Space", value: 3 },
+        ],
+        scattered: [
+          { label: "Singlepoint Focus", value: 3 },
+          { label: "Clarity", value: 3 },
+        ],
+        heavy_heart: [
+          { label: "Lightness", value: 2 },
+          { label: "Forgiveness", value: 3 },
+        ],
+        resentful: [
+          { label: "Letting Go", value: 3 },
+          { label: "Compassion", value: 2 },
+        ],
+        lonely: [
+          { label: "Connection", value: 3 },
+          { label: "Self-Love", value: 4 },
+        ],
+        disconnected: [
+          { label: "Internal Union", value: 3 },
+          { label: "Awareness", value: 3 },
+        ],
+        grieving: [
+          { label: "Softness", value: 3 },
+          { label: "Acceptance", value: 4 },
+        ],
+        distracted: [
+          { label: "Attention Span", value: 2 },
+          { label: "Silence", value: 4 },
+        ],
+        uninspired: [
+          { label: "Creative Spark", value: 3 },
+          { label: "Drive", value: 3 },
+        ],
+        procrastinating: [
+          { label: "Willpower", value: 2 },
+          { label: "Impact", value: 3 },
+        ],
+        mental_fog: [
+          { label: "Sharpness", value: 2 },
+          { label: "Alertness", value: 3 },
+        ],
+        low_drive: [
+          { label: "Energy", value: 3 },
+          { label: "Ambition", value: 3 },
+        ],
+        cynical: [
+          { label: "Openness", value: 3 },
+          { label: "Faith", value: 2 },
+        ],
+        lack_mindset: [
+          { label: "Abundance", value: 2 },
+          { label: "Gratitude", value: 4 },
+        ],
+        pessimistic: [
+          { label: "Hope", value: 3 },
+          { label: "Optimism", value: 2 },
+        ],
+        unappreciated: [
+          { label: "Contribution", value: 4 },
+          { label: "Joy", value: 3 },
+        ],
+        comparing: [
+          { label: "Uniqueness", value: 4 },
+          { label: "Contentment", value: 3 },
+        ],
+        low_vitality: [
+          { label: "Prana Flow", value: 3 },
+          { label: "Internal Fire", value: 2 },
+        ],
+        burned_out: [
+          { label: "Nourishment", value: 2 },
+          { label: "Restoration", value: 3 },
+        ],
+        physically_tense: [
+          { label: "Release", value: 3 },
+          { label: "Fluidity", value: 4 },
+        ],
+        sluggish: [
+          { label: "Metabolism", value: 3 },
+          { label: "Vigor", value: 2 },
+        ],
+        neglectful: [
+          { label: "Body Love", value: 3 },
+          { label: "Self-Care", value: 2 },
+        ],
+        lost: [
+          { label: "Path Clarity", value: 3 },
+          { label: "Inner Guide", value: 2 },
+        ],
+        void: [
+          { label: "Fullness", value: 3 },
+          { label: "Sacred Touch", value: 3 },
+        ],
+        meaningless: [
+          { label: "Sacredness", value: 2 },
+          { label: "Meaning", value: 4 },
+        ],
+        material_chain: [
+          { label: "Detachment", value: 3 },
+          { label: "Freedom", value: 2 },
+        ],
+        doubting: [
+          { label: "Trust", value: 2 },
+          { label: "Faith", value: 3 },
+        ],
+      },
+    },
+  },
+};
+
 export const ContainerRegistry = {
   portal: PortalContainer,
   choice_stack: ChoiceStackContainer,
@@ -1966,4 +2260,5 @@ export const ContainerRegistry = {
   awareness_trigger: AwarenessTriggerContainer,
   insights_progress: InsightsProgressContainer,
   cycle_transitions: CycleTransitionsContainer,
+  stable_scan: StableScanContainer,
 };

@@ -1,7 +1,6 @@
 import {
   generateCompanionResponse,
   generateHelpMeChooseResponse,
-  generatePranaBaseline,
   generatePathEvolutionScreen,
 } from "./dynamicContentEngine";
 
@@ -26,13 +25,6 @@ export function executeAction(action, context) {
       goBack();
       break;
 
-    case "generate_prana_baseline": {
-      // Get the current focus from state
-      const focus = screenState["scan_focus"];
-      const resultScreen = generatePranaBaseline(focus);
-      loadScreen(resultScreen);
-      break;
-    }
 
     case "generate_help_me_choose": {
       const inputData = {
@@ -64,9 +56,11 @@ export function executeAction(action, context) {
       setScreenValue(focus, "scan_focus");
       setScreenValue(focus, "suggested_focus");
 
-      // Go to dynamic baseline
-      const resultScreen = generatePranaBaseline(focus);
-      loadScreen(resultScreen);
+      // Navigate to static baseline
+      loadScreen({
+        container_id: "stable_scan",
+        state_id: "prana_baseline",
+      });
       break;
     }
 

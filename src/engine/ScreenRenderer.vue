@@ -64,18 +64,19 @@ function jumpToScreen(event) {
 
 <template>
   <div :class="['rendering-engine-container', themeClass, moodClass]">
-    <component 
-      :is="currentComponent" 
-      :schema="screenStore.currentScreen" 
-    />
+    <component :is="currentComponent" :schema="screenStore.currentScreen" />
 
     <!-- DEV MODE OVERLAY FOR TESTING -->
     <div v-if="isDevMode" class="dev-state-picker">
       <label>DevTools: View States</label>
       <select @change="jumpToScreen" :value="screenStore.currentKey">
         <option value="" disabled selected>Select a State (68+)</option>
+
         <option v-for="key in allScreenKeys" :key="key" :value="key">
-          {{ key }}
+          STATE - {{ key }} &&
+          <span class="red-font">
+            CONTAINER - ({{ mockScreens[key].container_id }})</span
+          >
         </option>
       </select>
     </div>
@@ -93,7 +94,9 @@ function jumpToScreen(event) {
 .v-leave-to {
   opacity: 0;
 }
-
+.red-font {
+  color: red;
+}
 /* DEV TOGGLE STYLES */
 .dev-state-picker {
   position: fixed;
@@ -102,10 +105,10 @@ function jumpToScreen(event) {
   z-index: 99999;
   background: rgba(17, 24, 39, 0.95);
   backdrop-filter: blur(10px);
-  padding: 12px 16px;
+  padding: 10px 10px;
   border-radius: 12px;
   border: 1px solid rgba(201, 168, 76, 0.5);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -127,6 +130,6 @@ function jumpToScreen(event) {
   border-radius: 6px;
   font-size: 14px;
   outline: none;
-  max-width: 250px;
+  max-width: 300px;
 }
 </style>
