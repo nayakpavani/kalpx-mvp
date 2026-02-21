@@ -24,8 +24,8 @@
 /* Themes */
 .theme-gold_dark {
   --bg-primary: #111417;
-  --bg-gradient: radial-gradient(ellipse 55% 50% at 50% 44%, rgba(201,168,76,0.08) 0%, transparent 70%),
-                 radial-gradient(ellipse 100% 100% at 50% 50%, #0e1012 55%, #080a0c 100%);
+  --bg-gradient: radial-gradient(ellipse 55% 50% at 50% 44%, rgba(201, 168, 76, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, #0e1012 55%, #080a0c 100%);
   --text-primary: #fdfaf3;
   --text-secondary: rgba(253, 250, 243, 0.7);
   --surface-1: rgba(30, 41, 59, 0.6);
@@ -67,6 +67,10 @@ h1, h2, h3, .serif {
 
 /* Global Container Utility */
 .rendering-engine-container {
+  width: 100%;
+  max-width: 800px;
+  /* iPhone Pro Max width constraint */
+  margin: 0 auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -74,6 +78,7 @@ h1, h2, h3, .serif {
   transition: var(--transition-slow);
   overflow-x: hidden;
   position: relative;
+
 }
 
 /* Shared Premium Card Styles */
@@ -120,7 +125,7 @@ h1, h2, h3, .serif {
 
 .btn-gold:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 45px rgba(201,168,76,0.45);
+  box-shadow: 0 10px 45px rgba(201, 168, 76, 0.45);
 }
 
 .btn-gold:active {
@@ -128,8 +133,13 @@ h1, h2, h3, .serif {
 }
 
 @keyframes bg-shimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 /* Pulse Rings */
@@ -149,6 +159,13 @@ h1, h2, h3, .serif {
 }
 
 @keyframes pulse-out {
-  0% { transform: scale(1); opacity: 0.7; }
-  100% { transform: scale(1.18); opacity: 0; }
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(1.18);
+    opacity: 0;
+  }
 }

@@ -59,9 +59,17 @@ export const useScreenStore = defineStore("screen", () => {
         console.warn(`Screen key ${target} not found`);
       }
     } else if (typeof target === "object" && target !== null) {
+      // Special handling for dashboard container
       if (target.container_id === "dashboard") {
         lastGeneratedDashboard.value = target;
       }
+
+      // If it's a navigation target pointing to a variant, resolve it
+      if (target.variant && mockScreens[target.variant]) {
+        loadScreen(target.variant);
+        return;
+      }
+
       history.value.push({
         key: currentKey.value,
         dynamic: dynamicScreen.value,

@@ -2,44 +2,40 @@
   <div class="composer-card">
     <textarea
       v-model="text"
-      @input="handleInput"
       class="sankalp-input"
-      :placeholder="schema.placeholder || 'Write your intention...'"
+      :placeholder="block.placeholder || 'Write your intention...'"
+      :maxlength="block.character_limit"
+      @input="onInput"
     ></textarea>
-    <div class="char-count">{{ text.length }} / 120</div>
+    <div class="char-count">
+      {{ text.length }} / {{ block.character_limit || 120 }}
+    </div>
   </div>
 </template>
+
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useScreenStore } from "../store/screenStore";
 
 const props = defineProps({
-  schema: Object,
+  block: Object,
 });
 
 const screenStore = useScreenStore();
-const text = ref(props.schema.value || "");
+const text = ref(screenStore.screenState[props.block.id] || "");
 
-function handleInput() {
-  screenStore.setScreenValue(text.value, props.schema.id);
+function onInput() {
+  screenStore.setScreenValue(text.value, props.block.id);
 }
+
+onMounted(() => {
+  if (props.block.preload_existing) {
+    text.value = screenStore.screenState[props.block.id] || "";
+  }
+});
 </script>
+
 <style scoped>
-.composer-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 40px 24px;
-  max-width: 600px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.header {
-  margin-bottom: 40px;
-  text-align: center;
-}
-
 .composer-card {
   background: white;
   border: 1px solid rgba(0, 0, 0, 0.05);
@@ -59,6 +55,7 @@ function handleInput() {
   min-height: 150px;
   resize: none;
   outline: none;
+  background: transparent;
 }
 
 .char-count {
@@ -67,12 +64,5 @@ function handleInput() {
   right: 20px;
   font-size: 12px;
   color: #999;
-}
-
-.footer {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 </style>

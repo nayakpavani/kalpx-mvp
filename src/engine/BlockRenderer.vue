@@ -38,6 +38,7 @@ const blockMap = {
   reflection_input: ReflectionInputBlock,
   trend_chart: TrendChartBlock,
   textarea: TextArea,
+  text_input: TextArea,
 };
 
 const props = defineProps({
@@ -48,7 +49,6 @@ const component = computed(() => blockMap[props.block?.type]);
 </script>
 
 <template>
-  {{ component }}
   <component :is="component" v-if="component" :block="props.block" />
   <div v-else class="unknown-block">Unknown block: {{ props.block?.type }}</div>
 </template>

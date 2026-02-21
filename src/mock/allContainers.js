@@ -356,23 +356,27 @@ export const ComposerContainer = {
           position: "header",
         },
         {
-          type: "text_input",
+          type: "textarea",
           id: "sankalp_input",
           character_limit: 120,
-          placeholder_examples: [
-            "I respond without raising my voice.",
-            "I complete what I begin.",
-            "I pause before reacting.",
-            "I act with financial awareness.",
+        },
+        {
+          type: "chip_list",
+          options: [
+            { id: "raise_voice", label: "I respond without raising my voice." },
+            { id: "complete_begin", label: "I complete what I begin." },
+            { id: "before_react", label: "I pause before reacting." },
+            { id: "act_financial", label: "I act with financial awareness." },
           ],
         },
+        // {
+        //   type: "helper_text",
+        //   content: "A Sankalp is behavioral. Not aspirational.",
+        // },
         {
-          type: "helper_text",
-          content: "A Sankalp is behavioral. Not aspirational.",
-        },
-        {
-          type: "link_text",
+          type: "subtext",
           content: "Need suggestions?",
+          variant: "link",
           action: {
             type: "navigate",
             target: {
@@ -380,10 +384,12 @@ export const ComposerContainer = {
               variant: "ai_suggestions",
             },
           },
+          position: "footer",
         },
+
         {
           type: "primary_button",
-          label: "Continue →",
+          label: "Continue ",
           action: {
             type: "navigate",
             target: {
@@ -430,11 +436,15 @@ export const ComposerContainer = {
         },
         {
           type: "primary_button",
-          label: "Use Selection",
+          label: "Proceed",
           action: {
-            type: "inject_value",
-            target_input: "sankalp_input",
+            type: "navigate",
+            target: {
+              container_id: "choice_stack",
+              variant: "mode_toggle",
+            },
           },
+          style: "gold",
         },
       ],
     },
