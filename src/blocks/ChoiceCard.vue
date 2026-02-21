@@ -10,30 +10,33 @@ const screenStore = useScreenStore();
 const selectedId = ref(null);
 
 // Initialize with already selected option if any
-const initialSelected = props.block.options.find(opt => opt.selected);
+const initialSelected = props.block.options.find((opt) => opt.selected);
 if (initialSelected) {
   selectedId.value = initialSelected.id;
   // Ensure the initial selection is in the store
-  screenStore.setScreenValue(initialSelected.id, props.block.id || 'current_choice');
+  screenStore.setScreenValue(
+    initialSelected.id,
+    props.block.id || "current_choice",
+  );
 }
 
 function selectOption(option) {
   selectedId.value = option.id;
-  
+
   if (props.block.selection_mode === "auto") {
     screenStore.handleAction(option.action);
   } else {
     // Save selection to store instead of mutating props
-    screenStore.setScreenValue(option.id, props.block.id || 'current_choice');
+    screenStore.setScreenValue(option.id, props.block.id || "current_choice");
   }
 }
 </script>
 
 <template>
   <div class="choice-stack">
-    <div 
-      v-for="option in block.options" 
-      :key="option.id" 
+    <div
+      v-for="option in block.options"
+      :key="option.id"
       class="choice-card"
       :class="{ selected: selectedId === option.id }"
       @click="selectOption(option)"
@@ -52,8 +55,14 @@ function selectOption(option) {
       <div class="selection-indicator">
         <div v-if="selectedId === option.id" class="check-mark">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" fill="var(--gold-accent)" />
-            <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="12" cy="12" r="10" fill="#B8860B" />
+            <path
+              d="M8 12L11 15L16 9"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </div>
         <div v-else class="empty-circle"></div>

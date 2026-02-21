@@ -432,7 +432,7 @@ export const ComposerContainer = {
           type: "primary_button",
           label: "Use Selection",
           action: {
-            type: "inject_value",
+            type: "textarea",
             target_input: "sankalp_input",
           },
         },

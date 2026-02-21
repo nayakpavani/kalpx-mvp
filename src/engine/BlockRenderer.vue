@@ -17,6 +17,7 @@ import AlignmentChoiceBlock from "../blocks/AlignmentChoiceBlock.vue";
 import ReflectionInputBlock from "../blocks/ReflectionInputBlock.vue";
 import ChipListBlock from "../blocks/ChipListBlock.vue";
 import TrendChartBlock from "../blocks/TrendChartBlock.vue";
+import TextArea from "@/blocks/TextArea.vue";
 
 const blockMap = {
   headline: HeadlineBlock,
@@ -36,6 +37,7 @@ const blockMap = {
   alignment_selector: AlignmentChoiceBlock,
   reflection_input: ReflectionInputBlock,
   trend_chart: TrendChartBlock,
+  textarea: TextArea,
 };
 
 const props = defineProps({
@@ -46,6 +48,7 @@ const component = computed(() => blockMap[props.block?.type]);
 </script>
 
 <template>
+  {{ component }}
   <component :is="component" v-if="component" :block="props.block" />
   <div v-else class="unknown-block">Unknown block: {{ props.block?.type }}</div>
 </template>
