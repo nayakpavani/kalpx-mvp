@@ -1,5 +1,6 @@
 <script setup>
 import BlockRenderer from "../engine/BlockRenderer.vue";
+import IdentityMap from "../blocks/IdentityMap.vue";
 
 defineProps({
   schema: Object,
@@ -17,10 +18,7 @@ defineProps({
     </div>
 
     <div class="main-stats">
-       <div class="radar-placeholder">
-          <!-- Placeholder for radar chart -->
-          <div class="radar-dot"></div>
-       </div>
+       <IdentityMap :block="{ type: 'identity_map', data_key: 'identity_map_data' }" />
     </div>
 
     <div class="insights-list">

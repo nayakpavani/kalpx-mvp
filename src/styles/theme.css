@@ -22,7 +22,8 @@
 }
 
 /* Themes */
-.theme-gold_dark {
+.theme-gold_dark,
+.theme-dark_base {
   --bg-primary: #111417;
   --bg-gradient: radial-gradient(ellipse 55% 50% at 50% 44%, rgba(201, 168, 76, 0.08) 0%, transparent 70%),
     radial-gradient(ellipse 100% 100% at 50% 50%, #0e1012 55%, #080a0c 100%);

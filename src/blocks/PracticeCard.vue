@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="practice-card" :class="{ completed: isCompleted }">
+    <div class="gold-accent-line"></div>
     <div class="card-content">
       <div class="icon-section">
         <i :class="isCompleted ? 'fas fa-lock' : block.icon"></i>
@@ -63,8 +64,9 @@ function handleInfo() {
 
 <style scoped>
 .practice-card {
-  background: white;
-  border: 1px solid rgba(191, 165, 138, 0.2);
+  background: var(--surface-1);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -77,9 +79,8 @@ function handleInfo() {
 }
 
 .practice-card.completed {
-  background: #fdfdfd;
-  opacity: 0.8;
-  border-color: #e0eee0;
+  background: var(--surface-1);
+  opacity: 0.6;
 }
 
 .gold-accent-line {
@@ -128,7 +129,7 @@ function handleInfo() {
 .title {
   font-family: var(--font-serif);
   font-size: 20px;
-  color: #3d3b38;
+  color: var(--text-primary);
   margin: 0;
   font-weight: 500;
 }
@@ -136,7 +137,7 @@ function handleInfo() {
 .info-btn {
   background: transparent;
   border: none;
-  color: #bfa58a;
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 4px;
   display: flex;
@@ -152,14 +153,14 @@ function handleInfo() {
 
 .description {
   font-size: 14px;
-  color: #8c8881;
+  color: var(--text-secondary);
   margin: 4px 0 0;
   line-height: 1.4;
 }
 
 .meta {
   font-size: 12px;
-  color: #bfa58a;
+  color: var(--gold-accent);
   margin: 4px 0 0;
   font-style: italic;
 }

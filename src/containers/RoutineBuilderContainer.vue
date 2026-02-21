@@ -8,25 +8,9 @@ defineProps({
 
 <template>
   <div class="routine-builder">
-    <div class="header">
+    <div class="content">
       <BlockRenderer
-        v-for="(block, i) in schema.blocks.filter(b => b.position === 'header')"
-        :key="i"
-        :block="block"
-      />
-    </div>
-
-    <div class="options">
-      <BlockRenderer
-        v-for="(block, i) in schema.blocks.filter(b => b.type === 'choice_card')"
-        :key="i"
-        :block="block"
-      />
-    </div>
-
-    <div class="footer">
-      <BlockRenderer
-        v-for="(block, i) in schema.blocks.filter(b => b.position === 'footer')"
+        v-for="(block, i) in schema.blocks"
         :key="i"
         :block="block"
       />
@@ -45,19 +29,9 @@ defineProps({
   width: 100%;
 }
 
-.header {
-  margin-bottom: 32px;
-  text-align: center;
-}
-
-.options {
+.content {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.footer {
-  margin-top: 40px;
-  text-align: center;
+  gap: 24px;
 }
 </style>

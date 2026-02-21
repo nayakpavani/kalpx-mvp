@@ -968,8 +968,8 @@ export const CompanionDashboardContainer = {
 
       blocks: [
         {
-          type: "micro_label",
-          content: "DAY {{day_number}} OF {{total_days}}",
+          type: "headline",
+          content: "DAY 11 of 14",
         },
         {
           type: "headline",

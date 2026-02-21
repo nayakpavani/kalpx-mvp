@@ -23,16 +23,19 @@ const daysRemaining = computed(() => 14 - (props.schema.day_number || 1));
 <template>
   <div class="dashboard-container">
     <div class="header-section">
-      <div class="cycle-summary serif">
-        Day {{ schema.day_number || 1 }} of 14 — Karma & Clarity
-      </div>
+      <BlockRenderer
+        v-for="(block, i) in schema.blocks.filter((b) =>
+          ['headline', 'subtext', 'identity_indicator'].includes(b.type),
+        )"
+        :key="'header-' + i"
+        :block="block"
+      />
       <div class="cycle-progress-bar">
         <div
           class="bar-fill"
           :style="{ width: ((schema.day_number || 1) / 14) * 100 + '%' }"
         ></div>
       </div>
-      <p class="header-sub">Same roots daily. Growth comes from repetition.</p>
     </div>
 
     <div class="progress-section">
@@ -76,11 +79,20 @@ const daysRemaining = computed(() => 14 - (props.schema.day_number || 1));
         v-for="(block, i) in schema.blocks.filter(
           (b) => b.type === 'practice_card',
         )"
-        :key="i"
+        :key="'practice-' + i"
         :block="block"
       />
     </div>
 
+    <!-- Render any floating buttons or overlays -->
+    <BlockRenderer
+      v-for="(block, i) in schema.blocks.filter(
+        (b) => b.type === 'floating_button',
+      )"
+      :key="'floating-' + i"
+      :block="block"
+    />
+    <!-- 
     <div class="quick-actions">
        <button class="action-btn gold" @click="screenStore.handleAction(schema.triggered_action)">
          I Feel Triggered
@@ -88,7 +100,7 @@ const daysRemaining = computed(() => 14 - (props.schema.day_number || 1));
        <button class="action-btn outline" @click="screenStore.handleAction(schema.checkin_action)">
          Quick Check-In
        </button>
-    </div>
+    </div> -->
 
     <div class="dashboard-footer">
       <div class="divider">
@@ -99,7 +111,7 @@ const daysRemaining = computed(() => 14 - (props.schema.day_number || 1));
           v-for="(block, i) in schema.blocks.filter(
             (b) => b.position === 'footer',
           )"
-          :key="i"
+          :key="'footer-' + i"
           :block="block"
         />
       </div>
@@ -116,7 +128,8 @@ const daysRemaining = computed(() => 14 - (props.schema.day_number || 1));
   max-width: 500px;
   margin: 0 auto;
   width: 100%;
-  background: #fffcf8;
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .header-section {

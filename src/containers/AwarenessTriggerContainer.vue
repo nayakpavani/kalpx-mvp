@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { useScreenStore } from "../store/screenStore";
+import BlockRenderer from "../engine/BlockRenderer.vue";
 
 const props = defineProps({
   schema: Object,
@@ -10,9 +11,9 @@ const screenStore = useScreenStore();
 const currentStep = ref(0);
 
 function nextStep() {
-  if (currentStep.value < props.schema.steps.length - 1) {
+  if (props.schema.steps && currentStep.value < props.schema.steps.length - 1) {
     currentStep.value++;
-  } else {
+  } else if (props.schema.complete_action) {
     screenStore.handleAction(props.schema.complete_action);
   }
 }
@@ -25,25 +26,31 @@ function nextStep() {
     </div>
 
     <div class="step-content">
-       <div v-if="schema.steps[currentStep].type === 'question'" class="question-step">
-          <h2 class="question">{{ schema.steps[currentStep].text }}</h2>
-          <div class="choices">
-             <button 
-              v-for="choice in schema.steps[currentStep].choices" 
-              :key="choice.text"
-              class="choice-btn"
-              @click="nextStep"
-            >
-              {{ choice.text }}
-            </button>
-          </div>
-       </div>
+       <template v-if="schema.steps && schema.steps.length > 0">
+         <div v-if="schema.steps[currentStep]?.type === 'question'" class="question-step">
+            <h2 class="question">{{ schema.steps[currentStep].text }}</h2>
+            <div class="choices">
+               <button 
+                v-for="choice in schema.steps[currentStep].choices" 
+                :key="choice.text"
+                class="choice-btn"
+                @click="nextStep"
+              >
+                {{ choice.text }}
+              </button>
+            </div>
+         </div>
 
-       <div v-if="schema.steps[currentStep].type === 'breath'" class="breath-step" @click="nextStep">
-          <h2 class="instruction">{{ schema.steps[currentStep].text }}</h2>
-          <div class="breath-circle"></div>
-          <p class="hint">Tap when centered</p>
-       </div>
+         <div v-if="schema.steps[currentStep]?.type === 'breath'" class="breath-step" @click="nextStep">
+            <h2 class="instruction">{{ schema.steps[currentStep].text }}</h2>
+            <div class="breath-circle"></div>
+            <p class="hint">Tap when centered</p>
+         </div>
+       </template>
+
+       <template v-else-if="schema.blocks">
+          <BlockRenderer v-for="(block, i) in schema.blocks" :key="i" :block="block" />
+       </template>
     </div>
   </div>
 </template>

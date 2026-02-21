@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useScreenStore } from "../store/screenStore";
 
 const props = defineProps({
@@ -9,8 +9,12 @@ const props = defineProps({
 const screenStore = useScreenStore();
 const selectedId = ref(null);
 
+const options = computed(() => {
+  return props.block.options || screenStore.screenState[props.block.options_key] || [];
+});
+
 // Initialize with already selected option if any
-const initialSelected = props.block.options.find((opt) => opt.selected);
+const initialSelected = options.value.find((opt) => opt.selected);
 if (initialSelected) {
   selectedId.value = initialSelected.id;
   // Ensure the initial selection is in the store
@@ -35,7 +39,7 @@ function selectOption(option) {
 <template>
   <div class="choice-stack">
     <div
-      v-for="option in block.options"
+      v-for="option in options"
       :key="option.id"
       class="choice-card"
       :class="{ selected: selectedId === option.id }"

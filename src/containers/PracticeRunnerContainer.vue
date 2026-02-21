@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useScreenStore } from "../store/screenStore";
+import BlockRenderer from "../engine/BlockRenderer.vue";
 
 const props = defineProps({
   schema: Object,
@@ -55,9 +56,13 @@ function logRep() {
            I Embody This →
          </button>
       </div>
+
+      <div v-else-if="schema.blocks" class="block-content">
+         <BlockRenderer v-for="(block, i) in schema.blocks" :key="i" :block="block" />
+      </div>
     </div>
 
-    <div class="progress-bar-wrap">
+    <div v-if="schema.variant === 'mantra_runner'" class="progress-bar-wrap">
        <div class="progress-line" :style="{ width: (count / schema.target_count) * 100 + '%' }"></div>
     </div>
   </div>
