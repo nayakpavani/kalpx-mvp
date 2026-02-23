@@ -60,11 +60,29 @@ function jumpToScreen(event) {
     screenStore.loadScreen(event.target.value);
   }
 }
+
+const transitionName = computed(() => {
+  // Only use slow transition when entering dashboard from splash_portal
+  const lastHistory = screenStore.history[screenStore.history?.length - 1];
+  if (
+    screenStore.currentKey === "day_active" &&
+    lastHistory?.key === "splash_portal"
+  ) {
+    return "portal-entry";
+  }
+  return "fade";
+});
 </script>
 
 <template>
   <div :class="['rendering-engine-container', themeClass, moodClass]">
-    <component :is="currentComponent" :schema="screenStore.currentScreen" />
+    <Transition :name="transitionName" mode="out-in">
+      <component
+        :is="currentComponent"
+        :key="screenStore.currentKey"
+        :schema="screenStore.currentScreen"
+      />
+    </Transition>
 
     <!-- DEV MODE OVERLAY FOR TESTING -->
     <div v-if="isDevMode" class="dev-state-picker">
@@ -84,14 +102,25 @@ function jumpToScreen(event) {
 </template>
 
 <style>
-/* Global fade transitions for screen changes */
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
+/* No transition for all other screens */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0s;
 }
 
-.v-enter-from,
-.v-leave-to {
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 1;
+}
+
+/* Exclusive slow transition for experienced user entry */
+.portal-entry-enter-active,
+.portal-entry-leave-active {
+  transition: opacity 1.2s ease-in-out;
+}
+
+.portal-entry-enter-from,
+.portal-entry-leave-to {
   opacity: 0;
 }
 .red-font {

@@ -5,8 +5,16 @@ import { executeAction } from "../engine/actionExecutor";
 
 export const useScreenStore = defineStore("screen", () => {
   // MOCK: Toggle this boolean to switch between fresher and experienced user flow
-  const isExperiencedUser = false; // Set to false to test fresh user flow
+  const isExperiencedUser = true; // Set to false to test fresh user flow
   const currentKey = ref(isExperiencedUser ? "splash_portal" : "portal");
+
+  // If experienced user, show splash portal then auto-navigate to dashboard
+  if (isExperiencedUser) {
+    setTimeout(() => {
+      // Use loadScreen to ensure history is updated
+      loadScreen("day_active");
+    }, 2500);
+  }
 
   const dynamicScreen = ref(null);
   const history = ref([]);
@@ -21,6 +29,12 @@ export const useScreenStore = defineStore("screen", () => {
     anchor_status: "Stabilized",
     challenge_text: "Choose patience in traffic.",
     day_number: 11,
+    focus_name: "Peace & Calm",
+    mantra_text: "OM SHANTI SHANTI SHANTI",
+    practice_title: "Digital Detox",
+    practice_meta: "No screens after 9 PM",
+    reps_total: 27,
+    practice_chant_meta: "27 Reps",
     cycle_history: [
       {
         id: 1,
@@ -65,9 +79,9 @@ export const useScreenStore = defineStore("screen", () => {
       next_milestone: "Neural Rewiring (Day 21)",
     },
     sankalp_text: "I am the ocean, not the wave.",
-    mantra_reps: "108 / Day",
-    anchor_duration: "14 Minutes",
-    refinement_layer: "Prana Awareness",
+    mantra_reps: "27 / Day",
+    anchor_duration: "7 Minutes",
+    refinement_layer: "Observation",
     reflection_questions: [
       {
         id: "obstacle",
@@ -240,6 +254,7 @@ export const useScreenStore = defineStore("screen", () => {
     currentScreen,
     currentTheme,
     currentMood,
+    history,
     loadScreen,
     goBack,
     handleAction,

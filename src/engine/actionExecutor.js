@@ -204,6 +204,11 @@ export function executeAction(action, context) {
         setScreenValue(true, payload.practiceId);
       } else if (payload?.refinement_layer === "rep_deepen" || screenState["refinement_layer"] === "rep_deepen") {
         setScreenValue(54, "reps_total");
+        setScreenValue("54 Reps", "practice_chant_meta");
+      } else if (payload?.refinement_layer === "observation" || screenState["refinement_layer"] === "observation") {
+        setScreenValue("Observation Mode", "refinement_layer_meta");
+      } else if (payload?.refinement_layer === "dharma_action" || screenState["refinement_layer"] === "dharma_action") {
+        setScreenValue("Active Dharma", "refinement_layer_meta");
       } else if (payload?.step === "re_analysis_proceed") {
         const direction = screenState["re_analysis_direction"];
         if (direction === "stay") {

@@ -1004,7 +1004,7 @@ export const CompanionDashboardContainer = {
           id: "practice_chant",
           title: "Chant",
           description: "{{mantra_text}}",
-
+          meta: "{{practice_chant_meta}}",
           icon: "fas fa-om",
           action_label: "Start →",
           info_action: {
@@ -1914,10 +1914,14 @@ export const CycleTransitionsContainer = {
       tone: { theme: "light_sandal", mood: "steady" },
 
       blocks: [
-        { type: "headline", content: "Practice deepened." },
+        { type: "headline", content: "Practice intensified." },
+        { 
+          type: "subtext", 
+          content: "You have deepened your rhythm. Your mantra repetitions are now set to {{reps_total}}." 
+        },
         {
           type: "primary_button",
-          label: "Return to Day",
+          label: "Return to Day →",
           action: {
             type: "navigate",
             target: {
@@ -2461,7 +2465,7 @@ export const CycleTransitionsContainer = {
         {
           type: "primary_button",
           label: "Begin Next 7 Days →",
-          action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } },
+          action: { type: "submit", target: { container_id: "cycle_transitions", state_id: "deepen_confirmation" } },
           style: "gold",
           position: "footer"
         },
