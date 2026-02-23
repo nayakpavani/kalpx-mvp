@@ -5,7 +5,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="micro-label">
+  <div :class="['micro-label', { centered: block.variant === 'centered' }]">
     {{ props.block.content }}
   </div>
 </template>
@@ -20,5 +20,10 @@ const props = defineProps({
   margin-bottom: 8px;
   font-weight: 600;
   opacity: 0.8;
+}
+
+.centered {
+  text-align: center;
+  width: 100%;
 }
 </style>

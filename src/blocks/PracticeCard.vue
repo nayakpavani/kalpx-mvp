@@ -202,12 +202,18 @@ function handleInfo() {
 }
 
 .completed-badge {
+  background: rgba(16, 185, 129, 0.08);
   color: #10b981;
+  padding: 6px 12px;
+  border-radius: 20px;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-left: 16px;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .purpose-tag {

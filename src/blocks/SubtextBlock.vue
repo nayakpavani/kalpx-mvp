@@ -23,6 +23,8 @@ function handleClick() {
       block.variant === 'label' ? 'label-text' : '',
       block.variant === 'italic' ? 'italic-text' : '',
       block.variant === 'italic_multiline' ? 'italic-text multiline' : '',
+      block.variant === 'centered' ? 'centered multiline' : '',
+      block.variant === 'small_centered' ? 'small-text centered multiline' : '',
     ]"
     @click="handleClick"
   >
@@ -50,9 +52,9 @@ function handleClick() {
 .small-text {
   font-size: 12px;
   color: #a8a49d;
-  margin-bottom: 12px;
-  text-transform: uppercase;
+  margin-bottom: 24px;
   letter-spacing: 0.5px;
+  font-style: italic;
 }
 
 .label-text {

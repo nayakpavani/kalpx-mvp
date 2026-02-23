@@ -87,7 +87,7 @@ const phaseText = {
   align-items: center;
   justify-content: center;
   gap: 40px;
-  padding: 60px 0;
+  padding: 20px 0;
   width: 100%;
 }
 

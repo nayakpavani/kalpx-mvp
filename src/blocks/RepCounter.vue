@@ -8,7 +8,7 @@ const props = defineProps({
 
 const screenStore = useScreenStore();
 const count = ref(0);
-const total = props.block.total || 9;
+const total = Number(props.block.total) || 9;
 
 function logRep() {
   if (count.value < total) {

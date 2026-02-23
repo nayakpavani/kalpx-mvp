@@ -18,8 +18,8 @@ function select(val) {
 <template>
   <div class="option-picker-block">
     <div class="options-grid">
-      <button 
-        v-for="opt in block.options" 
+      <button
+        v-for="opt in block.options"
         :key="opt"
         class="opt-btn"
         :class="{ active: selectedValue === opt }"
@@ -44,7 +44,7 @@ function select(val) {
 }
 
 .opt-btn {
-  background: white;
+  background: var(--surface-1, white);
   border: 1px solid var(--border-color);
   padding: 16px 8px;
   border-radius: 12px;
@@ -54,12 +54,13 @@ function select(val) {
   align-items: center;
   gap: 4px;
   transition: all 0.3s ease;
+  color: var(--text-primary);
 }
 
 .opt-btn.active {
-  border-color: var(--gold-accent);
-  background: #fffaf0;
-  box-shadow: 0 4px 12px rgba(184, 134, 11, 0.1);
+  border-color: var(--gold-accent, #b8922a);
+
+  box-shadow: 0 4px 12px rgba(184, 134, 11, 0.2);
 }
 
 .value {

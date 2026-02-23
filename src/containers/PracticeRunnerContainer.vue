@@ -22,7 +22,8 @@ function logRep() {
     count.value++;
     if (count.value >= props.schema.target_count) {
       setTimeout(() => {
-        screenStore.handleAction(props.schema.complete_action);
+        const action = props.schema.on_complete || props.schema.complete_action;
+        if (action) screenStore.handleAction(action);
       }, 1000);
     }
   }
@@ -52,7 +53,7 @@ function logRep() {
          <div class="status-chip">Embodiment</div>
          <h1 class="sankalp-text">"{{ schema.sankalp_text }}"</h1>
          <p class="instruction">Read slowly. Internalize. Commit.</p>
-         <button class="activate-btn" @click="screenStore.handleAction(schema.complete_action)">
+         <button class="activate-btn" @click="screenStore.handleAction(schema.on_complete || schema.complete_action)">
            I Embody This →
          </button>
       </div>

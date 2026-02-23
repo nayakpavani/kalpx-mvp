@@ -37,6 +37,8 @@ import MicroLabel from "../blocks/MicroLabel.vue";
 import ChallengeTextBlock from "../blocks/ChallengeTextBlock.vue";
 import RepCounterFeedback from "../blocks/RepCounterFeedback.vue";
 import OptionPicker from "../blocks/OptionPicker.vue";
+import ChoiceGrid from "../blocks/ChoiceGrid.vue";
+import InsightBoxBlock from "../blocks/InsightBoxBlock.vue";
 
 const blockMap = {
   headline: HeadlineBlock,
@@ -46,6 +48,8 @@ const blockMap = {
   challenge_text: ChallengeTextBlock,
   rep_counter_feedback: RepCounterFeedback,
   option_picker: OptionPicker,
+  choice_grid: ChoiceGrid,
+  insight_box: InsightBoxBlock,
   primary_button: PrimaryButtonBlock,
   card_list: CardListBlock,
   spacer: SpacerBlock,

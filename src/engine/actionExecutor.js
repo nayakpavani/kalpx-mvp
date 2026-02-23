@@ -147,6 +147,7 @@ export function executeAction(action, context) {
         depth: screenState["routine_depth"] || screenState["routine_setup"] || "standard",
         intention: screenState["composer_intent"],
         day_number: screenState["day_number"] || 1,
+        re_analysis_friction: screenState["re_analysis_friction"],
       };
 
       // Ensure we have some focus even if IDs weren't perfect (fallback to mock default)
@@ -182,6 +183,7 @@ export function executeAction(action, context) {
       setScreenValue(inputData.day_number, "day_number");
       setScreenValue(inputData.focus, "active_focus");
       setScreenValue(data.focusName, "focus_name");
+      setScreenValue(27, "reps_total");
 
       // Save master data for info screens
       setScreenValue(data.masterData.selectedMantra, "master_mantra");
@@ -200,6 +202,15 @@ export function executeAction(action, context) {
       // Handle practice completion or other data saving
       if (payload?.practiceId && payload?.completed) {
         setScreenValue(true, payload.practiceId);
+      } else if (payload?.refinement_layer === "rep_deepen" || screenState["refinement_layer"] === "rep_deepen") {
+        setScreenValue(54, "reps_total");
+      } else if (payload?.step === "re_analysis_proceed") {
+        const direction = screenState["re_analysis_direction"];
+        if (direction === "stay") {
+          executeAction({ type: "generate_companion" }, context);
+        } else {
+          loadScreen({ container_id: "cycle_transitions", state_id: "re_analysis_focus_select" });
+        }
       } else if (payload?.focus) {
         // Save focus from Help Me Choose flow
         setScreenValue(payload.focus, "suggested_focus");
@@ -213,9 +224,9 @@ export function executeAction(action, context) {
 
     case "seal_day": {
       const currentDay = screenState["day_number"] || 1;
-      const nextDay = currentDay + 1;
 
       // 1. Advance the day
+      const nextDay = currentDay + 1;
       setScreenValue(nextDay, "day_number");
 
       // 2. Clear practice completion for the new day
@@ -223,8 +234,16 @@ export function executeAction(action, context) {
       setScreenValue(false, "practice_embody");
       setScreenValue(false, "practice_act");
 
-      // 3. Re-generate companion dashboard for the NEXT day
-      executeAction({ type: "generate_companion" }, context);
+      // 3. Check for Cycle Completion (Day 7 or 14)
+      if (currentDay === 7 || currentDay === 14) {
+        loadScreen({
+          container_id: "cycle_transitions",
+          state_id: "daily_insight",
+        });
+      } else {
+        // Re-generate companion dashboard for the NEXT day
+        executeAction({ type: "generate_companion" }, context);
+      }
       break;
     }
 

@@ -36,6 +36,16 @@
   --glass-effect: blur(20px) saturate(180%);
 }
 
+.theme-deep_focus {
+  --bg-primary: #050810;
+  --bg-gradient: radial-gradient(circle at center, #0B1220 0%, #050810 100%);
+  --text-primary: #fdfaf3;
+  --text-secondary: rgba(253, 250, 243, 0.6);
+  --accent-primary: #B8922A;
+  --surface-1: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
 .theme-light_sandal {
   --bg-primary: #fdfaf3;
   --bg-gradient: radial-gradient(circle at top, #fffaf0 0%, #f4eee0 100%);

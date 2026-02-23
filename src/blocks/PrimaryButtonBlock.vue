@@ -22,7 +22,10 @@ function handleClick() {
     ]" 
     @click="handleClick"
   >
-    <span>{{ block.id && screenStore.screenState[block.id + '_label'] ? screenStore.screenState[block.id + '_label'] : block.label }}</span>
+    <div class="btn-content">
+      <span class="label">{{ block.id && screenStore.screenState[block.id + '_label'] ? screenStore.screenState[block.id + '_label'] : block.label }}</span>
+      <span v-if="block.subtext" class="subtext">{{ block.subtext }}</span>
+    </div>
   </button>
 </template>
 
@@ -39,6 +42,24 @@ function handleClick() {
   letter-spacing: 0.5px;
   transition: var(--transition-base);
   width: 100%;
+}
+
+.btn-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.subtext {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.8;
 }
 
 .primary-btn:hover {

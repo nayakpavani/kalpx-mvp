@@ -60,8 +60,8 @@ function nextStep() {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #0b1220;
-  color: white;
+  background: var(--bg-gradient, var(--bg-primary, #0b1220));
+  color: var(--text-primary, white);
   padding: 40px 24px;
 }
 
@@ -77,9 +77,11 @@ function nextStep() {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
+  overflow-y: auto;
+  padding-top: 40px;
 }
 
 .question {
