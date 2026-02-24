@@ -65,6 +65,7 @@ function selectOption(option) {
       :key="option.id"
       class="choice-card"
       :class="{ selected: selectedId === option.id }"
+      :style="[block.style, option.style]"
       @click="selectOption(option)"
     >
       <div class="gold-accent-line"></div>

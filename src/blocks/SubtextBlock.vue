@@ -26,6 +26,7 @@ function handleClick() {
       block.variant === 'centered' ? 'centered multiline' : '',
       block.variant === 'small_centered' ? 'small-text centered multiline' : '',
     ]"
+    :style="block.style"
     @click="handleClick"
   >
     {{ block.id ? (screenStore.screenState[block.id] || block.content) : block.content }}

@@ -21,7 +21,7 @@ export const useScreenStore = defineStore("screen", () => {
 
   // Track values/state for screens (e.g. composer text)
   const screenState = reactive({
-    identity_headline: "The Steady Flame",
+    identity_headline: "The Steady",
     identity_subtext: "Consistency is your roots.",
     identity_state: "steady",
     mantra_progress: "18 / 27 reps",

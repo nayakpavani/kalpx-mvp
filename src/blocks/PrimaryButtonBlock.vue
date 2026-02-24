@@ -17,9 +17,10 @@ function handleClick() {
   <button 
     :class="[
       'primary-btn', 
-      block.style === 'gold' ? 'btn-gold btn-gold-pulse' : '',
-      block.style === 'outline' ? 'btn-outline' : ''
+      block.style_variant === 'gold' ? 'btn-gold btn-gold-pulse' : '',
+      block.style_variant === 'outline' ? 'btn-outline' : ''
     ]" 
+    :style="block.style"
     @click="handleClick"
   >
     <div class="btn-content">

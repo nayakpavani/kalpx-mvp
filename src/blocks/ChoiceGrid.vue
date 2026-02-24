@@ -37,7 +37,7 @@ function selectOption(option) {
 </script>
 
 <template>
-  <div class="choice-grid">
+  <div class="choice-grid" :style="block.style">
     <div
       v-for="option in options"
       :key="option.id"

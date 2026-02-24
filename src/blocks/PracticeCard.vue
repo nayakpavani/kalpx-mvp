@@ -1,5 +1,5 @@
 <template>
-  <div class="practice-card" :class="{ completed: isCompleted }">
+  <div class="practice-card" :class="{ completed: isCompleted }" :style="block.style">
     <div class="gold-accent-line"></div>
     <div class="card-content">
       <div class="icon-section">

@@ -19,6 +19,7 @@ import InsightSummaryContainer from "../containers/InsightSummaryContainer.vue";
 import SadhanaDeepenContainer from "../containers/SadhanaDeepenContainer.vue";
 import CycleTransitionsContainer from "../containers/CycleTransitionsContainer.vue";
 import StableScanContainer from "../containers/StableScanContainer.vue";
+import GenericContainer from "../containers/GenericContainer.vue";
 
 const screenStore = useScreenStore();
 
@@ -41,11 +42,14 @@ const containerMap = {
   sadhana_deepen: SadhanaDeepenContainer,
   cycle_transitions: CycleTransitionsContainer,
   stable_scan: StableScanContainer,
+  generic: GenericContainer,
 };
 
 const currentComponent = computed(() => {
   const containerId = screenStore.currentScreen?.container_id;
-  return containerMap[containerId] || PortalContainer;
+  // Fallback to GenericContainer if ID is unknown, 
+  // ensuring the engine never "breaks" on new backend states.
+  return containerMap[containerId] || GenericContainer;
 });
 
 const themeClass = computed(() => `theme-${screenStore.currentTheme}`);
@@ -75,7 +79,7 @@ const transitionName = computed(() => {
 </script>
 
 <template>
-  <div :class="['rendering-engine-container', themeClass, moodClass]">
+  <div :class="['rendering-engine-container', themeClass, moodClass]" :style="screenStore.currentScreen?.style">
     <Transition :name="transitionName" mode="out-in">
       <component
         :is="currentComponent"

@@ -21,7 +21,7 @@ function selectChip(option) {
 </script>
 
 <template>
-  <div class="chip-list-container">
+  <div class="chip-list-container" :style="block.style">
     <div v-if="block.label" class="section-label">{{ block.label }}</div>
     <div class="chips-wrapper">
       <button 

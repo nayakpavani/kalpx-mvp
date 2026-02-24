@@ -126,189 +126,6 @@ export const PortalContainer = {
     },
   },
 };
-export const CompanionDashboardContainer = {
-  container_id: "companion_dashboard",
-
-  states: {
-    // 1️⃣ COMMAND DASHBOARD (Day X of 14)
-    day_active: {
-      tone: { theme: "light_sandal", mood: "steady" },
-
-      meta: {
-        requires_active_cycle: true,
-        reactive_updates: true,
-      },
-
-      blocks: [
-        {
-          type: "micro_label",
-          content: "DAY {{day_number}} OF {{total_days}}",
-          position: "header",
-          variant: "identity_label",
-        },
-        {
-          type: "headline",
-          content: "{{identity_headline}}",
-          position: "header",
-          variant: "identity_headline",
-        },
-        {
-          type: "subtext",
-          content: "{{identity_guidance}}",
-          position: "header",
-          variant: "identity_subtext",
-        },
-        {
-          type: "identity_indicator",
-          state: "{{identity_state}}",
-          position: "header",
-        },
-        // Practice Access Cards
-        {
-          type: "practice_card",
-          id: "practice_chant",
-          title: "Mantra Practice",
-          description: "{{mantra_text}}",
-          meta: "{{practice_chant_meta}}",
-          icon: "fas fa-om",
-          action_label: "Start →",
-          style: {
-            background: "rgba(201, 168, 76, 0.05)",
-            boxShadow: "0 10px 30px rgba(201, 168, 76, 0.1)",
-            borderRadius: "24px",
-            border: "1px solid rgba(201, 168, 76, 0.3)",
-          },
-          info_action: {
-            type: "view_info",
-            payload: { type: "mantra" },
-          },
-          action: {
-            type: "navigate",
-            target: {
-              container_id: "practice_runner",
-              state_id: "mantra_rep_selection",
-            },
-          },
-        },
-        {
-          type: "practice_card",
-          id: "practice_embody",
-          title: "Sankalp Embodiment",
-          description: "{{sankalp_text}}",
-          icon: "fas fa-fire",
-          action_label: "I Embody This →",
-          info_action: {
-            type: "view_info",
-            payload: { type: "sankalp" },
-          },
-          action: {
-            type: "navigate",
-            target: {
-              container_id: "practice_runner",
-              state_id: "sankalp_embody",
-            },
-          },
-        },
-        {
-          type: "practice_card",
-          id: "practice_act",
-          title: "Anchor Stability",
-          description: "{{practice_title}}",
-          meta: "{{practice_meta}}",
-          icon: "fas fa-mountain",
-          action_label: "Mark Focus Complete →",
-          info_action: {
-            type: "view_info",
-            payload: { type: "practice" },
-          },
-          action: {
-            type: "submit",
-            payload: { practiceId: "practice_act", completed: true },
-          },
-        },
-        // Bottom Actions
-        {
-          type: "primary_button",
-          label: "I Feel Triggered",
-          style: "gold",
-          action: {
-            type: "navigate",
-            target: {
-              container_id: "awareness_trigger",
-              state_id: "breath_reset",
-            },
-          },
-          position: "footer_actions",
-          variant: "trigger_entry",
-        },
-        {
-          type: "primary_button",
-          label: "Quick Check-In",
-          style: "outline",
-          action: {
-            type: "navigate",
-            target: {
-              container_id: "cycle_transitions",
-              state_id: "quick_checkin",
-            },
-          },
-          position: "footer_actions",
-        },
-        {
-          type: "subtext",
-          content: "Reflect before resting →",
-          variant: "link",
-          action: {
-            type: "navigate",
-            target: {
-              container_id: "cycle_transitions",
-              state_id: "daily_reflection",
-            },
-          },
-          position: "footer",
-        },
-      ],
-    },
-
-    // 2️⃣ IDENTITY STATE INDICATOR
-    identity_state_view: {
-      tone: { theme: "dark_base", mood: "steady" },
-
-      blocks: [
-        {
-          type: "headline",
-          content: "You are {{identity_state}}.",
-        },
-        {
-          type: "subtext",
-          content: "{{identity_guidance}}",
-        },
-        {
-          type: "identity_indicator",
-          state: "{{identity_state}}",
-        },
-      ],
-    },
-
-    // 3️⃣ LIVE ADAPTATION NOTIFICATION
-    adaptation_toast: {
-      overlay: true,
-      tone: { theme: "dark_overlay", mood: "neutral" },
-
-      meta: {
-        auto_dismiss_ms: 4000,
-        non_blocking: true,
-      },
-
-      blocks: [
-        {
-          type: "toast_message",
-          content: "{{adaptation_message}}",
-        },
-      ],
-    },
-  },
-};
 
 export const ChoiceStackContainer = {
   container_id: "choice_stack",
@@ -1156,6 +973,184 @@ export const RoutineLockedContainer = {
   },
 };
 
+export const CompanionDashboardContainer = {
+  container_id: "companion_dashboard",
+
+  states: {
+    // 1️⃣ COMMAND DASHBOARD (Day X of 14)
+    day_active: {
+      tone: { theme: "light_sandal", mood: "steady" },
+
+      meta: {
+        requires_active_cycle: true,
+        reactive_updates: true,
+      },
+
+      blocks: [
+        {
+          type: "headline",
+          content: "Day {{day_number}} of 14 — {{focus_name}}",
+          position: "header",
+          style: {
+            textAlign: "right",
+            color: "#8c6d1f",
+            letterSpacing: "2px",
+          },
+        },
+        {
+          type: "subtext",
+          content: "Same roots daily. Growth comes from repetition.",
+          position: "header",
+        },
+
+        // Practice Access Cards
+        {
+          type: "practice_card",
+          id: "practice_chant",
+          title: "Chant",
+          description: "{{mantra_text}}",
+          meta: "{{practice_chant_meta}}",
+          icon: "fas fa-om",
+          action_label: "Start →",
+          style: {
+            background: "rgba(201, 168, 76, 0.05)",
+            boxShadow: "0 10px 30px rgba(201, 168, 76, 0.1)",
+            borderRadius: "24px",
+            border: "1px solid rgba(201, 168, 76, 0.3)",
+          },
+          info_action: {
+            type: "view_info",
+            payload: { type: "mantra" },
+          },
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "practice_runner",
+              state_id: "mantra_rep_selection",
+            },
+          },
+        },
+        {
+          type: "practice_card",
+          id: "practice_embody",
+          title: "Embody",
+          description: "{{sankalp_text}}",
+          icon: "fas fa-fire",
+          action_label: "I Embody This →",
+          info_action: {
+            type: "view_info",
+            payload: { type: "sankalp" },
+          },
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "practice_runner",
+              state_id: "sankalp_embody",
+            },
+          },
+        },
+        {
+          type: "practice_card",
+          id: "practice_act",
+          title: "Act",
+          description: "{{practice_title}}",
+          meta: "{{practice_meta}}",
+          icon: "fas fa-mountain",
+          action_label: "Mark Focus Complete →",
+          info_action: {
+            type: "view_info",
+            payload: { type: "practice" },
+          },
+          action: {
+            type: "submit",
+            payload: { practiceId: "practice_act", completed: true },
+          },
+        },
+
+        // Bottom Actions
+        {
+          type: "primary_button",
+          label: "I Feel Triggered",
+          style: "gold",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "awareness_trigger",
+              state_id: "breath_reset",
+            },
+          },
+          position: "footer_actions",
+        },
+        {
+          type: "primary_button",
+          label: "Quick Check-In",
+          style: "outline",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "cycle_transitions",
+              state_id: "quick_checkin",
+            },
+          },
+          position: "footer_actions",
+        },
+
+        {
+          type: "subtext",
+          content: "Reflect before resting →",
+          variant: "link",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "cycle_transitions",
+              state_id: "daily_reflection",
+            },
+          },
+          position: "footer",
+        },
+      ],
+    },
+
+    // 2️⃣ IDENTITY STATE INDICATOR
+    identity_state_view: {
+      tone: { theme: "dark_base", mood: "steady" },
+
+      blocks: [
+        {
+          type: "headline",
+          content: "You are {{identity_state}}.",
+        },
+        {
+          type: "subtext",
+          content: "{{identity_guidance}}",
+        },
+        {
+          type: "identity_indicator",
+          state: "{{identity_state}}",
+        },
+      ],
+    },
+
+    // 3️⃣ LIVE ADAPTATION NOTIFICATION
+    adaptation_toast: {
+      overlay: true,
+      tone: { theme: "dark_overlay", mood: "neutral" },
+
+      meta: {
+        auto_dismiss_ms: 4000,
+        non_blocking: true,
+      },
+
+      blocks: [
+        {
+          type: "toast_message",
+          content: "{{adaptation_message}}",
+        },
+      ],
+    },
+  },
+};
+
 export const PracticeRunnerContainer = {
   container_id: "practice_runner",
 
@@ -1931,10 +1926,9 @@ export const CycleTransitionsContainer = {
 
       blocks: [
         { type: "headline", content: "Practice intensified." },
-        {
-          type: "subtext",
-          content:
-            "You have deepened your rhythm. Your mantra repetitions are now set to {{reps_total}}.",
+        { 
+          type: "subtext", 
+          content: "You have deepened your rhythm. Your mantra repetitions are now set to {{reps_total}}." 
         },
         {
           type: "primary_button",
@@ -2230,16 +2224,8 @@ export const CycleTransitionsContainer = {
       overlay: true,
       tone: { theme: "light_sandal", mood: "steady" },
       blocks: [
-        {
-          type: "headline",
-          content: "How is your Prana right now?",
-          position: "header",
-        },
-        {
-          type: "subtext",
-          content: "Just notice. No fixing required.",
-          position: "header",
-        },
+        { type: "headline", content: "How is your Prana right now?", position: "header" },
+        { type: "subtext", content: "Just notice. No fixing required.", position: "header" },
         {
           type: "choice_grid",
           id: "current_prana",
@@ -2247,11 +2233,7 @@ export const CycleTransitionsContainer = {
           options: [
             { id: "energized", title: "Energized", icon: "fas fa-sun" },
             { id: "balanced", title: "Balanced", icon: "fas fa-balance-scale" },
-            {
-              id: "agitated",
-              title: "Agitated",
-              icon: "fas fa-cloud-showers-heavy",
-            },
+            { id: "agitated", title: "Agitated", icon: "fas fa-cloud-showers-heavy" },
             { id: "drained", title: "Drained", icon: "fas fa-arrow-down" },
           ],
         },
@@ -2259,10 +2241,7 @@ export const CycleTransitionsContainer = {
       on_select: {
         default: {
           type: "navigate",
-          target: {
-            container_id: "cycle_transitions",
-            state_id: "quick_checkin_ack",
-          },
+          target: { container_id: "cycle_transitions", state_id: "quick_checkin_ack" },
         },
       },
     },
@@ -2278,10 +2257,7 @@ export const CycleTransitionsContainer = {
           label: "View Progress →",
           action: {
             type: "navigate",
-            target: {
-              container_id: "cycle_transitions",
-              state_id: "daily_insight",
-            },
+            target: { container_id: "cycle_transitions", state_id: "daily_insight" },
           },
         },
       ],
@@ -2290,80 +2266,53 @@ export const CycleTransitionsContainer = {
     daily_insight: {
       tone: { theme: "light_sandal", mood: "steady" },
       blocks: [
-        {
-          type: "micro_label",
-          content: "DAY {{day_number}} INSIGHT — {{focus_name}}",
-          position: "header",
-        },
-        {
-          type: "headline",
-          content: "Your growth is becoming visible.",
-          position: "header",
-        },
-        {
-          type: "subtext",
-          content: "Awareness precedes transformation.",
-          position: "header",
-        },
-
+        { type: "micro_label", content: "DAY {{day_number}} INSIGHT — {{focus_name}}", position: "header" },
+        { type: "headline", content: "Your growth is becoming visible.", position: "header" },
+        { type: "subtext", content: "Awareness precedes transformation.", position: "header" },
+        
         {
           type: "insight_box",
           variant: "highlight",
           items: [
-            {
+            { 
               text: "You paused before reacting <strong>6 times</strong> this week.",
-              subtext: "Earlier, those moments passed unnoticed.",
-            },
-          ],
+              subtext: "Earlier, those moments passed unnoticed."
+            }
+          ]
         },
-
+        
         {
           type: "trend_chart",
           title: "Calm & Clarity Trend",
-          footer: "Your mind steadiness increased steadily after Day 3.",
+          footer: "Your mind steadiness increased steadily after Day 3."
+        },
+        
+        {
+          type: "insight_box",
+          items: [
+            { icon: "far fa-eye", text: "You felt most restless before work conversations" },
+            { icon: "fas fa-seedling", text: "You returned to your Sankalp faster mid-week" },
+            { icon: "fas fa-fire", text: "Your calm improved on days you completed Sadhana early" }
+          ]
         },
 
         {
           type: "insight_box",
           items: [
-            {
-              icon: "far fa-eye",
-              text: "You felt most restless before work conversations",
-            },
-            {
-              icon: "fas fa-seedling",
-              text: "You returned to your Sankalp faster mid-week",
-            },
-            {
-              icon: "fas fa-fire",
-              text: "Your calm improved on days you completed Sadhana early",
-            },
-          ],
-        },
-
-        {
-          type: "insight_box",
-          items: [
-            {
+            { 
               text: "<strong>{{sankalp_text}}</strong>",
-              subtext:
-                "You embodied this Sankalp on 4 of 7 days.\nEmbodiment grows through repetition.",
-            },
-          ],
+              subtext: "You embodied this Sankalp on 4 of 7 days.\nEmbodiment grows through repetition."
+            }
+          ]
         },
 
-        {
-          type: "micro_label",
-          content: "A gentle reminder",
-          variant: "centered",
+        { type: "micro_label", content: "A gentle reminder", variant: "centered" },
+        { 
+          type: "subtext", 
+          content: "Progress is not about never slipping.\nIt is about returning with awareness.",
+          variant: "centered"
         },
-        {
-          type: "subtext",
-          content:
-            "Progress is not about never slipping.\nIt is about returning with awareness.",
-          variant: "centered",
-        },
-
+        
         {
           type: "primary_button",
           label: "Continue for 7 more days",
@@ -2371,13 +2320,10 @@ export const CycleTransitionsContainer = {
           style: "gold",
           action: {
             type: "navigate",
-            target: {
-              container_id: "cycle_transitions",
-              state_id: "cycle_complete_overview",
-            },
+            target: { container_id: "cycle_transitions", state_id: "cycle_complete_overview" },
           },
         },
-
+        
         {
           type: "primary_button",
           label: "Explore a new focus",
@@ -2385,18 +2331,15 @@ export const CycleTransitionsContainer = {
           style: "outline",
           action: {
             type: "navigate",
-            target: {
-              container_id: "cycle_transitions",
-              state_id: "re_analysis_input",
-            },
-          },
+            target: { container_id: "cycle_transitions", state_id: "re_analysis_input" },
+          }
         },
 
         {
-          type: "subtext",
-          content: "You are training the mind — not chasing outcomes.",
-          variant: "small_centered",
-        },
+           type: "subtext",
+           content: "You are training the mind — not chasing outcomes.",
+           variant: "small_centered"
+        }
       ],
     },
 
@@ -2409,7 +2352,7 @@ export const CycleTransitionsContainer = {
           type: "primary_button",
           label: "Seal Day & Advance →",
           action: { type: "seal_day" },
-          position: "footer",
+          position: "footer"
         },
       ],
     },
@@ -2419,208 +2362,154 @@ export const CycleTransitionsContainer = {
       tone: { theme: "light_sandal", mood: "growth" },
       blocks: [
         { type: "micro_label", content: "CYCLE COMPLETE", position: "header" },
-        {
-          type: "headline",
-          content: "You have completed {{day_number}} days.",
-          position: "header",
-        },
-        {
-          type: "subtext",
-          content: "Consistency builds character. Choice builds mastery.",
-          position: "header",
-        },
-
+        { type: "headline", content: "You have completed {{day_number}} days.", position: "header" },
+        { type: "subtext", content: "Consistency builds character. Choice builds mastery.", position: "header" },
+        
         {
           type: "insight_box",
           variant: "highlight",
-          items: [
-            {
-              text: "You began this cycle feeling anxious. Now your clarity is steadier.",
-            },
-          ],
+          items: [{ text: "You began this cycle feeling anxious. Now your clarity is steadier." }]
         },
-
+        
         {
           type: "headline",
           variant: "small",
-          content: "How would you like to proceed?",
+          content: "How would you like to proceed?"
         },
 
         {
           type: "choice_card",
           selection_mode: "single_auto_advance",
           options: [
-            {
-              id: "continue",
-              title: "Continue This Path",
-              description:
-                "Strengthen your Sankalp. Go deeper into the same practice.",
-              meta: "Depth creates transformation.",
-              icon: "fas fa-fire",
+            { 
+                id: "continue", 
+                title: "Continue This Path", 
+                description: "Strengthen your Sankalp. Go deeper into the same practice.",
+                meta: "Depth creates transformation.",
+                icon: "fas fa-fire"
             },
-            {
-              id: "deepen",
-              title: "Deepen Your Practice",
-              description:
-                "Add one advanced element to refine your discipline.",
-              meta: "• Add Breath Regulation\n• Add Leadership Dharma Reflection\n• Add Advanced Karma Sadhana",
-              icon: "fas fa-seedling",
+            { 
+                id: "deepen", 
+                title: "Deepen Your Practice", 
+                description: "Add one advanced element to refine your discipline.",
+                meta: "• Add Breath Regulation\n• Add Leadership Dharma Reflection\n• Add Advanced Karma Sadhana",
+                icon: "fas fa-seedling"
             },
-            {
-              id: "change",
-              title: "Change Focus Area",
-              description:
-                "Shift your focus area consciously based on your progress.",
-              meta: "Explore a new path →",
-              icon: "fas fa-compass",
-            },
-          ],
-        },
+            { 
+                id: "change", 
+                title: "Change Focus Area", 
+                description: "Shift your focus area consciously based on your progress.",
+                meta: "Explore a new path →",
+                icon: "fas fa-compass"
+            }
+          ]
+        }
       ],
       on_select: {
         continue: {
           type: "submit",
-          target: {
-            container_id: "companion_dashboard",
-            state_id: "day_active",
-          },
+          target: { container_id: "companion_dashboard", state_id: "day_active" }
         },
         deepen: {
           type: "navigate",
-          target: {
-            container_id: "cycle_transitions",
-            state_id: "deepen_sadhana",
-          },
+          target: { container_id: "cycle_transitions", state_id: "deepen_sadhana" }
         },
         change: {
           type: "navigate",
-          target: {
-            container_id: "cycle_transitions",
-            state_id: "re_analysis_input",
-          },
-        },
-      },
+          target: { container_id: "cycle_transitions", state_id: "re_analysis_input" }
+        }
+      }
     },
 
     deepen_sadhana: {
       tone: { theme: "light_sandal", mood: "steady" },
       blocks: [
-        {
-          type: "micro_label",
-          content: "DEEPEN YOUR SADHANA",
-          position: "header",
-        },
-        {
-          type: "headline",
-          content: "Strengthen What You Have Begun",
-          position: "header",
-        },
-        {
-          type: "subtext",
-          content:
-            "You will keep your core mantra and sankalp.\nWe will refine your discipline.",
-          position: "header",
+        { type: "micro_label", content: "DEEPEN YOUR SADHANA", position: "header" },
+        { type: "headline", content: "Strengthen What You Have Begun", position: "header" },
+        { 
+          type: "subtext", 
+          content: "You will keep your core mantra and sankalp.\nWe will refine your discipline.",
+          position: "header"
         },
         {
           type: "insight_box",
           items: [
-            {
-              text: "<strong>Your Core:</strong>",
-              subtext:
-                "• Mantra: {{mantra_text}}\n• Sankalp: {{sankalp_text}}\n• Anchor: Focused Practice",
-            },
-          ],
+            { 
+                text: "<strong>Your Core:</strong>",
+                subtext: "• Mantra: {{mantra_text}}\n• Sankalp: {{sankalp_text}}\n• Anchor: Focused Practice" 
+            }
+          ]
         },
         {
           type: "headline",
           variant: "small",
-          content: "Choose Your Refinement Layer",
+          content: "Choose Your Refinement Layer"
         },
         {
           type: "choice_card",
           id: "refinement_layer",
           selection_mode: "single",
           options: [
-            {
-              id: "rep_deepen",
-              title: "Deepen Through Repetition",
-              description: "Increase mantra reps and extend anchor duration.",
-              meta: "27 → 54 reps | Anchor +5 mins",
-              icon: "fas fa-link",
+            { 
+                id: "rep_deepen", 
+                title: "Deepen Through Repetition", 
+                description: "Increase mantra reps and extend anchor duration.",
+                meta: "27 → 54 reps | Anchor +5 mins",
+                icon: "fas fa-link"
             },
-            {
-              id: "observation",
-              title: "Add Inner Observation",
-              description:
-                "Introduce a mid-day awareness pause and deeper reflection question.",
-              meta: "Refinement sharpens awareness.",
-              icon: "fas fa-eye",
+            { 
+                id: "observation", 
+                title: "Add Inner Observation", 
+                description: "Introduce a mid-day awareness pause and deeper reflection question.",
+                meta: "Refinement sharpens awareness.",
+                icon: "fas fa-eye"
             },
-            {
-              id: "dharma_action",
-              title: "Activate Dharma in Action",
-              description:
-                "Apply your Sankalp consciously in real-world situations.",
-              meta: "Transformation must enter action.",
-              icon: "fas fa-bolt",
-            },
-          ],
+            { 
+                id: "dharma_action", 
+                title: "Activate Dharma in Action", 
+                description: "Apply your Sankalp consciously in real-world situations.",
+                meta: "Transformation must enter action.",
+                icon: "fas fa-bolt"
+            }
+          ]
         },
         {
           type: "primary_button",
           label: "Begin Next 7 Days →",
-          action: {
-            type: "submit",
-            target: {
-              container_id: "cycle_transitions",
-              state_id: "deepen_confirmation",
-            },
-          },
+          action: { type: "submit", target: { container_id: "cycle_transitions", state_id: "deepen_confirmation" } },
           style: "gold",
-          position: "footer",
+          position: "footer"
         },
         {
           type: "primary_button",
           label: "Return to Current Practice",
           action: { type: "back" },
           style: "outline",
-          position: "footer",
-        },
-      ],
+          position: "footer"
+        }
+      ]
     },
 
     re_analysis_input: {
       tone: { theme: "light_sandal", mood: "reflective" },
       blocks: [
-        {
-          type: "headline",
-          content: "How are you feeling right now?",
-          position: "header",
-        },
-        {
-          type: "subtext",
-          content: "Where did you get stuck in the last cycle?",
-          position: "header",
-        },
+        { type: "headline", content: "How are you feeling right now?", position: "header" },
+        { type: "subtext", content: "Where did you get stuck in the last cycle?", position: "header" },
         {
           id: "re_analysis_friction",
           type: "textarea",
-          placeholder:
-            "Describe your current mental state and any obstacles...",
+          placeholder: "Describe your current mental state and any obstacles...",
         },
         {
           type: "primary_button",
           label: "Next →",
           action: {
             type: "navigate",
-            target: {
-              container_id: "cycle_transitions",
-              state_id: "re_analysis_category",
-            },
+            target: { container_id: "cycle_transitions", state_id: "re_analysis_category" },
           },
-          position: "footer",
-        },
-      ],
+          position: "footer"
+        }
+      ]
     },
 
     re_analysis_category: {
@@ -2628,49 +2517,38 @@ export const CycleTransitionsContainer = {
       tone: { theme: "light_sandal", mood: "steady" },
       tag: "AI INTERVENTION",
       blocks: [
-        {
-          type: "headline",
-          content: "Choose your path direction.",
-          position: "header",
-        },
-        {
-          type: "subtext",
-          content:
-            "Do you want to shift your focus area or deepen the current one?",
-          position: "header",
-        },
+        { type: "headline", content: "Choose your path direction.", position: "header" },
+        { type: "subtext", content: "Do you want to shift your focus area or deepen the current one?", position: "header" },
         {
           id: "re_analysis_direction",
           type: "choice_card",
           selection_mode: "single",
           options: [
-            {
-              id: "stay",
-              title: "Stay with {{focus_name}}",
-              description:
-                "Address the specific friction within your current goal.",
-              icon: "fas fa-sync",
+            { 
+               id: "stay", 
+               title: "Stay with {{focus_name}}", 
+               description: "Address the specific friction within your current goal.",
+               icon: "fas fa-sync"
             },
-            {
-              id: "change",
-              title: "Change Focus Area",
-              description:
-                "Shift to a completely different domain of your life.",
-              icon: "fas fa-compass",
-            },
-          ],
+            { 
+               id: "change", 
+               title: "Change Focus Area", 
+               description: "Shift to a completely different domain of your life.",
+               icon: "fas fa-compass"
+            }
+          ]
         },
         {
           type: "primary_button",
           label: "Next →",
           action: {
             type: "submit",
-            payload: { step: "re_analysis_proceed" },
+            payload: { step: "re_analysis_proceed" }
           },
           style: "gold",
-          position: "footer",
-        },
-      ],
+          position: "footer"
+        }
+      ]
     },
 
     re_analysis_focus_select: {
@@ -2691,41 +2569,13 @@ export const CycleTransitionsContainer = {
           id: "scan_focus",
           selection_mode: "manual",
           options: [
-            {
-              id: "careerprosperity",
-              title: "Career & Prosperity",
-              description: "For leadership, success, and wealth.",
-            },
-            {
-              id: "peacecalm",
-              title: "Peace & Calm",
-              description: "For clarity and silencing the noise.",
-            },
-            {
-              id: "emotionalhealing",
-              title: "Emotional Healing",
-              description: "For release and heart connection.",
-            },
-            {
-              id: "focusmotivation",
-              title: "Focus & Motivation",
-              description: "For mental drive and sharp clarity.",
-            },
-            {
-              id: "gratitudepositivity",
-              title: "Gratitude & Positivity",
-              description: "For joy and attracting abundance.",
-            },
-            {
-              id: "healthwellbeing",
-              title: "Health & Wellbeing",
-              description: "For physical vigor and balance.",
-            },
-            {
-              id: "spiritualgrowth",
-              title: "Spiritual Growth",
-              description: "For deep connection and wisdom.",
-            },
+            { id: "careerprosperity", title: "Career & Prosperity", description: "For leadership, success, and wealth." },
+            { id: "peacecalm", title: "Peace & Calm", description: "For clarity and silencing the noise." },
+            { id: "emotionalhealing", title: "Emotional Healing", description: "For release and heart connection." },
+            { id: "focusmotivation", title: "Focus & Motivation", description: "For mental drive and sharp clarity." },
+            { id: "gratitudepositivity", title: "Gratitude & Positivity", description: "For joy and attracting abundance." },
+            { id: "healthwellbeing", title: "Health & Wellbeing", description: "For physical vigor and balance." },
+            { id: "spiritualgrowth", title: "Spiritual Growth", description: "For deep connection and wisdom." },
           ],
         },
         {
@@ -3016,7 +2866,7 @@ export const ContainerRegistry = {
           minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
+          justifyContent: "center"
         },
         blocks: [
           {
@@ -3029,8 +2879,8 @@ export const ContainerRegistry = {
               letterSpacing: "8px",
               textShadow: "0 0 20px rgba(250, 204, 21, 0.5)",
               marginBottom: "40px",
-              textAlign: "center",
-            },
+              textAlign: "center"
+            }
           },
           {
             type: "subtext",
@@ -3040,13 +2890,13 @@ export const ContainerRegistry = {
               fontSize: "14px",
               letterSpacing: "2px",
               marginBottom: "60px",
-              opacity: "0.8",
-            },
+              opacity: "0.8"
+            }
           },
           {
             type: "choice_card",
             style: {
-              gap: "24px",
+              gap: "24px"
             },
             options: [
               {
@@ -3056,8 +2906,8 @@ export const ContainerRegistry = {
                 style: {
                   background: "rgba(37, 99, 235, 0.1)",
                   border: "1px solid #2563eb",
-                  borderRadius: "20px",
-                },
+                  borderRadius: "20px"
+                }
               },
               {
                 id: "gold_pill",
@@ -3066,10 +2916,10 @@ export const ContainerRegistry = {
                 style: {
                   background: "rgba(201, 168, 76, 0.1)",
                   border: "1px solid #c9a84c",
-                  borderRadius: "20px",
-                },
-              },
-            ],
+                  borderRadius: "20px"
+                }
+              }
+            ]
           },
           {
             type: "primary_button",
@@ -3080,36 +2930,24 @@ export const ContainerRegistry = {
               border: "1px solid rgba(255, 255, 255, 0.2)",
               color: "white",
               borderRadius: "50px",
-              fontSize: "12px",
+              fontSize: "12px"
             },
-            action: { type: "navigate", target: "portal" },
-          },
-        ],
+            action: { type: "navigate", target: "portal" }
+          }
+        ]
       },
       day_15_recap: {
         container_id: "spiritual_recalibration", // This container doesn't exist!
         blocks: [
-          {
-            type: "micro_label",
-            content: "PROGRESS REPORT",
-            position: "header",
-          },
-          {
-            type: "headline",
-            content: "Day 15: The New You",
-            position: "header",
-          },
-          {
-            type: "subtext",
-            content: "After two cycles, your neural pathways have shifted.",
-            position: "header",
-          },
+          { type: "micro_label", content: "PROGRESS REPORT", position: "header" },
+          { type: "headline", content: "Day 15: The New You", position: "header" },
+          { type: "subtext", content: "After two cycles, your neural pathways have shifted.", position: "header" },
           {
             type: "insight_box",
             items: [
               { text: "Consistency: 96%", subtext: "You missed 0 days." },
-              { text: "Awareness: +42%", subtext: "You recorded 15 pauses." },
-            ],
+              { text: "Awareness: +42%", subtext: "You recorded 15 pauses." }
+            ]
           },
           { type: "spacer" },
           {
@@ -3117,10 +2955,10 @@ export const ContainerRegistry = {
             label: "Begin Next Cycle →",
             style_variant: "gold",
             action: { type: "navigate", target: "discipline_select" },
-            position: "footer",
-          },
-        ],
-      },
-    },
-  },
+            position: "footer"
+          }
+        ]
+      }
+    }
+  }
 };

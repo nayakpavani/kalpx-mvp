@@ -11,6 +11,7 @@ defineProps({
       'serif',
       block.variant === 'serif_gold_multiline' ? 'serif-gold multiline' : ''
     ]"
+    :style="block.style"
   >
     {{ block.content }}
   </h1>
