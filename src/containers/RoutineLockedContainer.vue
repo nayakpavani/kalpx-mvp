@@ -7,31 +7,12 @@ defineProps({
 </script>
 
 <template>
-  <div class="routine-locked">
-    <div class="header">
+  <div class="routine-locked-container" :class="[`tone-${schema.tone || 'stable'}`]">
+    <div class="ambient-glow"></div>
+    
+    <div class="locked-stack">
       <BlockRenderer
-        v-for="(block, i) in schema.blocks.filter(b => b.position === 'header')"
-        :key="i"
-        :block="block"
-      />
-    </div>
-
-    <div class="locked-summary">
-       <div class="summary-card">
-          <p class="label">Sankalp</p>
-          <p class="value">{{ schema.sankalp }}</p>
-          <div class="divider"></div>
-          <p class="label">Mantra</p>
-          <p class="value">{{ schema.mantra_reps }} repetitions</p>
-          <div class="divider"></div>
-          <p class="label">Anchor</p>
-          <p class="value">{{ schema.anchor_duration }} minutes</p>
-       </div>
-    </div>
-
-    <div class="footer">
-      <BlockRenderer
-        v-for="(block, i) in schema.blocks.filter(b => b.position === 'footer')"
+        v-for="(block, i) in schema.blocks"
         :key="i"
         :block="block"
       />
@@ -40,56 +21,78 @@ defineProps({
 </template>
 
 <style scoped>
-.routine-locked {
-  flex: 1;
+.routine-locked-container {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(180deg, #111827 0%, #0B1220 100%);
   display: flex;
   flex-direction: column;
-  padding: 40px 24px;
-  max-width: 600px;
-  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px 60px;
+  color: #F3F4F6;
+  overflow: hidden;
+}
+
+.ambient-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 20%,
+    rgba(201, 168, 76, 0.03) 0%,
+    transparent 70%
+  );
+}
+
+.locked-stack {
+  position: relative;
+  z-index: 10;
   width: 100%;
-}
-
-.header {
-  margin-bottom: 32px;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
   text-align: center;
+  animation: fade-up 1s ease-out;
 }
 
-.summary-card {
-  background: white;
-  border: 1px solid rgba(0,0,0,0.05);
-  border-radius: 18px;
-  padding: 24px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.label {
-  font-size: 12px;
+/* Typography Consistency */
+:deep(.micro-label) {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #999;
-  margin: 16px 0 4px;
+  color: rgba(243, 244, 246, 0.5);
+  margin-bottom: 8px;
 }
 
-.label:first-child {
-  margin-top: 0;
+:deep(.headline) {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 34px;
+  font-weight: 500;
+  color: #F3F4F6;
+  line-height: 1.2;
 }
 
-.value {
-  font-size: 18px;
-  color: #1a1a1a;
-  margin: 0;
-  font-family: var(--font-serif);
+:deep(.subtext) {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: rgba(243, 244, 246, 0.6);
+  margin-top: 4px;
 }
 
-.divider {
-  height: 1px;
-  background: #eee;
-  margin: 16px 0;
-}
-
-.footer {
-  margin-top: 40px;
-  text-align: center;
+/* Button overrides */
+:deep(.primary-button) {
+  margin-top: 24px;
+  background: #1F2937 !important;
+  border-radius: 14px !important;
 }
 </style>

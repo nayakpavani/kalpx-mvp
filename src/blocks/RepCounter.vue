@@ -8,107 +8,139 @@ const props = defineProps({
 
 const screenStore = useScreenStore();
 const count = ref(0);
-const total = Number(props.block.total) || 9;
+const total = Number(props.block.target || props.block.total) || 108;
+const isScaling = ref(false);
 
 function logRep() {
   if (count.value < total) {
     count.value++;
+    
+    // Simple haptic feedback simulation
+    isScaling.value = true;
+    setTimeout(() => isScaling.value = false, 150);
+
     if (count.value === total) {
       setTimeout(() => {
-        const onComplete = screenStore.currentScreen.on_complete || props.block.on_complete;
+        const onComplete = props.block.on_complete;
         if (onComplete) {
           screenStore.handleAction(onComplete);
         }
-      }, 500);
+      }, 600);
     }
   }
 }
 </script>
 
 <template>
-  <div class="rep-counter-block" @click="logRep">
-    <div class="counter-display">
+  <div class="rep-counter-wrap" @click="logRep">
+    <div class="main-display" :class="{ scaling: isScaling }">
       <span class="current">{{ count }}</span>
-      <span class="separator">/</span>
-      <span class="total">{{ total }}</span>
-    </div>
-    <div class="tap-target">
-      <div class="rings">
-        <div class="ring" v-for="i in 3" :key="i" :style="{ animationDelay: `${i * 0.5}s` }"></div>
+      <div class="total-line">
+        <div class="progress-underlay">
+          <div class="progress-fill" :style="{ width: (count / total) * 100 + '%' }"></div>
+        </div>
+        <span class="total-label">of {{ total }} reps</span>
       </div>
-      <div class="tap-label">Tap</div>
+    </div>
+
+    <div class="tap-zone">
+      <div class="pulse-ring"></div>
+      <span class="tap-hint">Tap to chant</span>
     </div>
   </div>
 </template>
 
 <style scoped>
-.rep-counter-block {
+.rep-counter-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
-  cursor: pointer;
-  padding: 20px;
+  gap: 48px;
   width: 100%;
+  cursor: pointer;
+  user-select: none;
 }
 
-.counter-display {
-  font-family: var(--font-outfit);
-  font-size: 32px;
+.main-display {
   display: flex;
-  gap: 8px;
-  align-items: baseline;
-  color: var(--text-primary);
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.15s ease-out;
+}
+
+.main-display.scaling {
+  transform: scale(1.05);
 }
 
 .current {
-  font-size: 64px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 110px;
   font-weight: 300;
-  color: var(--gold-accent);
+  line-height: 1;
+  color: #F3F4F6;
+  text-shadow: 0 0 20px rgba(243, 244, 246, 0.1);
 }
 
-.separator {
-  opacity: 0.3;
+.total-line {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
-.total {
-  opacity: 0.5;
-}
-
-.tap-target {
-  position: relative;
+.progress-underlay {
   width: 120px;
-  height: 120px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #C9A227;
+  transition: width 0.3s ease;
+}
+
+.total-label {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: rgba(243, 244, 246, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tap-zone {
+  position: relative;
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.rings {
+.pulse-ring {
   position: absolute;
-  inset: 0;
-}
-
-.ring {
-  position: absolute;
-  inset: 0;
-  border: 1px solid var(--gold-accent);
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(201, 162, 39, 0.2);
   border-radius: 50%;
-  opacity: 0;
-  animation: ring-pulse 2s infinite ease-out;
+  animation: slow-pulse 3s infinite ease-out;
 }
 
-@keyframes ring-pulse {
-  0% { transform: scale(0.5); opacity: 0.8; }
+@keyframes slow-pulse {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { opacity: 0.5; }
   100% { transform: scale(1.5); opacity: 0; }
 }
 
-.tap-label {
-  font-size: 13px;
+.tap-hint {
+  font-family: var(--font-sans);
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--gold-accent);
+  color: rgba(243, 244, 246, 0.3);
   font-weight: 600;
-  z-index: 2;
 }
 </style>

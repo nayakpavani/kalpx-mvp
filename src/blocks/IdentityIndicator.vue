@@ -1,74 +1,85 @@
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
   block: Object,
+});
+
+const indicatorPosition = computed(() => {
+  const state = props.block.state?.toLowerCase();
+  if (state === 'drifting') return '15%';
+  if (state === 'reactive') return '50%';
+  return '85%'; // steady
+});
+
+const indicatorColor = computed(() => {
+  const state = props.block.state?.toLowerCase();
+  if (state === 'drifting') return '#B45309';
+  if (state === 'reactive') return '#C2410C';
+  return '#065F46'; // steady
 });
 </script>
 
 <template>
-  <div class="identity-indicator">
-    <div class="status-ring" :class="block.state">
-      <div class="inner-circle"></div>
-      <div class="pulse-ring"></div>
+  <div class="identity-indicator-wrap">
+    <div class="continuum-bar">
+      <div 
+        class="indicator-dot" 
+        :style="{ left: indicatorPosition, backgroundColor: indicatorColor, boxShadow: `0 0 12px ${indicatorColor}` }"
+      ></div>
     </div>
-    <span class="status-label">{{ block.state?.toUpperCase() || 'STEADY' }}</span>
+    <div class="labels">
+      <span :class="{ active: block.state === 'drifting' }">DRIFTING</span>
+      <span :class="{ active: block.state === 'reactive' }">REACTIVE</span>
+      <span :class="{ active: block.state === 'steady' }">STEADY</span>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.identity-indicator {
+.identity-indicator-wrap {
+  width: 100%;
+  max-width: 280px;
+  margin: 12px auto 24px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 12px;
-  margin: 20px 0;
 }
 
-.status-ring {
+.continuum-bar {
   position: relative;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.5s ease;
-}
-
-.inner-circle {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  z-index: 2;
-}
-
-.pulse-ring {
-  position: absolute;
   width: 100%;
-  height: 100%;
+  height: 2px;
+  background: rgba(243, 244, 246, 0.1);
+  border-radius: 2px;
+}
+
+.indicator-dot {
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  border: 2px solid;
-  opacity: 0.3;
+  transform: translate(-50%, -50%);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* States */
-.steady .inner-circle { background: #E8C060; box-shadow: 0 0 15px #E8C060; }
-.steady .pulse-ring { border-color: #E8C060; animation: pulse 2s infinite; }
-
-.reactive .inner-circle { background: #ff4d4d; box-shadow: 0 0 15px #ff4d4d; }
-.reactive .pulse-ring { border-color: #ff4d4d; animation: pulse 1.5s infinite; }
-
-.drifting .inner-circle { background: #4dabff; box-shadow: 0 0 15px #4dabff; }
-.drifting .pulse-ring { border-color: #4dabff; animation: pulse 3s infinite; }
-
-.status-label {
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--text-secondary);
-  font-weight: 500;
+.labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 0.5; }
-  100% { transform: scale(1.5); opacity: 0; }
+.labels span {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: rgba(243, 244, 246, 0.3);
+  transition: color 0.5s ease;
+}
+
+.labels span.active {
+  color: rgba(243, 244, 246, 0.7);
+  font-weight: 600;
 }
 </style>

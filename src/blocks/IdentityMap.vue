@@ -9,16 +9,25 @@ const props = defineProps({
 const screenStore = useScreenStore();
 const rawData = screenStore.screenState[props.block?.data_key || "identity_map_data"] || {};
 
-const categories = Object.keys(rawData);
-const values = Object.values(rawData);
-const numPoints = categories.length;
+const categories = computed(() => {
+  if (props.block?.axes && Array.isArray(props.block.axes)) {
+    return props.block.axes;
+  }
+  return Object.keys(rawData);
+});
+
+const values = computed(() => {
+  return categories.value.map(cat => rawData[cat] || 0);
+});
+
+const numPoints = computed(() => categories.value.length);
 const size = 300;
 const center = size / 2;
 const radius = (size / 2) * 0.8;
 
 const points = computed(() => {
-  return values.map((val, i) => {
-    const angle = (Math.PI * 2 * i) / numPoints - Math.PI / 2;
+  return values.value.map((val, i) => {
+    const angle = (Math.PI * 2 * i) / numPoints.value - Math.PI / 2;
     const r = (val / 10) * radius;
     return {
       x: center + r * Math.cos(angle),
@@ -32,8 +41,8 @@ const polygonPoints = computed(() => {
 });
 
 const axisLines = computed(() => {
-  return categories.map((_, i) => {
-    const angle = (Math.PI * 2 * i) / numPoints - Math.PI / 2;
+  return categories.value.map((_, i) => {
+    const angle = (Math.PI * 2 * i) / numPoints.value - Math.PI / 2;
     return {
       x1: center,
       y1: center,
@@ -44,8 +53,8 @@ const axisLines = computed(() => {
 });
 
 const labels = computed(() => {
-  return categories.map((name, i) => {
-    const angle = (Math.PI * 2 * i) / numPoints - Math.PI / 2;
+  return categories.value.map((name, i) => {
+    const angle = (Math.PI * 2 * i) / numPoints.value - Math.PI / 2;
     const labelRadius = radius + 25;
     return {
       name,

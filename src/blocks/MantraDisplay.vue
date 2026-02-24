@@ -1,38 +1,38 @@
 <script setup>
 import { computed } from "vue";
-import { useScreenStore } from "../store/screenStore";
 
 const props = defineProps({
   block: Object,
 });
 
-const screenStore = useScreenStore();
-const text = computed(() => screenStore.screenState[props.block.text_key] || "OM");
+const mantraText = computed(() => props.block.content || "OM");
 </script>
 
 <template>
-  <div class="mantra-display">
-    <h1 class="mantra-text serif">{{ text }}</h1>
+  <div class="mantra-showcase">
+    <h1 class="mantra-serif">{{ mantraText }}</h1>
   </div>
 </template>
 
 <style scoped>
-.mantra-display {
-  padding: 40px 20px;
+.mantra-showcase {
+  padding: 32px 24px;
   text-align: center;
+  width: 100%;
 }
 
-.mantra-text {
-  font-size: 48px;
-  color: var(--text-primary);
-  letter-spacing: 2px;
-  font-weight: 300;
-  text-transform: uppercase;
-  animation: pulse-glow 3s infinite ease-in-out;
+.mantra-serif {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(34px, 8vw, 44px);
+  color: #F3F4F6;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.5px;
+  animation: serene-breathe 4s infinite ease-in-out;
 }
 
-@keyframes pulse-glow {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.05); opacity: 1; text-shadow: 0 0 20px var(--gold-accent); }
+@keyframes serene-breathe {
+  0%, 100% { opacity: 0.7; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-2px); }
 }
 </style>

@@ -4,104 +4,40 @@ import { mockScreens } from "../mock/screens";
 import { executeAction } from "../engine/actionExecutor";
 
 export const useScreenStore = defineStore("screen", () => {
-  // MOCK: Toggle this boolean to switch between fresher and experienced user flow
-  const isExperiencedUser = true; // Set to false to test fresh user flow
-  const currentKey = ref(isExperiencedUser ? "splash_portal" : "portal");
-
-  // If experienced user, show splash portal then auto-navigate to dashboard
-  if (isExperiencedUser) {
-    setTimeout(() => {
-      // Use loadScreen to ensure history is updated
-      loadScreen("day_active");
-    }, 2500);
-  }
-
+  const currentKey = ref("welcome_portal");
   const dynamicScreen = ref(null);
   const history = ref([]);
 
   // Track values/state for screens (e.g. composer text)
   const screenState = reactive({
-    identity_headline: "The Steady",
-    identity_subtext: "Consistency is your roots.",
+    day_number: 1,
     identity_state: "steady",
-    mantra_progress: "18 / 27 reps",
-    sankalp_status: "Embodied",
-    anchor_status: "Stabilized",
-    challenge_text: "Choose patience in traffic.",
-    day_number: 11,
-    focus_name: "Peace & Calm",
-    mantra_text: "OM SHANTI SHANTI SHANTI",
-    practice_title: "Digital Detox",
-    practice_meta: "No screens after 9 PM",
-    reps_total: 27,
-    practice_chant_meta: "27 Reps",
-    cycle_history: [
-      {
-        id: 1,
-        name: "Peace & Calm",
-        date: "Jan 2026",
-        status: "Completed",
-        growth: "+12%",
-      },
-      {
-        id: 2,
-        name: "Focus & Drive",
-        date: "Feb 2026",
-        status: "Completed",
-        growth: "+8%",
-      },
-      {
-        id: 3,
-        name: "Emotional Resilience",
-        date: "Current",
-        status: "Active",
-        growth: "In Progress",
-      },
-    ],
-    identity_delta: [
-      { label: "Stability", initial: 3, current: 7 },
-      { label: "Awareness", initial: 4, current: 8 },
-      { label: "Presence", initial: 2, current: 6 },
-    ],
+    identity_headline: "The Beginning",
+    identity_subtext: "Your journey starts with a single step.",
+    mantra_progress: "0 / 27 reps",
+    sankalp_status: "Pending",
+    anchor_status: "Pending",
+    challenge_text: "Observe your breath for 1 minute.",
+    focus_name: "",
+    mantra_text: "",
+    sankalp_text: "",
+    anchor_minutes: 0,
+    reps_total: 21,
+    cycle_history: [],
+    identity_delta: [],
     identity_map_data: {
-      Stability: 7,
-      Focus: 8,
-      Clarity: 5,
-      Awareness: 9,
-      Resilience: 6,
-      Presence: 7,
+      Stability: 0,
+      Focus: 0,
+      Clarity: 0,
+      Awareness: 0,
+      Resilience: 0,
+      Presence: 0,
     },
     insight_data: {
-      total_sessions: 42,
-      consistency_score: "94%",
-      deepest_focus: "Inner Peace",
-      momentum: "Extreme",
-      next_milestone: "Neural Rewiring (Day 21)",
+      total_sessions: 0,
+      consistency_score: "0%",
+      momentum: "None",
     },
-    sankalp_text: "I am the ocean, not the wave.",
-    mantra_reps: "27 / Day",
-    anchor_duration: "7 Minutes",
-    refinement_layer: "Observation",
-    reflection_questions: [
-      {
-        id: "obstacle",
-        label: "What was your biggest obstacle today?",
-        type: "textarea",
-        placeholder: "Describe the friction...",
-      },
-      {
-        id: "victory",
-        label: "What was a small victory?",
-        type: "text",
-        placeholder: "Even a single breath counts...",
-      },
-      {
-        id: "tomorrow",
-        label: "One intention for tomorrow?",
-        type: "text",
-        placeholder: "I will be...",
-      },
-    ],
     dharmic_response_options: [
       {
         id: "patient",

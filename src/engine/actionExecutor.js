@@ -9,7 +9,22 @@ import {
  * Centralized action executor for KalpX Rendering Engine.
  * Handles all logic for interaction without embedding it in components.
  */
-export function executeAction(action, context) {
+export function executeAction(actionOrString, context) {
+  // Support string action aliases like "ROUTE_MODE_TOGGLE"
+  let action = actionOrString;
+  if (typeof actionOrString === "string") {
+    const routeMap = {
+      ROUTE_MODE_TOGGLE: { type: "navigate", target: "mode_toggle" },
+      ROUTE_LOCK_RITUAL: { type: "navigate", target: "hold_to_lock" },
+      ROUTE_MANTRA_PRACTICE: { type: "navigate", target: "mantra_rep_selection" },
+      ROUTE_SANKALP_PRACTICE: { type: "navigate", target: "sankalp_embody" },
+      ROUTE_TRIGGER_RESET: { type: "navigate", target: "breath_reset" },
+      ROUTE_DASHBOARD: { type: "navigate", target: "day_active" },
+      ROUTE_ROUTINE_REVIEW: { type: "navigate", target: "routine_builder_setup" }, // Simplified mapping
+    };
+    action = routeMap[actionOrString] || { type: actionOrString };
+  }
+
   const { type, target, payload } = action;
   const { loadScreen, goBack, setScreenValue, screenState } = context;
 
@@ -235,15 +250,22 @@ export function executeAction(action, context) {
       setScreenValue(nextDay, "day_number");
 
       // 2. Clear practice completion for the new day
+      // Synced with newContainer.js practice IDs
       setScreenValue(false, "practice_chant");
       setScreenValue(false, "practice_embody");
+      setScreenValue(false, "practice_anchor");
       setScreenValue(false, "practice_act");
 
-      // 3. Check for Cycle Completion (Day 7 or 14)
-      if (currentDay === 7 || currentDay === 14) {
+      // 3. Check for Cycle Milestones (Day 7 or 14)
+      if (currentDay === 7) {
         loadScreen({
-          container_id: "cycle_transitions",
-          state_id: "daily_insight",
+          container_id: "insights_progress",
+          state_id: "milestone_7_day",
+        });
+      } else if (currentDay === 14) {
+        loadScreen({
+          container_id: "insights_progress",
+          state_id: "cycle_graduation",
         });
       } else {
         // Re-generate companion dashboard for the NEXT day

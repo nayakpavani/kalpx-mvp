@@ -11,7 +11,13 @@ const props = defineProps({
  * This ensures the screen layout is structured correctly even if blocks are sent in any order.
  */
 const sections = computed(() => {
-  const blocks = props.schema?.blocks || [];
+  let blocks = props.schema?.blocks || [];
+  
+  // If blocks is an object, convert it to an array by taking its values
+  if (blocks && typeof blocks === 'object' && !Array.isArray(blocks)) {
+    blocks = Object.values(blocks);
+  }
+
   return {
     header: blocks.filter((b) => b.position === "header"),
     content: blocks.filter((b) => !b.position || b.position === "content"),

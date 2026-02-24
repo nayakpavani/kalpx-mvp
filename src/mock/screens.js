@@ -1,4 +1,4 @@
-import { ContainerRegistry } from "./allContainers";
+import { ContainerRegistry } from "./newContainer";
 
 export const mockScreens = {
   // Global / Fallback screens if any can be defined here

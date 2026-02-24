@@ -16,27 +16,28 @@ const text = computed(() => {
 </script>
 
 <template>
-  <div class="challenge-text">
-    <h2 class="serif">{{ text }}</h2>
+  <div class="challenge-text-block">
+    <h2 class="serif-title">{{ text }}</h2>
   </div>
 </template>
 
 <style scoped>
-.challenge-text {
-  margin: 24px 0;
-  padding: 24px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+.challenge-text-block {
+  margin: 32px 0;
+  padding: 32px 24px;
+  background: #1F2937;
+  border-radius: 18px;
+  border: 1px solid #374151;
+  width: 100%;
 }
 
-.challenge-text h2 {
-  font-size: 28px;
-  line-height: 1.4;
-  color: var(--text-primary);
+.serif-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 30px;
+  line-height: 1.3;
+  color: #F3F4F6;
   text-align: center;
   margin: 0;
-  font-style: italic;
-  font-weight: 400;
+  font-weight: 500;
 }
 </style>

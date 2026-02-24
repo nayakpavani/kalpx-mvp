@@ -36,6 +36,7 @@ const containerMap = {
   companion_dashboard: CompanionDashboardContainer,
   practice_runner: PracticeRunnerContainer,
   embodiment_runner: EmbodimentChallengeRunnerContainer,
+  embodiment_challenge_runner: EmbodimentChallengeRunnerContainer,
   awareness_trigger: AwarenessTriggerContainer,
   insights_progress: InsightsProgressContainer,
   insight_summary: InsightSummaryContainer,

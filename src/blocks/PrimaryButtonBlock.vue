@@ -15,79 +15,99 @@ function handleClick() {
 
 <template>
   <button 
+    class="primary-button-root"
     :class="[
-      'primary-btn', 
-      block.style_variant === 'gold' ? 'btn-gold btn-gold-pulse' : '',
-      block.style_variant === 'outline' ? 'btn-outline' : ''
-    ]" 
+      block.style_variant === 'gold' ? 'variant-gold' : 'variant-slate',
+      block.style_variant === 'outline' ? 'variant-outline' : ''
+    ]"
     :style="block.style"
     @click="handleClick"
   >
-    <div class="btn-content">
-      <span class="label">{{ block.id && screenStore.screenState[block.id + '_label'] ? screenStore.screenState[block.id + '_label'] : block.label }}</span>
-      <span v-if="block.subtext" class="subtext">{{ block.subtext }}</span>
+    <div class="inner-stack">
+      <span class="main-label">{{ block.id && screenStore.screenState[block.id + '_label'] ? screenStore.screenState[block.id + '_label'] : block.label }}</span>
+      <span v-if="block.subtext" class="sub-label">{{ block.subtext }}</span>
     </div>
   </button>
 </template>
 
 <style scoped>
-.primary-btn {
-  padding: 14px 28px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  background-color: var(--surface-1);
-  color: var(--text-primary);
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  transition: var(--transition-base);
+.primary-button-root {
   width: 100%;
+  max-width: 400px;
+  min-height: 56px;
+  padding: 12px 32px;
+  border-radius: 14px; /* Spec: 14px */
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
 }
 
-.btn-content {
+.inner-stack {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2px;
 }
 
-.label {
-  font-size: 16px;
-  font-weight: 600;
+.main-label {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
-.subtext {
-  font-size: 12px;
-  font-weight: 400;
-  opacity: 0.8;
+.sub-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  opacity: 0.6;
+  text-transform: none;
+  letter-spacing: 0.5px;
 }
 
-.primary-btn:hover {
-  background-color: var(--surface-2);
-  transform: translateY(-2px);
+/* Variant: Slate (Default) */
+.variant-slate {
+  background: #1F2937;
+  border-color: #4B5563;
+  color: #F3F4F6;
 }
 
-.primary-btn:active {
-  transform: translateY(0);
+.variant-slate:hover {
+  background: #273244;
+  border-color: #6B7280;
+  transform: translateY(-1px);
 }
 
-.btn-outline {
-  background: white;
-  border: 1px solid var(--gold-accent, #c9a84c);
-  color: #3d3b38;
+/* Variant: Gold */
+.variant-gold {
+  background: #C9A227; /* Spec Focus Gold */
+  color: #111827;
+  box-shadow: 0 4px 20px rgba(201, 162, 39, 0.2);
 }
 
-.btn-outline:hover {
-  background: rgba(201, 168, 76, 0.05);
+.variant-gold:hover {
+  background: #D4AF37;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 25px rgba(201, 162, 39, 0.3);
 }
 
-.arrow {
-  font-size: 18px;
-  transition: transform 0.3s;
+/* Variant: Outline */
+.variant-outline {
+  background: transparent !important;
+  border: 1px solid rgba(243, 244, 246, 0.3);
+  color: #F3F4F6;
+  box-shadow: none !important;
 }
 
-.primary-btn:hover .arrow {
-  transform: translateX(5px);
+.variant-outline:hover {
+  background: rgba(243, 244, 246, 0.05) !important;
+  border-color: rgba(243, 244, 246, 0.6);
+}
+
+.primary-button-root:active {
+  transform: scale(0.98) !important;
 }
 </style>

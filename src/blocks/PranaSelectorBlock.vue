@@ -46,8 +46,8 @@ function select(id) {
 }
 
 .prana-card {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: #1F2937;
+  border: 1px solid #374151;
   border-radius: 12px;
   padding: 16px 8px;
   display: flex;
@@ -56,19 +56,19 @@ function select(id) {
   gap: 12px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
 }
 
 .prana-card:hover {
   transform: translateY(-4px);
-  border-color: var(--gold-accent);
-  box-shadow: 0 10px 15px -3px rgba(191, 165, 138, 0.2);
+  border-color: #4B5563;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
 }
 
 .prana-card.selected {
-  border-color: var(--gold-accent);
-  background: linear-gradient(to bottom, #ffffff, #fffdf8);
-  box-shadow: 0 0 0 1px var(--gold-accent), 0 10px 15px -3px rgba(191, 165, 138, 0.2);
+  border-color: #C1A227; /* Gold accent */
+  background: rgba(193, 162, 39, 0.05);
+  box-shadow: 0 0 0 1px #C1A227, 0 10px 15px -3px rgba(0, 0, 0, 0.3);
 }
 
 .icon-wrap {
@@ -78,24 +78,24 @@ function select(id) {
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  color: #8c8881;
+  color: rgba(243, 244, 246, 0.4);
   transition: all 0.3s ease;
 }
 
 .prana-card.selected .icon-wrap {
-  color: var(--gold-accent);
+  color: #C1A227;
   transform: scale(1.1);
 }
 
 .label {
   font-size: 12px;
   font-weight: 500;
-  color: #6b7280;
+  color: rgba(243, 244, 246, 0.6);
   text-align: center;
 }
 
 .prana-card.selected .label {
-  color: #3d3b38;
+  color: #F3F4F6;
 }
 
 @media (max-width: 400px) {

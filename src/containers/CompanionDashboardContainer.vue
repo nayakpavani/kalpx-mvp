@@ -1,325 +1,178 @@
 <script setup>
 import { computed } from "vue";
 import BlockRenderer from "../engine/BlockRenderer.vue";
-import { useScreenStore } from "../store/screenStore";
 
 const props = defineProps({
   schema: Object,
 });
 
-const screenStore = useScreenStore();
-
-const progress = computed(() => {
-  const cards = props.schema.blocks.filter((b) => b.type === "practice_card");
-  if (cards.length === 0) return 0;
-  const completed = cards.filter((b) => screenStore.screenState[b.id]).length;
-  return completed / cards.length;
-});
-
-const isDayComplete = computed(() => progress.value === 1);
-const daysRemaining = computed(() => 14 - (props.schema.day_number || 1));
+// Group blocks for the home-base layout
+const headerBlocks = computed(() => props.schema.blocks.filter(b => b.position === 'header'));
+const practiceBlocks = computed(() => props.schema.blocks.filter(b => b.type === 'practice_card' && b.category !== 'awareness'));
+const awarenessBlocks = computed(() => props.schema.blocks.filter(b => b.category === 'awareness'));
+const footerBlocks = computed(() => props.schema.blocks.filter(b => b.position === 'footer'));
+const floatingBlocks = computed(() => props.schema.blocks.filter(b => b.type === 'floating_button' || b.position === 'floating'));
 </script>
 
 <template>
-  <div class="dashboard-container">
-    <div class="header-section">
+  <div class="dashboard-wrap" :class="[`tone-${schema.tone || 'grounded'}`]">
+    <div class="ambient-glow"></div>
+    
+    <!-- Top Companion Anchor -->
+    <div class="header-anchor">
       <BlockRenderer
-        v-for="(block, i) in schema.blocks.filter((b) =>
-          ['headline', 'subtext', 'identity_indicator'].includes(b.type),
-        )"
-        :key="'header-' + i"
+        v-for="(block, i) in headerBlocks"
+        :key="'header-'+i"
         :block="block"
       />
-      <div class="cycle-progress-bar">
-        <div
-          class="bar-fill"
-          :style="{ width: ((schema.day_number || 1) / 14) * 100 + '%' }"
-        ></div>
-      </div>
     </div>
 
-    <div class="progress-section">
-      <div class="progress-ring-outer">
-        <div class="progress-ring-inner">
-          <span class="day-count">Day {{ schema.day_number || 1 }}</span>
-          <span class="status-msg">{{
-            isDayComplete ? "Day Sealed" : "Begins Today"
-          }}</span>
-        </div>
-        <svg class="ring-svg" viewBox="0 0 100 100">
-          <circle class="ring-bg" cx="50" cy="50" r="45" />
-          <circle
-            class="ring-progress"
-            cx="50"
-            cy="50"
-            r="45"
-            :style="{
-              strokeDashoffset: 282 - 282 * progress,
-              stroke: isDayComplete ? '#10b981' : '#bfa58a',
-            }"
+    <div class="dashboard-scroll-area">
+      <!-- Main Practice Section -->
+      <section v-if="practiceBlocks.length" class="practice-section">
+        <h4 class="section-label">Main Practice</h4>
+        <div class="cards-stack">
+          <BlockRenderer
+            v-for="(block, i) in practiceBlocks"
+            :key="'practice-'+i"
+            :block="block"
           />
-        </svg>
-      </div>
+        </div>
+      </section>
+
+      <!-- Awareness / Support Section -->
+      <section v-if="awarenessBlocks.length" class="awareness-section">
+        <h4 class="section-label">Daily Awareness</h4>
+        <div class="cards-stack">
+          <BlockRenderer
+            v-for="(block, i) in awarenessBlocks"
+            :key="'awareness-'+i"
+            :block="block"
+          />
+        </div>
+      </section>
     </div>
 
-    <div class="reminder-section" v-if="isDayComplete">
-      <p class="remaining-text serif">
-        {{ daysRemaining }} sessions remaining in this cycle.
-      </p>
-      <!-- <button 
-        class="seal-day-btn" 
-        @click="screenStore.handleAction({ type: 'seal_day' })"
-      >
-        Seal Day {{ schema.day_number || 1 }} & Advance →
-      </button> -->
-    </div>
-
-    <div class="practice-list">
-      <BlockRenderer
-        v-for="(block, i) in schema.blocks.filter(
-          (b) => b.type === 'practice_card',
-        )"
-        :key="'practice-' + i"
-        :block="block"
-      />
-    </div>
-
-    <div class="quick-actions">
-      <BlockRenderer
-        v-for="(block, i) in schema.blocks.filter((b) => b.position === 'footer_actions')"
-        :key="'action-' + i"
-        :block="block"
-      />
-    </div>
-
+    <!-- Bottom Actions / Nav -->
     <div class="dashboard-footer">
-      <div class="divider">
-        <div class="diamond"></div>
-      </div>
-      <div class="footer-link-wrap">
-        <BlockRenderer
-          v-for="(block, i) in schema.blocks.filter(
-            (b) => b.position === 'footer',
-          )"
-          :key="'footer-' + i"
-          :block="block"
-        />
-      </div>
+       <BlockRenderer
+        v-for="(block, i) in footerBlocks"
+        :key="'footer-'+i"
+        :block="block"
+      />
+    </div>
+
+    <!-- Floating UI -->
+    <div class="floating-layer">
+      <BlockRenderer
+        v-for="(block, i) in floatingBlocks"
+        :key="'floating-'+i"
+        :block="block"
+      />
     </div>
   </div>
 </template>
 
 <style scoped>
-.dashboard-container {
-  flex: 1;
+.dashboard-wrap {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  /* Spec: #111827 to #0B1220 */
+  background: linear-gradient(180deg, #111827 0%, #0B1220 100%);
   display: flex;
   flex-direction: column;
-  padding: 40px 24px;
-  max-width: 500px;
-  margin: 0 auto;
-  width: 100%;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-}
-
-.header-section {
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.cycle-summary {
-  font-size: 20px;
-  color: #3d3b38;
-  margin-bottom: 12px;
-}
-
-.cycle-progress-bar {
-  height: 2px;
-  background: rgba(191, 165, 138, 0.2);
-  width: 100%;
-  margin: 0 auto 20px;
-  border-radius: 1px;
+  padding: 0;
+  color: #F3F4F6;
   overflow: hidden;
 }
 
-.bar-fill {
-  height: 100%;
-  background: var(--gold-accent);
-  transition: width 0.8s ease-in-out;
+.ambient-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 10%,
+    rgba(201, 162, 39, 0.04) 0%,
+    transparent 60%
+  );
 }
 
-.header-sub {
-  font-size: 14px;
-  color: #8c8881;
-  font-family: var(--font-sans);
-}
-
-.progress-section {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 40px;
-}
-
-.progress-ring-outer {
+.header-anchor {
   position: relative;
-  width: 180px;
-  height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.progress-ring-inner {
+  z-index: 10;
+  padding: 60px 24px 20px;
   text-align: center;
+  background: linear-gradient(to bottom, #111827, transparent);
   display: flex;
   flex-direction: column;
-  z-index: 2;
+  align-items: center;
+  gap: 16px;
 }
 
-.day-count {
-  font-family: var(--font-serif);
-  font-size: 32px;
-  color: #3d3b38;
-}
-
-.status-msg {
-  font-size: 14px;
-  color: #8c8881;
-}
-
-.ring-svg {
-  position: absolute;
-  top: 0;
-  left: 0;
+.dashboard-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px 120px; /* Extra padding for footer */
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 520px;
+  margin: 0 auto;
   width: 100%;
-  height: 100%;
-  transform: rotate(-90deg);
+  scrollbar-width: none;
 }
 
-.ring-bg {
-  fill: none;
-  stroke: #f4eee0;
-  stroke-width: 4;
+.dashboard-scroll-area::-webkit-scrollbar { display: none; }
+
+.section-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(243, 244, 246, 0.4);
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-align: center;
 }
 
-.ring-progress {
-  fill: none;
-  stroke: #bfa58a;
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-dasharray: 282;
-  transition: stroke-dashoffset 0.8s ease-in-out;
-}
-
-.practice-list {
+.cards-stack {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-bottom: 32px;
-}
-
-.quick-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 40px;
-}
-
-.action-btn {
-  padding: 14px;
-  border-radius: 40px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-}
-
-.action-btn.gold {
-  background: var(--gold-gradient);
-  color: white;
-  border: none;
-}
-
-.action-btn.outline {
-  background: white;
-  border: 1px solid var(--gold-accent);
-  color: #3d3b38;
-}
-
-.reminder-section {
-  text-align: center;
-  margin-bottom: 24px;
-  animation: fadeIn 1s ease-out;
-}
-
-.remaining-text {
-  font-size: 16px;
-  color: #bfa58a;
-  font-style: italic;
-  margin-bottom: 16px;
-}
-
-.seal-day-btn {
-  background: var(--gold-gradient);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 40px;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(191, 165, 138, 0.3);
-  transition: all 0.3s ease;
-}
-
-.seal-day-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(191, 165, 138, 0.4);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .dashboard-footer {
-  margin-top: auto;
-  text-align: center;
-}
-
-.divider {
   position: relative;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(191, 165, 138, 0.3) 50%,
-    transparent 100%
-  );
-  margin-bottom: 20px;
+  z-index: 10;
+  padding: 24px;
+  background: linear-gradient(to top, #0B1220 70%, transparent);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  gap: 12px;
 }
 
-.diamond {
-  width: 6px;
-  height: 6px;
-  background: #bfa58a;
-  transform: rotate(45deg);
+.floating-layer {
+  position: fixed;
+  bottom: 32px;
+  right: 24px;
+  z-index: 100;
 }
 
-.footer-link-wrap {
-  display: flex;
-  justify-content: center;
+/* Base Typography Consistency */
+:deep(.headline) {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 28px;
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+:deep(.subtext) {
+  font-family: var(--font-sans);
   font-size: 14px;
-  color: #8c8881;
+  color: rgba(243, 244, 246, 0.5);
+  margin-top: 4px;
 }
 </style>

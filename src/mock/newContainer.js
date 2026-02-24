@@ -97,117 +97,115 @@ export const PortalContainerSeed = {
   states: {
     /**
      * -------------------------------------------------
+     * SPLASH PORTAL (Experienced)
+     * Quick transition to Dashboard
+     * -------------------------------------------------
+     */
+    splash_portal: {
+      tone: "calm",
+      blocks: [
+        {
+          type: "lotus_logo",
+          symbol: "om",
+          size: "large",
+          animation: "soft_pulse",
+        },
+        {
+          type: "headline",
+          content: "KalpX",
+          typography: { font: "CormorantGaramond", size: 42 },
+        },
+      ],
+    },
+
+    /**
+     * -------------------------------------------------
      * WELCOME PORTAL
      * -------------------------------------------------
-     * Used when:
-     * - first install
-     * - manual reset
      */
     welcome_portal: {
       tone: "calm",
-
-      copy_context: {
-        reason: ["first_open", "manual_reset"],
-      },
-
-      blocks: {
-        header_label: {
-          text: "IDENTITY PRACTICE",
-          typography: {
-            font: "Inter",
-            size: 13,
-            letter_spacing: 1.5,
-            opacity: 0.6,
-          },
+      blocks: [
+        {
+          type: "micro_label",
+          content: "IDENTITY PRACTICE",
         },
-
-        headline: {
-          text: "Enter the Cycle.",
-          typography: {
-            font: "CormorantGaramond",
-            size: 38,
-            weight: 500,
-            color: "#F3F4F6",
-          },
+        {
+          type: "headline",
+          content: "Enter the Cycle.",
         },
-
-        subtext: {
-          text: "Choose a discipline.\nCommit to a structured shift.",
-          typography: {
-            font: "Inter",
-            size: 16,
-            opacity: 0.7,
-            line_height: 1.5,
-          },
+        {
+          type: "subtext",
+          content: "Choose a discipline.\nCommit to a structured shift.",
         },
-
-        primary_cta: {
+        {
+          type: "primary_button",
           label: "Begin",
-          action: "ROUTE_MODE_TOGGLE",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "choice_stack",
+              state_id: "mode_toggle",
+            },
+          },
           style: {
             background: "#1F2937",
             radius: 14,
             text_color: "#FFFFFF",
           },
         },
-
-        secondary_cta: {
-          label: "Learn how this works",
+        {
+          type: "subtext",
+          variant: "micro_link",
+          content: "Learn how this works",
           action: "OPEN_LEARN_SHEET",
-          type: "micro_link",
         },
-      },
+      ],
     },
 
     /**
      * -------------------------------------------------
      * VOID STATE
      * -------------------------------------------------
-     * Used when:
-     * - cycle completed
-     * - exited intentionally
-     * - archived
      */
     void_state: {
       tone: "neutral",
-
-      /**
-       * Backend should pass reason for emotional tuning.
-       * Frontend layout DOES NOT change.
-       */
-      copy_context: {
-        reason: ["cycle_completed", "user_exited", "long_inactive"],
-      },
-
-      blocks: {
-        header_label: {
-          text: "IDENTITY PRACTICE",
+      blocks: [
+        {
+          type: "micro_label",
+          content: "IDENTITY PRACTICE",
         },
-
-        headline: {
-          text: "You have no active cycle.",
+        {
+          type: "headline",
+          content: "You have no active cycle.",
         },
-
-        subtext: {
-          text: "Without structure,\nidentity drifts.",
+        {
+          type: "subtext",
+          content: "Without structure,\nidentity drifts.",
         },
-
-        primary_cta: {
+        {
+          type: "primary_button",
           label: "Start a 7 or 14 Day Cycle",
-          action: "ROUTE_MODE_TOGGLE",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "choice_stack",
+              state_id: "mode_toggle",
+            },
+          },
           style: {
             background: "#1F2937",
             radius: 14,
             text_color: "#FFFFFF",
           },
         },
-
-        secondary_cta: {
-          label: "Learn how this works",
+        {
+          type: "subtext",
+          variant: "micro_link",
+          content: "Learn how this works",
           action: "OPEN_LEARN_SHEET",
-          type: "micro_link",
         },
-      },
+      ],
     },
   },
 };
@@ -322,114 +320,80 @@ export const ChoiceStackContainerSeed = {
    * =====================================================
    */
   states: {
-    /**
-     * -------------------------------------------------
-     * VARIANT — MODE TOGGLE
-     * Auto-advance on selection
-     * -------------------------------------------------
-     */
     mode_toggle: {
       tone: "grounded",
-
-      headline: "Choose your cycle length.",
-      subtext: "Short focus or sustained shift.",
-
-      selection_mode: "single_auto_advance",
-      draft_key: "cycle_length",
-
-      options: [
+      blocks: [
+        { type: "micro_label", content: "DEFINE YOUR STRUCTURE", position: "header" },
+        { type: "headline", content: "Choose your cycle length.", position: "header" },
+        { type: "subtext", content: "Short focus or sustained shift.", position: "header" },
         {
-          id: "7_day",
-          title: "7-Day Cycle",
-          description: "Focused correction. Rapid reset.",
-        },
-        {
-          id: "14_day",
-          title: "14-Day Cycle",
-          description: "Deeper conditioning. Structural shift.",
-          tag: "Recommended",
-          recommended: true,
-        },
-      ],
+          type: "choice_card",
+          id: "cycle_length_picker",
+          selection_mode: "single_auto_advance",
+          options: [
+            { id: "7_day", title: "7-Day Cycle", description: "Focused correction. Rapid reset." },
+            { id: "14_day", title: "14-Day Cycle", description: "Deeper conditioning. Structural shift.", Recommended: true }
+          ],
+          target: { container_id: "choice_stack", state_id: "discipline_select" }
+        }
+      ]
     },
-
-    /**
-     * -------------------------------------------------
-     * VARIANT — DISCIPLINE SELECT
-     * Manual confirmation required
-     * -------------------------------------------------
-     */
     discipline_select: {
       tone: "grounded",
-
-      headline: "Select your core discipline.",
-      subtext: "Strength grows through repetition.",
-
-      selection_mode: "single",
-      draft_key: "discipline",
-
-      options: [
+      blocks: [
+        { type: "micro_label", content: "CORE STRENGTH", position: "header" },
+        { type: "headline", content: "Select your core discipline.", position: "header" },
+        { type: "subtext", content: "Strength grows through repetition.", position: "header" },
         {
-          id: "calm_stability",
-          title: "Calm Stability",
-          description: "Train non-reactivity.",
+          type: "choice_card",
+          id: "discipline_picker",
+          selection_mode: "single",
+          options: [
+            { id: "calm_stability", title: "Calm Stability", description: "Train non-reactivity." },
+            { id: "integrity", title: "Integrity", description: "Align action with truth." },
+            { id: "strength", title: "Strength", description: "Build inner firmness." },
+            { id: "clarity", title: "Clarity", description: "Reduce mental noise." }
+          ]
         },
         {
-          id: "integrity",
-          title: "Integrity",
-          description: "Align action with truth.",
-        },
-        {
-          id: "strength",
-          title: "Strength",
-          description: "Build inner firmness.",
-        },
-        {
-          id: "clarity",
-          title: "Clarity",
-          description: "Reduce mental noise.",
-        },
-      ],
+          type: "primary_button",
+          label: "Continue →",
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: { container_id: "choice_stack", state_id: "domain_select" }
+          }
+        }
+      ]
     },
-
-    /**
-     * -------------------------------------------------
-     * VARIANT — DOMAIN SELECT
-     * Manual confirmation required
-     * -------------------------------------------------
-     */
     domain_select: {
       tone: "grounded",
-
-      headline: "Choose your life domain.",
-      subtext: "Where does this discipline apply?",
-
-      selection_mode: "single",
-      draft_key: "domain",
-
-      options: [
+      blocks: [
+        { type: "micro_label", content: "LIFE AREA", position: "header" },
+        { type: "headline", content: "Choose your life domain.", position: "header" },
+        { type: "subtext", content: "Where does this discipline apply?", position: "header" },
         {
-          id: "wealth",
-          title: "Wealth",
-          description: "Financial awareness & discipline.",
+          type: "choice_card",
+          id: "domain_picker",
+          selection_mode: "single",
+          options: [
+            { id: "wealth", title: "Wealth", description: "Financial awareness & discipline." },
+            { id: "relationships", title: "Relationships", description: "Conscious communication." },
+            { id: "health", title: "Health", description: "Energy & physical integrity." },
+            { id: "work", title: "Work", description: "Professional steadiness." }
+          ]
         },
         {
-          id: "relationships",
-          title: "Relationships",
-          description: "Conscious communication.",
-        },
-        {
-          id: "health",
-          title: "Health",
-          description: "Energy & physical integrity.",
-        },
-        {
-          id: "work",
-          title: "Work",
-          description: "Professional steadiness.",
-        },
-      ],
-    },
+          type: "primary_button",
+          label: "Next Step →",
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: { container_id: "composer", state_id: "sankalp_composer" }
+          }
+        }
+      ]
+    }
   },
 };
 
@@ -505,8 +469,8 @@ export const ComposerContainerSeed = {
        */
       required_draft_keys: ["cycle_length", "discipline", "domain"],
 
-      next_container: "lock_ritual",
-      next_variant: "hold_to_lock",
+      next_container: "routine_builder",
+      next_variant: "routine_builder_setup",
 
       back_behavior: "domain_select",
     },
@@ -541,60 +505,54 @@ export const ComposerContainerSeed = {
    * STATE CONFIG
    * =====================================================
    */
-  state: {
-    tone: "quiet_intentional",
+  /**
+   * =====================================================
+   * STATE CONFIG
+   * =====================================================
+   */
+  states: {
+    sankalp_composer: {
+      tone: "quiet_intentional",
 
-    header_label: "DEFINE YOUR INTENTION",
-    headline: "Write your Sankalp.",
-    subtext: "Short. Clear. Behavioral.",
-
-    draft_key: "sankalp",
-
-    placeholder_examples: [
-      "I respond without raising my voice.",
-      "I complete what I begin.",
-      "I pause before reacting.",
-      "I act with financial awareness.",
-    ],
-
-    input_rules: {
-      min_length: 12,
-      recommended_length: 120,
-      hard_cap: 180,
-      show_counter: true,
-    },
-
-    validation_rules: {
-      require_verb: true,
-      disallow_generic: true,
-      generic_patterns: ["be better", "improve", "grow", "be happy"],
-    },
-
-    guardrail_microcopy: "A Sankalp is behavioral. Not aspirational.",
-
-    help_sheet: {
-      title: "What makes a strong Sankalp?",
-      examples: [
-        "I pause before responding.",
-        "I complete daily tasks before distraction.",
-        "I speak clearly without avoidance.",
+      blocks: [
+        {
+          type: "micro_label",
+          content: "DEFINE YOUR INTENTION",
+        },
+        {
+          type: "headline",
+          content: "Write your Sankalp.",
+        },
+        {
+          type: "subtext",
+          content: "Short. Clear. Behavioral.",
+        },
+        {
+          type: "textarea",
+          draft_key: "sankalp",
+          placeholder_examples: [
+            "I respond without raising my voice.",
+            "I complete what I begin.",
+            "I pause before reacting.",
+            "I act with financial awareness.",
+          ],
+        },
+        {
+          type: "primary_button",
+          label: "Continue",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "routine_builder",
+              state_id: "routine_builder_setup",
+            },
+          },
+          style: {
+            background: "#1F2937",
+            radius: 14,
+          },
+        },
       ],
-      anti_examples: ["I want to be better.", "I will become successful."],
-    },
-
-    ai_assist: {
-      enabled: true,
-      label: "Need suggestions?",
-      action: "OPEN_AI_SANKALP_MODAL",
-    },
-
-    primary_cta: {
-      label: "Continue",
-      action: "ROUTE_LOCK_RITUAL",
-      style: {
-        background: "#1F2937",
-        radius: 14,
-      },
     },
   },
 
@@ -747,69 +705,72 @@ export const LockRitualOverlaySeed = {
    * =====================================================
    */
   states: {
-    /**
-     * -------------------------------------------------
-     * STATE 1 — HOLD TO LOCK
-     * -------------------------------------------------
-     */
     hold_to_lock: {
       tone: "serious_grounded",
-
-      micro_label: "FINALIZE STRUCTURE",
-
-      headline: "Hold to lock your cycle.",
-
-      subtext_template: "Commit to this structure for {cycle_length} days.",
-
-      hold_button: {
-        label: "Hold",
-        height: 56,
-        radius: 28,
-        background: "#1F2937",
-        border: "#4B5563",
-        progress_ring: true,
-        glow_color: "#C9A227",
-      },
-
-      hold_rules: {
-        duration_map: {
-          7: 1800,
-          14: 2400,
+      blocks: [
+        {
+          type: "micro_label",
+          content: "FINALIZE STRUCTURE",
+          position: "header",
         },
-        cancel_on_release: true,
-        cancel_on_app_blur: true,
-        cancel_on_navigation_attempt: true,
-      },
-
-      microcopy: "Structure builds identity.",
+        {
+          type: "headline",
+          content: "Hold to lock your cycle.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Commit to this structure for 14 days.",
+          position: "header",
+        },
+        {
+          type: "hold_button", // Special internal block for the overlay
+          label: "Hold to Lock",
+          on_complete: {
+            type: "navigate",
+            target: { container_id: "lock_ritual_overlay", state_id: "lock_confirm_transition" }
+          },
+        },
+        {
+          type: "subtext",
+          content: "Structure builds identity.",
+          position: "footer",
+        }
+      ],
     },
 
-    /**
-     * -------------------------------------------------
-     * STATE 2 — LOCK CONFIRMATION
-     * -------------------------------------------------
-     */
     lock_confirm_transition: {
       tone: "quiet_resolve",
-
-      headline: "Cycle Locked.",
-
-      subtext_variants: {
-        immediate_start: "Day 1 begins now.",
-        delayed_start: "Begin tomorrow with clarity.",
-      },
-
-      visual_accent: {
-        gold_edge_color: "#C9A227",
-        opacity: 0.3,
-      },
-
-      primary_cta: {
-        label: "Enter Day 1",
-        action: "ROUTE_DASHBOARD",
-        background: "#1F2937",
-        radius: 14,
-      },
+      blocks: [
+        {
+          type: "lotus_logo",
+          symbol: "om",
+          size: "medium",
+          position: "header"
+        },
+        {
+          type: "headline",
+          content: "Cycle Locked.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Day 1 begins now.",
+          position: "header",
+        },
+        {
+          type: "primary_button",
+          label: "Enter Day 1",
+          action: {
+            type: "navigate",
+            target: { container_id: "companion_dashboard", state_id: "day_active" }
+          },
+          style: {
+            background: "#1F2937",
+            radius: 14,
+          },
+        },
+      ],
     },
   },
 
@@ -963,77 +924,49 @@ export const RoutineBuilderContainerSeed = {
    * STATE CONFIGURATION
    * =====================================================
    */
-  state: {
-    tone: "precise_grounded",
+  states: {
+    routine_builder_setup: {
+      tone: "precise_grounded",
 
-    header_label: "BUILD YOUR ROUTINE",
-    headline: "Define your daily structure.",
-    subtext: "Small repetitions. Compounded identity.",
-
-    blocks: {
-      mantra_frequency: {
-        draft_key: "mantra_reps",
-
-        title: "Mantra Repetitions",
-        subtext: "Daily repetition count.",
-
-        picker: {
-          type: "bottom_sheet_picker",
-          options: [9, 18, 27, 54],
-          unit: "repetitions",
-          default_map: {
-            7: 9,
-            14: 18,
+      blocks: [
+        {
+          type: "micro_label",
+          content: "BUILD YOUR ROUTINE",
+        },
+        {
+          type: "headline",
+          content: "Define your daily structure.",
+        },
+        {
+          type: "subtext",
+          content: "Small repetitions. Compounded identity.",
+        },
+        {
+          type: "option_picker",
+          id: "mantra_reps",
+          title: "Mantra Repetitions",
+          options: [9, 18, 27, 54, 108],
+          unit: "Reps",
+        },
+        {
+          type: "option_picker",
+          id: "anchor_duration",
+          title: "Anchor Duration",
+          options: [3, 5, 7, 11, 21],
+          unit: "Min",
+        },
+        {
+          type: "primary_button",
+          label: "Review & Lock",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "lock_ritual_overlay",
+              state_id: "hold_to_lock",
+            },
           },
         },
-      },
-
-      anchor_duration: {
-        draft_key: "anchor_minutes",
-
-        title: "Anchor Duration",
-        subtext: "Daily stabilization time.",
-
-        picker: {
-          type: "bottom_sheet_picker",
-          options: [3, 5, 8, 12],
-          unit: "minutes",
-          default_value: 5,
-        },
-      },
-
-      routine_review: {
-        visible_when: "mantra_reps && anchor_minutes && sankalp",
-
-        title: "Routine Summary",
-        editable_action: "SCROLL_TO_TOP",
-
-        highlight_background: "#273244",
-
-        fields: [
-          {
-            label: "Mantra",
-            source: "mantra_reps",
-            suffix: "repetitions",
-          },
-          {
-            label: "Anchor",
-            source: "anchor_minutes",
-            suffix: "minutes",
-          },
-          {
-            label: "Sankalp",
-            source: "sankalp",
-          },
-        ],
-      },
-    },
-
-    primary_cta: {
-      label: "Lock Structure",
-      action: "OPEN_LOCK_RITUAL_OVERLAY",
-      background: "#1F2937",
-      radius: 14,
+      ],
     },
   },
 
@@ -1181,38 +1114,27 @@ export const RoutineLockedContainerSeed = {
    * STATE CONFIGURATION
    * =====================================================
    */
-  state: {
-    tone: "stable_formal",
-
-    header_label: "ACTIVE STRUCTURE",
-    headline: "Your cycle is locked.",
-    subtext: "Consistency creates identity.",
-
-    structure_sections: [
-      {
-        key: "sankalp",
-        label: "SANKALP",
-        source: "activeCycle.sankalp",
-        type: "text_block",
-      },
-      {
-        key: "mantra_reps",
-        label: "MANTRA REPETITIONS",
-        source: "activeCycle.mantra_reps",
-        suffix: "repetitions",
-      },
-      {
-        key: "anchor_duration",
-        label: "ANCHOR DURATION",
-        source: "activeCycle.anchor_minutes",
-        suffix: "minutes daily",
-      },
-    ],
-
-    adjust_entry: {
-      label: "Adjust with intention",
-      style: "subtle_text_button",
-      action: "OPEN_ADJUST_CONFIRM_MODAL",
+  states: {
+    locked_summary: {
+      tone: "stable_formal",
+      blocks: [
+        { type: "micro_label", content: "ACTIVE STRUCTURE" },
+        { type: "headline", content: "Your cycle is locked." },
+        { type: "subtext", content: "Consistency creates identity." },
+        {
+          type: "summary_block",
+          fields: [
+            { label: "SANKALP", value_key: "sankalp_text" },
+            { label: "MANTRA REPETITIONS", value_key: "mantra_reps" },
+            { label: "ANCHOR DURATION", value_key: "anchor_duration" },
+          ],
+        },
+        {
+          type: "primary_button",
+          label: "Dashboard →",
+          action: "ROUTE_DASHBOARD",
+        },
+      ],
     },
   },
 
@@ -1404,69 +1326,93 @@ export const CompanionDashboardContainerSeed = {
    * STATE CONFIGURATION
    * =====================================================
    */
-  state: {
-    identity_header: {
-      label_template: "DAY {day_number} OF {total_days}",
-
-      headline_map: {
-        steady: "You are steady.",
-        reactive: "You are slightly reactive.",
-        drifting: "Your structure is weakening.",
-      },
-
-      subtext_map: {
-        steady: "Maintain rhythm.",
-        reactive: "Pause before acceleration.",
-        drifting: "Re-enter with simplicity.",
-      },
-
-      identity_bar: {
-        positions: ["drifting", "reactive", "steady"],
-        colors: {
-          drifting: "#B45309",
-          reactive: "#C2410C",
-          steady: "#065F46",
-        },
-        muted: true,
-      },
-    },
-
-    practice_cards: {
-      dynamic_ordering: true,
-      reorder_incomplete_first: true,
-
-      cards: [
+  /**
+   * =====================================================
+   * STATE CONFIGURATION
+   * =====================================================
+   */
+  states: {
+    day_active: {
+      day_number: "{{day_number}}",
+      blocks: [
         {
-          key: "mantra",
+          type: "micro_label",
+          content: "DAY {{day_number}} OF 14",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "{{identity_headline}}",
+          position: "header",
+        },
+        {
+          type: "identity_indicator",
+          state: "{{identity_state}}",
+          position: "header",
+        },
+        {
+          type: "practice_card",
+          id: "practice_chant",
           title: "Mantra Practice",
-          subtext_template: "{reps_remaining} repetitions remaining.",
-          completed_text: "Completed today.",
+          description: "{{mantra_text}}",
+          action: {
+            type: "navigate",
+            target: { container_id: "practice_runner", state_id: "mantra_runner" }
+          },
         },
         {
-          key: "sankalp",
+          type: "practice_card",
+          id: "practice_embody",
           title: "Sankalp Embodiment",
-          subtext: "Live your intention.",
-          completed_text: "Activated today.",
+          description: "{{sankalp_text}}",
+          action: {
+            type: "navigate",
+            target: { container_id: "practice_runner", state_id: "sankalp_embody" }
+          },
         },
         {
-          key: "anchor",
+          type: "practice_card",
+          id: "practice_anchor",
           title: "Anchor Stability",
-          subtext_template: "{duration} minutes.",
-          completed_text: "Completed.",
+          description: "{{anchor_minutes}} minutes",
+          action: {
+            type: "navigate",
+            target: { container_id: "practice_runner", state_id: "anchor_timer" }
+          },
         },
+        {
+          type: "practice_card",
+          id: "practice_act",
+          category: "awareness",
+          title: "Dharma in Action",
+          description: "{{challenge_text}}",
+          action: {
+            type: "navigate",
+            target: { container_id: "embodiment_challenge_runner", state_id: "challenge_view" }
+          },
+        },
+        {
+          type: "primary_button",
+          label: "Quick Check-in",
+          action: {
+            type: "navigate",
+            target: { container_id: "awareness_trigger", state_id: "midday_checkin" }
+          },
+          position: "footer",
+          style_variant: "outline",
+        },
+        {
+          type: "primary_button",
+          id: "trigger_sos",
+          label: "I Feel Triggered",
+          action: {
+            type: "navigate",
+            target: { container_id: "awareness_trigger", state_id: "breath_reset" }
+          },
+          position: "footer",
+          style_variant: "gold",
+        }
       ],
-    },
-
-    embodiment_challenge: {
-      title: "Dharma in Action",
-      background: "#273244",
-    },
-
-    trigger_entry: {
-      label: "I feel triggered",
-      style: "floating_pill_button",
-      opacity: 0.8,
-      persistent: true,
     },
   },
 
@@ -1617,83 +1563,57 @@ export const PracticeRunnerContainerSeed = {
    * =====================================================
    */
   states: {
-    /**
-     * -------------------------------------------------
-     * VARIANT — MANTRA RUNNER
-     * -------------------------------------------------
-     */
     mantra_runner: {
-      type: "tap_counter_execution",
-
-      center_display: {
-        show_mantra_text: true,
-        counter_style: "large_fraction",
-      },
-
-      interaction: {
-        tap_zone: "full_center_area",
-        haptic_on_increment: true,
-        prevent_double_tap_overflow: true,
-      },
-
-      completion: {
-        headline: "Mantra complete.",
-        subtext: "Stability reinforced.",
-        cta_label: "Return to Day",
-      },
+      tone: "focused",
+      blocks: [
+        { type: "micro_label", content: "MANTRA PRACTICE" },
+        { type: "mantra_display", content: "{{mantra_text}}" },
+        { 
+          type: "rep_counter", 
+          id: "mantra_reps", 
+          target: "{{reps_total}}",
+          on_complete: {
+            type: "navigate",
+            target: { container_id: "companion_dashboard", state_id: "day_active" }
+          }
+        }
+      ],
     },
 
-    /**
-     * -------------------------------------------------
-     * VARIANT — SANKALP EMBODY
-     * -------------------------------------------------
-     */
     sankalp_embody: {
-      type: "activation_mode",
-
-      center_display: {
-        show_sankalp_text: true,
-        instruction: "Read slowly. Internalize. Commit.",
-      },
-
-      action_button: {
-        label: "Activate",
-        confirm_state: true,
-      },
-
-      completion: {
-        headline: "Embodiment set.",
-        subtext: "Live this today.",
-        cta_label: "Return to Day",
-      },
+      tone: "resonant",
+      blocks: [
+        { type: "micro_label", content: "SANKALP EMBODIMENT" },
+        { type: "headline", content: "{{sankalp_text}}" },
+        { type: "subtext", content: "Read slowly. Internalize. Commit." },
+        {
+          type: "primary_button",
+          label: "I Embody This →",
+          action: {
+            type: "navigate",
+            target: { container_id: "companion_dashboard", state_id: "day_active" }
+          },
+          style: "gold"
+        }
+      ],
     },
 
-    /**
-     * -------------------------------------------------
-     * VARIANT — ANCHOR TIMER
-     * -------------------------------------------------
-     */
     anchor_timer: {
-      type: "countdown_timer",
-
-      timer_display: {
-        format: "MM:SS",
-        monospace: true,
-        large_centered: true,
-      },
-
-      controls: {
-        start: true,
-        pause: true,
-        resume: true,
-        minimal_icons: true,
-      },
-
-      completion: {
-        headline: "Anchor complete.",
-        subtext: "Nervous system stabilized.",
-        cta_label: "Return to Day",
-      },
+      tone: "stabilizing",
+      blocks: [
+        { type: "micro_label", content: "ANCHOR DURATION" },
+        { type: "timer_display", id: "anchor_timer", duration: "{{anchor_minutes}}" },
+        { type: "timer_controls", target_id: "anchor_timer" },
+        {
+          type: "primary_button",
+          label: "Complete Practice",
+          visible_when: "anchor_timer_finished",
+          action: {
+            type: "navigate",
+            target: { container_id: "companion_dashboard", state_id: "day_active" }
+          }
+        }
+      ],
     },
   },
 
@@ -1823,67 +1743,23 @@ export const EmbodimentChallengeRunnerContainerSeed = {
    * STATE CONFIGURATION
    * =====================================================
    */
-  state: {
-    header_label: "DHARMA IN ACTION",
-    headline: "Today’s Embodiment",
-    subtext: "Behavior over intention.",
-
-    challenge_card: {
-      text_style: {
-        font: "serif",
-        size_range: [22, 26],
-        line_height: 1.6,
-        centered: true,
-      },
-
-      background: "#1F2937",
-      border: "#374151",
-      radius: 20,
-      padding: 28,
-    },
-
-    outcome_section: {
-      question: "Did this occur today?",
-
-      options: [
+  states: {
+    challenge_view: {
+      blocks: [
+        { type: "micro_label", content: "DHARMA IN ACTION" },
+        { type: "headline", content: "Today’s Embodiment" },
+        { type: "subtext", content: "Behavior over intention." },
+        { type: "challenge_text", content: "{{challenge_text}}" },
         {
-          id: "completed",
-          label: "Completed",
-        },
-        {
-          id: "avoided",
-          label: "Avoided",
-        },
-        {
-          id: "not_tested",
-          label: "Not Tested",
+          type: "primary_button",
+          label: "Mark Complete →",
+          action: {
+            type: "submit",
+            payload: { practiceId: "practice_act", completed: true },
+            target: { container_id: "companion_dashboard", state_id: "day_active" },
+          },
         },
       ],
-
-      button_style: {
-        background: "#111827",
-        border: "#374151",
-        radius: 14,
-      },
-    },
-
-    reflection_input: {
-      visible_when: "outcome === avoided",
-      placeholder: "What interrupted you?",
-      optional: true,
-      single_line: true,
-    },
-
-    completion_microcopy: {
-      visible_when: "outcome === completed",
-      text: "Behavior reinforced.",
-      opacity: 0.7,
-    },
-
-    primary_cta: {
-      label: "Return to Day",
-      action: "ROUTE_DASHBOARD",
-      require_outcome_selection: true,
     },
   },
 
@@ -2016,151 +1892,47 @@ export const AwarenessTriggerContainerSeed = {
    * ENTRY MODES
    * =====================================================
    */
-  modes: {
+  states: {
     midday_checkin: {
       tone: "reflective",
-      full_screen: true,
-      include_breath_reset: false,
-    },
-
-    trigger_sos: {
-      tone: "stabilizing",
-      full_screen: true,
-      include_breath_reset: true,
-    },
-
-    evening_quick_close: {
-      tone: "gentle_closure",
-      presentation: "bottom_sheet",
-      auto_trigger_window: "21:00-23:00",
-      non_blocking: true,
-    },
-  },
-
-  /**
-   * =====================================================
-   * STEP FLOW
-   * =====================================================
-   */
-  flow: [
-    {
-      id: "state_acknowledgment",
-      type: "single_select",
-      question: "What are you experiencing?",
-      options: [
-        "Irritation",
-        "Anxiety",
-        "Urgency",
-        "Fatigue",
-        "Avoidance",
-        "Other",
+      blocks: [
+        { type: "micro_label", content: "AWARENESS CHECK-IN" },
+        { type: "headline", content: "How is your state?" },
+        {
+          type: "choice_grid",
+          id: "state_matrix",
+          options: [
+            { id: "steady", label: "Steady", icon: "feather" },
+            { id: "reactive", label: "Reactive", icon: "bolt" },
+            { id: "drifting", label: "Drifting", icon: "wind" },
+            { id: "distracted", label: "Distracted", icon: "cloud" }
+          ]
+        },
+        {
+          type: "primary_button",
+          label: "Log State →",
+          action: {
+            type: "navigate",
+            target: { container_id: "companion_dashboard", state_id: "day_active" }
+          }
+        }
       ],
-      auto_advance: true,
     },
-
-    {
-      id: "breath_reset",
-      type: "breath_cycle",
-      cycles: 3,
-      visible_when: "mode === trigger_sos",
-      haptic_optional: true,
-    },
-
-    {
-      id: "quick_mantra_loop",
-      type: "tap_counter",
-      reps_fixed: 9,
-      auto_advance_on_complete: true,
-    },
-
-    {
-      id: "trigger_reflection",
-      type: "single_line_input",
-      question: "What triggered this?",
-      optional: true,
-      visible_when: "allow_reflection === true",
-    },
-
-    {
-      id: "dharmic_response",
-      type: "single_select",
-      question: "How will you respond?",
-      dynamic_options: true,
-    },
-
-    {
-      id: "reinforcement",
-      type: "message_screen",
-      messages: ["Return steady.", "You interrupted reaction."],
-      cta_label: "Return to Day",
-    },
-  ],
-
-  /**
-   * =====================================================
-   * EVENING QUICK CLOSE VARIANT
-   * =====================================================
-   */
-  evening_variant: {
-    headline: "Did you live your Sankalp today?",
-    pill_options: [
-      {
-        id: "steady",
-        label: "Fully ●",
-      },
-      {
-        id: "reactive",
-        label: "Partially ◐",
-      },
-      {
-        id: "drifting",
-        label: "Not today ○",
-      },
-    ],
-
-    auto_save_on_select: true,
-    close_on_selection: true,
-    allow_optional_note: false,
-  },
-
-  /**
-   * =====================================================
-   * BEHAVIORAL LOGIC CONTRACT
-   * =====================================================
-   */
-  logic: {
-    duration_targets: {
-      full_flow_max_seconds: 90,
-      evening_flow_max_seconds: 15,
-    },
-
-    persistence: {
-      save_to: "cycle_day_log.trigger_flow",
-      autosave: true,
-      silent: true,
-    },
-
-    identity_state_updates: {
-      immediate_update: true,
-      source: "backend_evaluation",
-    },
-
-    dashboard_sync: {
-      update_identity_indicator: true,
-      allow_live_toast: true,
-    },
-
-    interruption_handling: {
-      log_partial_if_exit: true,
-      resume_last_step_if_reopen: true,
-    },
-
-    evening_auto_trigger: {
-      conditions: ["activeCycle === true", "!closedToday"],
-    },
-
-    multi_device_sync: {
-      if_flow_completed_elsewhere: "show_reinforcement_state",
+    breath_reset: {
+      tone: "stabilizing",
+      blocks: [
+        { type: "micro_label", content: "SOS RESET" },
+        { type: "headline", content: "Three Breaths." },
+        { type: "breath_animation", cycles: 3 },
+        {
+          type: "primary_button",
+          label: "I am Centered",
+          action: {
+            type: "navigate",
+            target: { container_id: "companion_dashboard", state_id: "day_active" }
+          }
+        }
+      ],
     },
   },
 };
@@ -2241,158 +2013,67 @@ export const InsightsProgressContainerSeed = {
    * SECTIONS CONFIGURATION
    * =====================================================
    */
-  sections: {
-    /**
-     * -------------------------------------------------
-     * WEEKLY INSIGHT SNAPSHOT
-     * -------------------------------------------------
-     */
-    weekly_snapshot: {
-      headline_template: "You remained steady {steady_percent}% of the time.",
-      subtext_template: "Reactivity peaked on {peak_period}.",
-    },
-
-    /**
-     * -------------------------------------------------
-     * STABILITY GRAPH
-     * -------------------------------------------------
-     */
-    stability_graph: {
-      type: "line_graph",
-      colors: {
-        drifting: "#B45309",
-        reactive: "#C2410C",
-        steady: "#065F46",
-      },
-      tooltip_enabled: true,
-      animated: false,
-    },
-
-    /**
-     * -------------------------------------------------
-     * TRAIT RADAR
-     * -------------------------------------------------
-     */
-    trait_radar: {
-      axes: [
-        "Stability",
-        "Integrity",
-        "Follow-through",
-        "Regulation",
-        "Awareness",
-      ],
-      show_numbers: false,
-      thin_line_style: true,
-    },
-
-    /**
-     * -------------------------------------------------
-     * BEHAVIORAL INSIGHT NARRATIVE
-     * -------------------------------------------------
-     */
-    behavioral_narrative: {
-      max_lines: 5,
-      tone: "analytical",
-      source: "ai_generated",
-    },
-
-    /**
-     * -------------------------------------------------
-     * EVENING ACCOUNTABILITY
-     * -------------------------------------------------
-     */
-    evening_accountability: {
-      question: "Did you live your Sankalp?",
-      options: ["yes", "partially", "no"],
-      optional_note: true,
-    },
-
-    /**
-     * -------------------------------------------------
-     * STABILITY NOTE (ADAPTIVE)
-     * -------------------------------------------------
-     */
-    stability_note: {
-      trigger_condition: "high_trigger_frequency",
-      message: "Consider reducing anchor intensity.",
-      link_action: "ROUTE_CYCLE_TRANSITIONS",
-    },
-
-    /**
-     * -------------------------------------------------
-     * CYCLE COMPLETION PANEL
-     * -------------------------------------------------
-     */
-    cycle_completion: {
-      headline: "Cycle Complete.",
-      gold_border_accent: true,
-      actions: [
+  states: {
+    weekly_insights: {
+      tone: "reflective",
+      blocks: [
+        { type: "micro_label", content: "PATTERN INSIGHTS" },
+        { type: "headline", content: "You remained steady 62% of the time." },
+        { type: "subtext", content: "Reactivity peaked on Tuesday afternoons." },
+        { type: "graph", id: "stability_trend", data: "reps_consistency" },
+        { 
+          type: "identity_map", 
+          id: "trait_radar", 
+          axes: ["Stability", "Integrity", "Follow-through", "Regulation", "Awareness"],
+          data: "identity_map_data" 
+        },
+        { 
+          type: "insight_box", 
+          content: "You are most steady in the morning. Reactivity increases after 4 PM.",
+          tone: "analytical"
+        },
         {
+          type: "primary_button",
+          label: "Dashboard",
+          action: {
+            type: "navigate",
+            target: { container_id: "companion_dashboard", state_id: "day_active" }
+          }
+        }
+      ]
+    },
+    milestone_7_day: {
+      tone: "holy_gold",
+      blocks: [
+        { type: "micro_label", content: "7-DAY MILESTONE" },
+        { type: "headline", content: "Cycle Complete." },
+        { type: "subtext", content: "You have completed Phase 1 of your transformation." },
+        { type: "identity_map", id: "trait_radar_milestone", data: "identity_map_data" },
+        {
+          type: "primary_button",
           label: "Review Progress",
-          action: "SCROLL_TO_TOP",
+          action: { type: "navigate", target: "insights_progress", state_id: "weekly_insights" }
         },
         {
+          type: "primary_button",
           label: "Continue / Deepen",
-          action: "ROUTE_DEEPEN_FLOW",
-        },
-      ],
+          action: { type: "navigate", target: "cycle_transitions", state_id: "continue_deepen" }
+        }
+      ]
     },
-
-    /**
-     * -------------------------------------------------
-     * CYCLE HISTORY ARCHIVE
-     * -------------------------------------------------
-     */
-    history_archive: {
-      expandable: true,
-      card_style: "minimal_history",
-    },
-
-    /**
-     * -------------------------------------------------
-     * WEEKLY VOICE REFLECTION
-     * -------------------------------------------------
-     */
-    weekly_voice_reflection: {
-      trigger_window: ["Sunday 20:00", "Sunday 22:00"],
-      max_duration_seconds: 60,
-      presentation: "bottom_sheet",
-
-      ui: {
-        microphone_button: true,
-        countdown_style: "monospace",
-        subtle_gold_press: true,
-        allow_skip: true,
-      },
-
-      transcription: {
-        auto_transcribe: true,
-        append_to_behavioral_narrative: true,
-      },
-    },
-
-    /**
-     * -------------------------------------------------
-     * LEGACY TIMELINE (UNLOCKED AFTER 3 CYCLES)
-     * -------------------------------------------------
-     */
-    legacy_timeline: {
-      unlock_condition: "totalCompletedCycles >= 3",
-
-      timeline_style: {
-        vertical_line: true,
-        muted_cards: true,
-      },
-
-      card_content: [
-        "discipline",
-        "sankalp",
-        "radar_thumbnail",
-        "completion_date",
-      ],
-
-      footer_message: "You are no longer the same person who began.",
-    },
+    cycle_graduation: {
+      tone: "sacred",
+      blocks: [
+        { type: "headline", content: "You are no longer the same person who began." },
+        { type: "subtext", content: "Cycle Graduation (Day 14)" },
+        { type: "image", src: "graduation_emblem" },
+        {
+          type: "primary_button",
+          label: "Enter Legacy Timeline",
+          action: { type: "navigate", target: "insights_progress", state_id: "legacy_timeline" }
+        }
+      ]
+    }
   },
 
   /**
@@ -2502,178 +2183,86 @@ export const CycleTransitionsContainerSeed = {
    */
   states: {
     resistance: {
-      micro_label: "PATTERN DETECTED",
-      headline: "Resistance is increasing.",
-      subtext: "You skipped 3 consecutive anchors.",
-      options: [
-        {
-          label: "Simplify Today",
-          action: "STABILITY_PIVOT",
-        },
-        {
-          label: "Maintain Structure",
-          action: "MAINTAIN",
-        },
-      ],
+      blocks: [
+         { type: "micro_label", content: "PATTERN DETECTED" },
+         { type: "headline", content: "Resistance is increasing." },
+         { type: "subtext", content: "You skipped 3 consecutive anchors." },
+         {
+           type: "choice_card",
+           options: [
+             { id: "simplify", title: "Simplify Today", description: "Stability Pivot", action: "STABILITY_PIVOT" },
+             { id: "maintain", title: "Maintain Structure", description: "Keep pushing", action: "MAINTAIN" }
+           ]
+         }
+      ]
     },
-
-    ego_check: {
-      headline: "Structure feels effortless.",
-      subtext: "Ensure you’re not over-extending.",
-      options: [
-        {
-          label: "Maintain Current Level",
-          action: "MAINTAIN",
-        },
-        {
-          label: "Deepen Layer",
-          action: "ROUTE_DEEPEN_SELECT",
-        },
-      ],
-    },
-
-    plateau: {
-      headline: "Progress has stabilized.",
-      subtext: "You may be ready to deepen.",
-      options: [
-        {
-          label: "Deepen Practice",
-          action: "ROUTE_DEEPEN_SELECT",
-        },
-        {
-          label: "Continue Current Cycle",
-          action: "MAINTAIN",
-        },
-      ],
-    },
-
-    stability_pivot: {
-      headline: "Simplify to stabilize.",
-      subtext: "Reduce reps temporarily to preserve rhythm.",
-      options: [
-        {
-          label: "Reduce Structure",
-          action: "APPLY_REDUCTION",
-        },
-        {
-          label: "Maintain",
-          action: "MAINTAIN",
-        },
-      ],
-    },
-
-    inactivity: {
-      headline: "Structure paused.",
-      subtext: "You have been inactive for 4 days.",
-      options: [
-        {
-          label: "Resume",
-          action: "RESUME_CYCLE",
-        },
-        {
-          label: "Restart",
-          action: "RESTART_NEW_CYCLE",
-        },
-        {
-          label: "Recalibrate",
-          action: "ROUTE_ROUTINE_BUILDER",
-        },
-      ],
-    },
-
-    pause: {
-      headline: "Pause Cycle?",
-      subtext: "Structure will suspend without reset.",
-      options: [
-        {
-          label: "Pause",
-          action: "PAUSE_CYCLE",
-        },
-        {
-          label: "Cancel",
-          action: "CLOSE_TRANSITION",
-        },
-      ],
-    },
-
-    exit: {
-      headline: "Exit Cycle?",
-      subtext: "This will close your active structure.",
-      options: [
-        {
-          label: "Exit",
-          action: "EXIT_CYCLE",
-        },
-        {
-          label: "Continue",
-          action: "CLOSE_TRANSITION",
-        },
-      ],
-    },
-
     continue_deepen: {
-      headline: "7 Days Complete.",
-      subtext: "Extend or deepen?",
-      options: [
-        {
-          label: "Continue to Day 14",
-          action: "EXTEND_CYCLE",
-        },
-        {
-          label: "Deepen Layer",
-          action: "ROUTE_DEEPEN_SELECT",
-        },
-      ],
+      blocks: [
+         { type: "micro_label", content: "MILESTONE REACHED" },
+         { type: "headline", content: "7 Days Complete." },
+         { type: "subtext", content: "Extend or deepen?" },
+         {
+           type: "choice_card",
+           options: [
+             { id: "extend", title: "Continue to Day 14", description: "Extend Cycle", action: { type: "navigate", target: "companion_dashboard" } },
+             { id: "deepen", title: "Deepen Layer", description: "Select new layer", action: { type: "navigate", target: "cycle_transitions", state_id: "deepen_select" } }
+           ]
+         }
+      ]
     },
-
     deepen_select: {
-      headline: "Select deeper layer.",
-      selection_mode: "single",
-      options: [
-        {
-          label: "Increase mantra reps",
-          action: "INCREASE_MANTRA",
-        },
-        {
-          label: "Increase anchor duration",
-          action: "INCREASE_ANCHOR",
-        },
-        {
-          label: "Add refinement layer",
-          action: "ADD_REFINEMENT",
-        },
-      ],
+      blocks: [
+         { type: "micro_label", content: "EVOLUTION" },
+         { type: "headline", content: "Select deeper layer." },
+         {
+           type: "choice_card",
+           options: [
+             { id: "reps", title: "Increase mantra reps", description: "Deepen repetition", action: "DEEPEN_REPS" },
+             { id: "duration", title: "Increase anchor duration", description: "Deepen stillness", action: "DEEPEN_DURATION" },
+             { id: "refinement", title: "Add refinement layer", description: "Add observation", action: "ADD_REFINEMENT" }
+           ]
+         }
+      ]
     },
-
-    switch_focus: {
-      headline: "Switching focus resets momentum.",
-      subtext: "Proceed intentionally.",
-      options: [
-        {
-          label: "Confirm Switch",
-          action: "SWITCH_FOCUS",
-        },
-        {
-          label: "Cancel",
-          action: "CLOSE_TRANSITION",
-        },
-      ],
+    ego_check: {
+      blocks: [
+         { type: "headline", content: "Structure feels effortless." },
+         { type: "subtext", content: "Ensure you’re not over-extending." },
+         {
+           type: "choice_card",
+           options: [
+             { id: "maintain", title: "Maintain Current Level", description: "Verify stability", action: "MAINTAIN" },
+             { id: "deepen", title: "Deepen Layer", description: "Challenge self", action: "ROUTE_DEEPEN_SELECT" }
+           ]
+         }
+      ]
     },
-
+    stability_pivot: {
+      blocks: [
+         { type: "headline", content: "Simplify to stabilize." },
+         { type: "subtext", content: "Reduce reps temporarily to preserve rhythm." },
+         {
+           type: "choice_card",
+           options: [
+             { id: "reduce", title: "Reduce Structure", description: "Preserve rhythm", action: "REDUCE_INTENSITY" },
+             { id: "maintain", title: "Maintain", description: "Try again", action: "MAINTAIN" }
+           ]
+         }
+      ]
+    },
     integrity_guardrail: {
-      headline: "Integration is incomplete.",
-      subtext: "Consider reflection before restarting.",
-      options: [
-        {
-          label: "Continue Anyway",
-          action: "FORCE_NEW_CYCLE",
-        },
-        {
-          label: "Review Insights",
-          action: "ROUTE_INSIGHTS",
-        },
-      ],
-    },
+      blocks: [
+         { type: "headline", content: "Integration is incomplete." },
+         { type: "subtext", content: "Consider reflection before restarting." },
+         {
+           type: "choice_card",
+           options: [
+             { id: "continue", title: "Continue Anyway", description: "Proceed", action: "CONTINUE" },
+             { id: "review", title: "Review Insights", description: "Reflect first", action: { type: "navigate", target: "insights_progress" } }
+           ]
+         }
+      ]
+    }
   },
 
   /**
@@ -2704,4 +2293,19 @@ export const CycleTransitionsContainerSeed = {
       if_transition_resolved_elsewhere: "close_and_refresh_dashboard",
     },
   },
+};
+// Adding the missing ContainerRegistry to the seed file
+export const ContainerRegistry = {
+  portal: PortalContainerSeed,
+  choice_stack: ChoiceStackContainerSeed,
+  composer: ComposerContainerSeed,
+  lock_ritual_overlay: LockRitualOverlaySeed,
+  routine_builder: RoutineBuilderContainerSeed,
+  routine_locked: RoutineLockedContainerSeed,
+  companion_dashboard: CompanionDashboardContainerSeed,
+  practice_runner: PracticeRunnerContainerSeed,
+  embodiment_challenge_runner: EmbodimentChallengeRunnerContainerSeed,
+  awareness_trigger: AwarenessTriggerContainerSeed,
+  insights_progress: InsightsProgressContainerSeed,
+  cycle_transitions: CycleTransitionsContainerSeed,
 };
