@@ -5,8 +5,8 @@ defineProps({
 </script>
 
 <template>
-  <div class="image-block">
-    <img :src="block.url" :alt="block.alt || 'KalpX Image'" class="image" />
+  <div class="image-block" :style="block.style">
+    <img :src="block.url || block.src" :alt="block.alt || 'KalpX Image'" class="image" />
   </div>
 </template>
 
@@ -23,7 +23,8 @@ defineProps({
 
 .image {
   width: 100%;
+  height: auto;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 </style>

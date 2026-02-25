@@ -1,6 +1,6 @@
 <script setup>
 import BlockRenderer from "../engine/BlockRenderer.vue";
-import IdentityMap from "../blocks/IdentityMap.vue";
+// import IdentityMap from "../blocks/IdentityMap.vue";
 
 defineProps({
   schema: Object,
@@ -11,19 +11,19 @@ defineProps({
   <div class="insights-container">
     <div class="header">
       <BlockRenderer
-        v-for="(block, i) in schema.blocks.filter(b => b.position === 'header')"
+        v-for="(block, i) in schema.blocks.filter(
+          (b) => b.position === 'header',
+        )"
         :key="i"
         :block="block"
       />
     </div>
 
-    <div class="main-stats">
-       <IdentityMap :block="{ type: 'identity_map', data_key: 'identity_map_data' }" />
-    </div>
-
     <div class="insights-list">
       <BlockRenderer
-        v-for="(block, i) in schema.blocks.filter(b => !b.position || b.position === 'content')"
+        v-for="(block, i) in schema.blocks.filter(
+          (b) => !b.position || b.position === 'content',
+        )"
         :key="i"
         :block="block"
       />
@@ -31,7 +31,9 @@ defineProps({
 
     <div class="footer">
       <BlockRenderer
-        v-for="(block, i) in schema.blocks.filter(b => b.position === 'footer')"
+        v-for="(block, i) in schema.blocks.filter(
+          (b) => b.position === 'footer',
+        )"
         :key="i"
         :block="block"
       />

@@ -158,7 +158,7 @@ export const PortalContainerSeed = {
           type: "subtext",
           variant: "micro_link",
           content: "Learn how this works",
-          action: "OPEN_LEARN_SHEET",
+          action: { type: "open_sheet", sheet_id: "learn_how" },
         },
       ],
     },
@@ -203,7 +203,7 @@ export const PortalContainerSeed = {
           type: "subtext",
           variant: "micro_link",
           content: "Learn how this works",
-          action: "OPEN_LEARN_SHEET",
+          action: { type: "open_sheet", sheet_id: "learn_how" },
         },
       ],
     },
@@ -323,37 +323,85 @@ export const ChoiceStackContainerSeed = {
     mode_toggle: {
       tone: "grounded",
       blocks: [
-        { type: "micro_label", content: "DEFINE YOUR STRUCTURE", position: "header" },
-        { type: "headline", content: "Choose your cycle length.", position: "header" },
-        { type: "subtext", content: "Short focus or sustained shift.", position: "header" },
+        {
+          type: "micro_label",
+          content: "DEFINE YOUR STRUCTURE",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "Choose your cycle length.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Short focus or sustained shift.",
+          position: "header",
+        },
         {
           type: "choice_card",
           id: "cycle_length_picker",
           selection_mode: "single_auto_advance",
           options: [
-            { id: "7_day", title: "7-Day Cycle", description: "Focused correction. Rapid reset." },
-            { id: "14_day", title: "14-Day Cycle", description: "Deeper conditioning. Structural shift.", Recommended: true }
+            {
+              id: "7_day",
+              title: "7-Day Cycle",
+              description: "Focused correction. Rapid reset.",
+            },
+            {
+              id: "14_day",
+              title: "14-Day Cycle",
+              description: "Deeper conditioning. Structural shift.",
+              Recommended: true,
+            },
           ],
-          target: { container_id: "choice_stack", state_id: "discipline_select" }
-        }
-      ]
+          target: {
+            container_id: "choice_stack",
+            state_id: "discipline_select",
+          },
+        },
+      ],
     },
     discipline_select: {
       tone: "grounded",
       blocks: [
         { type: "micro_label", content: "CORE STRENGTH", position: "header" },
-        { type: "headline", content: "Select your core discipline.", position: "header" },
-        { type: "subtext", content: "Strength grows through repetition.", position: "header" },
+        {
+          type: "headline",
+          content: "Select your core discipline.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Strength grows through repetition.",
+          position: "header",
+        },
         {
           type: "choice_card",
           id: "discipline_picker",
           selection_mode: "single",
           options: [
-            { id: "calm_stability", title: "Calm Stability", description: "Train non-reactivity." },
-            { id: "integrity", title: "Integrity", description: "Align action with truth." },
-            { id: "strength", title: "Strength", description: "Build inner firmness." },
-            { id: "clarity", title: "Clarity", description: "Reduce mental noise." }
-          ]
+            {
+              id: "calm_stability",
+              title: "Calm Stability",
+              description: "Train non-reactivity.",
+            },
+            {
+              id: "integrity",
+              title: "Integrity",
+              description: "Align action with truth.",
+            },
+            {
+              id: "strength",
+              title: "Strength",
+              description: "Build inner firmness.",
+            },
+            {
+              id: "clarity",
+              title: "Clarity",
+              description: "Reduce mental noise.",
+            },
+          ],
         },
         {
           type: "primary_button",
@@ -361,27 +409,51 @@ export const ChoiceStackContainerSeed = {
           position: "footer",
           action: {
             type: "navigate",
-            target: { container_id: "choice_stack", state_id: "domain_select" }
-          }
-        }
-      ]
+            target: { container_id: "choice_stack", state_id: "domain_select" },
+          },
+        },
+      ],
     },
     domain_select: {
       tone: "grounded",
       blocks: [
         { type: "micro_label", content: "LIFE AREA", position: "header" },
-        { type: "headline", content: "Choose your life domain.", position: "header" },
-        { type: "subtext", content: "Where does this discipline apply?", position: "header" },
+        {
+          type: "headline",
+          content: "Choose your life domain.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Where does this discipline apply?",
+          position: "header",
+        },
         {
           type: "choice_card",
           id: "domain_picker",
           selection_mode: "single",
           options: [
-            { id: "wealth", title: "Wealth", description: "Financial awareness & discipline." },
-            { id: "relationships", title: "Relationships", description: "Conscious communication." },
-            { id: "health", title: "Health", description: "Energy & physical integrity." },
-            { id: "work", title: "Work", description: "Professional steadiness." }
-          ]
+            {
+              id: "wealth",
+              title: "Wealth",
+              description: "Financial awareness & discipline.",
+            },
+            {
+              id: "relationships",
+              title: "Relationships",
+              description: "Conscious communication.",
+            },
+            {
+              id: "health",
+              title: "Health",
+              description: "Energy & physical integrity.",
+            },
+            {
+              id: "work",
+              title: "Work",
+              description: "Professional steadiness.",
+            },
+          ],
         },
         {
           type: "primary_button",
@@ -389,11 +461,11 @@ export const ChoiceStackContainerSeed = {
           position: "footer",
           action: {
             type: "navigate",
-            target: { container_id: "composer", state_id: "sankalp_composer" }
-          }
-        }
-      ]
-    }
+            target: { container_id: "composer", state_id: "sankalp_composer" },
+          },
+        },
+      ],
+    },
   },
 };
 
@@ -728,14 +800,17 @@ export const LockRitualOverlaySeed = {
           label: "Hold to Lock",
           on_complete: {
             type: "navigate",
-            target: { container_id: "lock_ritual_overlay", state_id: "lock_confirm_transition" }
+            target: {
+              container_id: "lock_ritual_overlay",
+              state_id: "lock_confirm_transition",
+            },
           },
         },
         {
           type: "subtext",
           content: "Structure builds identity.",
           position: "footer",
-        }
+        },
       ],
     },
 
@@ -746,7 +821,7 @@ export const LockRitualOverlaySeed = {
           type: "lotus_logo",
           symbol: "om",
           size: "medium",
-          position: "header"
+          position: "header",
         },
         {
           type: "headline",
@@ -763,7 +838,10 @@ export const LockRitualOverlaySeed = {
           label: "Enter Day 1",
           action: {
             type: "navigate",
-            target: { container_id: "companion_dashboard", state_id: "day_active" }
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
           },
           style: {
             background: "#1F2937",
@@ -968,6 +1046,146 @@ export const RoutineBuilderContainerSeed = {
         },
       ],
     },
+    mantra_frequency_picker: {
+      tone: "precise_grounded",
+      blocks: [
+        { type: "micro_label", content: "MANTRA FREQUENCY", position: "header" },
+        { type: "headline", content: "Set your daily repetitions.", position: "header" },
+        { type: "subtext", content: "Choose a count that challenges without overwhelming.", position: "header" },
+        {
+          type: "picker",
+          id: "mantra_rep_picker",
+          data_key: "reps_total",
+          options: [
+            { value: 9, label: "9 reps", description: "Gentle start" },
+            { value: 21, label: "21 reps", description: "Standard" },
+            { value: 54, label: "54 reps", description: "Deep practice" },
+            { value: 108, label: "108 reps", description: "Full mala" },
+          ],
+        },
+        {
+          type: "primary_button",
+          label: "Next",
+          position: "footer",
+          action: { type: "navigate", target: { container_id: "routine_builder", state_id: "anchor_duration_slider" } },
+        },
+      ],
+    },
+    anchor_duration_slider: {
+      tone: "precise_grounded",
+      blocks: [
+        { type: "micro_label", content: "ANCHOR DURATION", position: "header" },
+        { type: "headline", content: "Set your anchor time.", position: "header" },
+        { type: "subtext", content: "Minutes of focused stillness per day.", position: "header" },
+        {
+          type: "slider",
+          id: "anchor_slider",
+          data_key: "anchor_minutes",
+          min: 2, max: 30, step: 1, default: 5, unit: "min",
+        },
+        {
+          type: "primary_button",
+          label: "Next",
+          position: "footer",
+          action: { type: "navigate", target: { container_id: "routine_builder", state_id: "refinement_layer_menu" } },
+        },
+      ],
+    },
+    refinement_layer_menu: {
+      tone: "precise_grounded",
+      blocks: [
+        { type: "micro_label", content: "REFINEMENT LAYER", position: "header" },
+        { type: "headline", content: "Add an optional layer.", position: "header" },
+        { type: "subtext", content: "Observation, embodiment, or stability.", position: "header" },
+        {
+          type: "choice_card",
+          id: "refinement_picker",
+          selection_mode: "auto",
+          options: [
+            { id: "observation", title: "Observation", description: "Notice patterns without judgment." },
+            { id: "embodiment", title: "Embodiment", description: "Daily micro-challenge." },
+            { id: "stability", title: "Stability", description: "Emotional regulation drills." },
+            { id: "none", title: "Skip", description: "No refinement layer." },
+          ],
+        },
+        {
+          type: "primary_button",
+          label: "Review Routine",
+          position: "footer",
+          action: { type: "navigate", target: { container_id: "routine_builder", state_id: "routine_review_summary" } },
+        },
+      ],
+    },
+    ai_suggestion_modal: {
+      tone: "gentle",
+      blocks: [
+        { type: "micro_label", content: "AI SUGGESTION", position: "header" },
+        { type: "headline", content: "A recommendation for you.", position: "header" },
+        {
+          type: "summary_block",
+          id: "ai_recommendation",
+          content: "Based on your selections, consider adjusting for maximum impact.",
+          tone: "supportive",
+        },
+        {
+          type: "primary_button",
+          label: "Apply Suggestion",
+          position: "footer",
+          action: { type: "navigate", target: { container_id: "routine_builder", state_id: "routine_review_summary" } },
+        },
+        {
+          type: "primary_button",
+          label: "Keep My Choices",
+          position: "footer",
+          style_variant: "outline",
+          action: { type: "navigate", target: { container_id: "routine_builder", state_id: "routine_review_summary" } },
+        },
+      ],
+    },
+    over_stacking_warning: {
+      tone: "gentle",
+      blocks: [
+        { type: "micro_label", content: "WARNING", position: "header" },
+        { type: "headline", content: "You may be over-structuring.", position: "header" },
+        { type: "subtext", content: "High reps + long anchor + refinement layer may cause burnout.", position: "header" },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            { id: "simplify", title: "Simplify", description: "Reduce to sustainable level", action: { type: "navigate", target: { container_id: "routine_builder", state_id: "routine_builder_setup" } } },
+            { id: "proceed", title: "Proceed Anyway", description: "I understand the commitment", action: { type: "navigate", target: { container_id: "routine_builder", state_id: "routine_review_summary" } } },
+          ],
+        },
+      ],
+    },
+    routine_review_summary: {
+      tone: "precise_grounded",
+      blocks: [
+        { type: "micro_label", content: "REVIEW", position: "header" },
+        { type: "headline", content: "Your Structure.", position: "header" },
+        {
+          type: "summary_card",
+          fields: [
+            { label: "MANTRA REPS", value_key: "reps_total" },
+            { label: "ANCHOR DURATION", value_key: "anchor_minutes" },
+            { label: "DISCIPLINE", value_key: "focus_name" },
+          ],
+        },
+        {
+          type: "primary_button",
+          label: "Lock Routine →",
+          position: "footer",
+          action: { type: "navigate", target: { container_id: "lock_ritual_overlay", state_id: "hold_to_lock" } },
+        },
+        {
+          type: "primary_button",
+          label: "Edit",
+          position: "footer",
+          style_variant: "outline",
+          action: { type: "navigate", target: { container_id: "routine_builder", state_id: "routine_builder_setup" } },
+        },
+      ],
+    },
   },
 
   /**
@@ -1132,7 +1350,29 @@ export const RoutineLockedContainerSeed = {
         {
           type: "primary_button",
           label: "Dashboard →",
-          action: "ROUTE_DASHBOARD",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
+          },
+        },
+      ],
+    },
+    adjust_with_intention: {
+      tone: "grounded",
+      blocks: [
+        { type: "micro_label", content: "ADJUST WITH INTENTION", position: "header" },
+        { type: "headline", content: "Adjusting is intentional.", position: "header" },
+        { type: "subtext", content: "Changes reset structural consistency tracking.", position: "header" },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            { id: "adjust", title: "Continue to Adjust", description: "Open routine builder", action: { type: "navigate", target: { container_id: "routine_builder", state_id: "routine_builder_setup" } } },
+            { id: "cancel", title: "Keep Current", description: "Return to locked view", action: { type: "navigate", target: { container_id: "routine_locked", state_id: "locked_summary" } } },
+          ],
         },
       ],
     },
@@ -1154,12 +1394,18 @@ export const RoutineLockedContainerSeed = {
       buttons: [
         {
           label: "Continue to Adjust",
-          action: "ROUTE_TO_ROUTINE_BUILDER",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "routine_builder",
+              state_id: "routine_builder_setup",
+            },
+          },
           style: "primary_dark",
         },
         {
           label: "Cancel",
-          action: "CLOSE_MODAL",
+          action: { type: "back" },
           style: "secondary_text",
         },
       ],
@@ -1357,7 +1603,10 @@ export const CompanionDashboardContainerSeed = {
           description: "{{mantra_text}}",
           action: {
             type: "navigate",
-            target: { container_id: "practice_runner", state_id: "mantra_runner" }
+            target: {
+              container_id: "practice_runner",
+              state_id: "mantra_runner",
+            },
           },
         },
         {
@@ -1367,7 +1616,10 @@ export const CompanionDashboardContainerSeed = {
           description: "{{sankalp_text}}",
           action: {
             type: "navigate",
-            target: { container_id: "practice_runner", state_id: "sankalp_embody" }
+            target: {
+              container_id: "practice_runner",
+              state_id: "sankalp_embody",
+            },
           },
         },
         {
@@ -1377,7 +1629,10 @@ export const CompanionDashboardContainerSeed = {
           description: "{{anchor_minutes}} minutes",
           action: {
             type: "navigate",
-            target: { container_id: "practice_runner", state_id: "anchor_timer" }
+            target: {
+              container_id: "practice_runner",
+              state_id: "anchor_timer",
+            },
           },
         },
         {
@@ -1388,7 +1643,10 @@ export const CompanionDashboardContainerSeed = {
           description: "{{challenge_text}}",
           action: {
             type: "navigate",
-            target: { container_id: "embodiment_challenge_runner", state_id: "challenge_view" }
+            target: {
+              container_id: "embodiment_challenge_runner",
+              state_id: "challenge_view",
+            },
           },
         },
         {
@@ -1396,7 +1654,10 @@ export const CompanionDashboardContainerSeed = {
           label: "Quick Check-in",
           action: {
             type: "navigate",
-            target: { container_id: "awareness_trigger", state_id: "midday_checkin" }
+            target: {
+              container_id: "awareness_trigger",
+              state_id: "checkin_step_1",
+            },
           },
           position: "footer",
           style_variant: "outline",
@@ -1407,11 +1668,123 @@ export const CompanionDashboardContainerSeed = {
           label: "I Feel Triggered",
           action: {
             type: "navigate",
-            target: { container_id: "awareness_trigger", state_id: "breath_reset" }
+            target: {
+              container_id: "awareness_trigger",
+              state_id: "breath_reset",
+            },
           },
           position: "footer",
           style_variant: "gold",
-        }
+        },
+        {
+          type: "primary_button",
+          id: "evening_close",
+          label: "Evening Accountability",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "awareness_trigger",
+              state_id: "evening_quick_close",
+            },
+          },
+          position: "footer",
+          style_variant: "outline",
+        },
+        { type: "dev_tools", position: "footer" },
+      ],
+    },
+    identity_state_display: {
+      tone: "ambient",
+      blocks: [
+        { type: "micro_label", content: "IDENTITY STATE", position: "header" },
+        { type: "headline", content: "{{identity_headline}}", position: "header" },
+        { type: "subtext", content: "{{identity_subtext}}", position: "header" },
+        { type: "identity_map", id: "identity_pulse", data_key: "identity_map_data" },
+        {
+          type: "primary_button",
+          label: "Back to Dashboard",
+          position: "footer",
+          action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } },
+        },
+      ],
+    },
+    day_completion_seal: {
+      tone: "sacred",
+      blocks: [
+        {
+          type: "micro_label",
+          content: "DAY COMPLETE",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "Seal this day.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "All practices completed. Lock your progress.",
+          position: "header",
+        },
+        {
+          type: "identity_map",
+          id: "seal_day_radar",
+          data_key: "identity_map_data",
+        },
+        {
+          type: "primary_button",
+          label: "Seal Day {{day_number}}",
+          position: "footer",
+          action: {
+            type: "seal_day",
+          },
+        },
+      ],
+    },
+    partial_completion_alert: {
+      tone: "gentle",
+      blocks: [
+        {
+          type: "micro_label",
+          content: "INCOMPLETE",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "Some practices remain.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "You can continue or seal the day as-is.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "continue",
+              title: "Continue Practicing",
+              description: "Return to dashboard",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+            {
+              id: "seal_anyway",
+              title: "Seal Day Anyway",
+              description: "Partial progress recorded",
+              action: {
+                type: "seal_day",
+              },
+            },
+          ],
+        },
       ],
     },
   },
@@ -1568,18 +1941,48 @@ export const PracticeRunnerContainerSeed = {
       blocks: [
         { type: "micro_label", content: "MANTRA PRACTICE" },
         { type: "mantra_display", content: "{{mantra_text}}" },
-        { 
-          type: "rep_counter", 
-          id: "mantra_reps", 
+        {
+          type: "rep_counter",
+          id: "mantra_reps",
           target: "{{reps_total}}",
           on_complete: {
             type: "navigate",
-            target: { container_id: "companion_dashboard", state_id: "day_active" }
-          }
-        }
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
+          },
+        },
       ],
     },
 
+    mantra_rep_feedback: {
+      tone: "stabilizing",
+      blocks: [
+        { type: "micro_label", content: "REP FEEDBACK" },
+        { type: "headline", content: "{{reps_total}} repetitions." },
+        { type: "subtext", content: "Each rep anchors your intention deeper." },
+        { type: "rep_counter", id: "mantra_reps_live", target: "{{reps_total}}" },
+        {
+          type: "primary_button",
+          label: "Complete",
+          action: { type: "navigate", target: { container_id: "practice_runner", state_id: "mantra_completion" } },
+        },
+      ],
+    },
+    mantra_completion: {
+      tone: "sacred",
+      blocks: [
+        { type: "micro_label", content: "MANTRA COMPLETE" },
+        { type: "headline", content: "Practice sealed." },
+        { type: "subtext", content: "{{reps_total}} repetitions completed." },
+        {
+          type: "primary_button",
+          label: "Return to Dashboard",
+          action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } },
+        },
+      ],
+    },
     sankalp_embody: {
       tone: "resonant",
       blocks: [
@@ -1591,18 +1994,38 @@ export const PracticeRunnerContainerSeed = {
           label: "I Embody This →",
           action: {
             type: "navigate",
-            target: { container_id: "companion_dashboard", state_id: "day_active" }
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
           },
-          style: "gold"
-        }
+          style: "gold",
+        },
       ],
     },
 
+    sankalp_activation_confirm: {
+      tone: "sacred",
+      blocks: [
+        { type: "micro_label", content: "SANKALP ACTIVATED" },
+        { type: "headline", content: "Your intention is alive." },
+        { type: "subtext", content: "Carry this through your day." },
+        {
+          type: "primary_button",
+          label: "Return to Dashboard",
+          action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } },
+        },
+      ],
+    },
     anchor_timer: {
       tone: "stabilizing",
       blocks: [
         { type: "micro_label", content: "ANCHOR DURATION" },
-        { type: "timer_display", id: "anchor_timer", duration: "{{anchor_minutes}}" },
+        {
+          type: "timer_display",
+          id: "anchor_timer",
+          duration: "{{anchor_minutes}}",
+        },
         { type: "timer_controls", target_id: "anchor_timer" },
         {
           type: "primary_button",
@@ -1610,9 +2033,25 @@ export const PracticeRunnerContainerSeed = {
           visible_when: "anchor_timer_finished",
           action: {
             type: "navigate",
-            target: { container_id: "companion_dashboard", state_id: "day_active" }
-          }
-        }
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
+          },
+        },
+      ],
+    },
+    anchor_completion: {
+      tone: "sacred",
+      blocks: [
+        { type: "micro_label", content: "ANCHOR COMPLETE" },
+        { type: "headline", content: "Stillness recorded." },
+        { type: "subtext", content: "{{anchor_minutes}} minutes anchored." },
+        {
+          type: "primary_button",
+          label: "Return to Dashboard",
+          action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } },
+        },
       ],
     },
   },
@@ -1756,8 +2195,28 @@ export const EmbodimentChallengeRunnerContainerSeed = {
           action: {
             type: "submit",
             payload: { practiceId: "practice_act", completed: true },
-            target: { container_id: "companion_dashboard", state_id: "day_active" },
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
           },
+        },
+      ],
+    },
+    embodiment_outcome_toggle: {
+      tone: "reflective",
+      blocks: [
+        { type: "micro_label", content: "OUTCOME" },
+        { type: "headline", content: "How did the challenge go?" },
+        {
+          type: "choice_card",
+          id: "embodiment_outcome",
+          selection_mode: "auto",
+          options: [
+            { id: "completed", title: "Completed", description: "Fully embodied", action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } } },
+            { id: "avoided", title: "Avoided", description: "Chose not to engage", action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } } },
+            { id: "not_tested", title: "Not Tested", description: "Situation didn't arise", action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } } },
+          ],
         },
       ],
     },
@@ -1893,11 +2352,11 @@ export const AwarenessTriggerContainerSeed = {
    * =====================================================
    */
   states: {
-    midday_checkin: {
+    checkin_step_1: {
       tone: "reflective",
       blocks: [
-        { type: "micro_label", content: "AWARENESS CHECK-IN" },
-        { type: "headline", content: "How is your state?" },
+        { type: "micro_label", content: "STEP 1/3 — AWARENESS" },
+        { type: "headline", content: "What are you experiencing?" },
         {
           type: "choice_grid",
           id: "state_matrix",
@@ -1905,23 +2364,178 @@ export const AwarenessTriggerContainerSeed = {
             { id: "steady", label: "Steady", icon: "feather" },
             { id: "reactive", label: "Reactive", icon: "bolt" },
             { id: "drifting", label: "Drifting", icon: "wind" },
-            { id: "distracted", label: "Distracted", icon: "cloud" }
-          ]
+            { id: "distracted", label: "Distracted", icon: "cloud" },
+          ],
         },
         {
           type: "primary_button",
-          label: "Log State →",
+          label: "Next Step",
           action: {
             type: "navigate",
-            target: { container_id: "companion_dashboard", state_id: "day_active" }
-          }
-        }
+            target: {
+              container_id: "awareness_trigger",
+              state_id: "checkin_step_2",
+            },
+          },
+        },
+      ],
+    },
+    checkin_step_2: {
+      tone: "equanimous",
+      blocks: [
+        { type: "micro_label", content: "STEP 2/3 — DHARMA" },
+        { type: "headline", content: "How will you respond?" },
+        {
+          type: "choice_card",
+          id: "dharmic_choice",
+          options: [
+            {
+              id: "observe",
+              title: "Observe only",
+              description: "Notice the sensation without reacting.",
+            },
+            {
+              id: "anchor",
+              title: "Anchor breath",
+              description: "Stabilize with 3 conscious breaths.",
+            },
+          ],
+        },
+        {
+          type: "primary_button",
+          label: "Apply Choice",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "awareness_trigger",
+              state_id: "checkin_result",
+            },
+          },
+        },
+      ],
+    },
+    checkin_result: {
+      tone: "supportive",
+      blocks: [
+        { type: "headline", content: "Stability Reinforced." },
+        { type: "subtext", content: "Conscious choice builds identity." },
+        {
+          type: "primary_button",
+          label: "Return to Dashboard",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
+          },
+        },
+      ],
+    },
+    midday_awareness_prompt: {
+      tone: "reflective",
+      blocks: [
+        {
+          type: "micro_label",
+          content: "MIDDAY CHECK-IN",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "How is your rhythm?",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "A brief pause to recalibrate.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          id: "midday_check",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "steady",
+              title: "Steady",
+              description: "On track",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+            {
+              id: "drifting",
+              title: "Drifting",
+              description: "Losing focus",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "awareness_trigger",
+                  state_id: "awareness_response_matrix",
+                },
+              },
+            },
+            {
+              id: "reactive",
+              title: "Reactive",
+              description: "Triggered",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "awareness_trigger",
+                  state_id: "breath_reset",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    awareness_response_matrix: {
+      tone: "equanimous",
+      blocks: [
+        {
+          type: "micro_label",
+          content: "AWARENESS MATRIX",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "What are you experiencing?",
+          position: "header",
+        },
+        {
+          type: "choice_grid",
+          id: "awareness_matrix",
+          options: [
+            { id: "irritation", label: "Irritation", icon: "flame" },
+            { id: "anxiety", label: "Anxiety", icon: "wave" },
+            { id: "urgency", label: "Urgency", icon: "bolt" },
+            { id: "fatigue", label: "Fatigue", icon: "moon" },
+            { id: "avoidance", label: "Avoidance", icon: "cloud" },
+            { id: "other", label: "Other", icon: "circle" },
+          ],
+        },
+        {
+          type: "primary_button",
+          label: "Acknowledge & Reset",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "awareness_trigger",
+              state_id: "breath_reset",
+            },
+          },
+        },
       ],
     },
     breath_reset: {
       tone: "stabilizing",
       blocks: [
-        { type: "micro_label", content: "SOS RESET" },
         { type: "headline", content: "Three Breaths." },
         { type: "breath_animation", cycles: 3 },
         {
@@ -1929,9 +2543,257 @@ export const AwarenessTriggerContainerSeed = {
           label: "I am Centered",
           action: {
             type: "navigate",
-            target: { container_id: "companion_dashboard", state_id: "day_active" }
-          }
-        }
+            target: {
+              container_id: "awareness_trigger",
+              state_id: "quick_mantra_loop",
+            },
+          },
+        },
+      ],
+    },
+    quick_mantra_loop: {
+      tone: "stabilizing",
+      blocks: [
+        { type: "micro_label", content: "QUICK MANTRA" },
+        { type: "headline", content: "Repeat 9 times." },
+        { type: "subtext", content: "Tap to count each repetition." },
+        {
+          type: "mantra_display",
+          id: "mantra_text_display",
+          data_key: "mantra_text",
+        },
+        { type: "rep_counter", id: "sos_rep_counter", total: 9 },
+        {
+          type: "primary_button",
+          label: "Continue",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "awareness_trigger",
+              state_id: "trigger_reflection",
+            },
+          },
+        },
+      ],
+    },
+    trigger_reflection: {
+      tone: "reflective",
+      blocks: [
+        { type: "micro_label", content: "REFLECTION" },
+        { type: "headline", content: "What triggered this?" },
+        { type: "subtext", content: "One line. Optional." },
+        {
+          type: "text_input",
+          id: "trigger_note",
+          placeholder: "What happened...",
+          max_length: 120,
+          required: false,
+        },
+        {
+          type: "primary_button",
+          label: "Next",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "awareness_trigger",
+              state_id: "dharmic_response",
+            },
+          },
+        },
+      ],
+    },
+    dharmic_response: {
+      tone: "equanimous",
+      blocks: [
+        { type: "micro_label", content: "DHARMIC RESPONSE" },
+        { type: "headline", content: "How will you respond?" },
+        { type: "subtext", content: "Select your conscious response." },
+        {
+          type: "choice_card",
+          id: "dharmic_response_select",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "patient",
+              title: "Radical Patience",
+              description: "Wait with zero internal friction.",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "awareness_trigger",
+                  state_id: "post_trigger_message",
+                },
+              },
+            },
+            {
+              id: "disciplined",
+              title: "Focused Action",
+              description: "Execute without overthinking.",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "awareness_trigger",
+                  state_id: "post_trigger_message",
+                },
+              },
+            },
+            {
+              id: "surrendered",
+              title: "Graceful Yield",
+              description: "Let go of control entirely.",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "awareness_trigger",
+                  state_id: "post_trigger_message",
+                },
+              },
+            },
+            {
+              id: "compassionate",
+              title: "Silent Empathy",
+              description: "Feel without reacting.",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "awareness_trigger",
+                  state_id: "post_trigger_message",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    post_trigger_message: {
+      tone: "supportive",
+      blocks: [
+        { type: "headline", content: "Return steady." },
+        {
+          type: "subtext",
+          content: "You interrupted reaction. Identity preserved.",
+        },
+        {
+          type: "primary_button",
+          label: "Return to Day",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
+          },
+        },
+      ],
+    },
+    trigger_entry_persistent: {
+      tone: "stabilizing",
+      blocks: [
+        { type: "micro_label", content: "TRIGGERED" },
+        { type: "headline", content: "You tapped 'I Feel Triggered'." },
+        { type: "subtext", content: "Let's interrupt the reaction." },
+        {
+          type: "primary_button",
+          label: "Begin SOS Reset",
+          action: { type: "navigate", target: { container_id: "awareness_trigger", state_id: "breath_reset" } },
+        },
+        {
+          type: "primary_button",
+          label: "Cancel",
+          style_variant: "outline",
+          action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } },
+        },
+      ],
+    },
+    evening_quick_close: {
+      tone: "gentle",
+      blocks: [
+        { type: "headline", content: "Did you live your Sankalp today?" },
+        {
+          type: "subtext",
+          content: "",
+          id: "sankalp_preview",
+          data_key: "sankalp_text",
+        },
+        {
+          type: "choice_card",
+          id: "evening_sankalp_check",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "fully",
+              title: "Fully",
+              description: "Steady",
+              action: {
+                type: "set_and_navigate",
+                key: "identity_state",
+                value: "steady",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+            {
+              id: "partially",
+              title: "Partially",
+              description: "Reactive",
+              action: {
+                type: "set_and_navigate",
+                key: "identity_state",
+                value: "reactive",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+            {
+              id: "not_today",
+              title: "Not Today",
+              description: "Drifting",
+              action: {
+                type: "set_and_navigate",
+                key: "identity_state",
+                value: "drifting",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    emotional_drift_warning: {
+      tone: "gentle",
+      blocks: [
+        { type: "micro_label", content: "DRIFT DETECTED", position: "header" },
+        { type: "headline", content: "You seem to be drifting.", position: "header" },
+        { type: "subtext", content: "A gentle nudge to recalibrate.", position: "header" },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            { id: "reset", title: "Quick Breath Reset", description: "3 breaths", action: { type: "navigate", target: { container_id: "awareness_trigger", state_id: "breath_reset" } } },
+            { id: "acknowledge", title: "Acknowledged", description: "Continue as-is", action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } } },
+          ],
+        },
+      ],
+    },
+    nervous_system_stabilization: {
+      tone: "stabilizing",
+      blocks: [
+        { type: "micro_label", content: "STABILIZATION", position: "header" },
+        { type: "headline", content: "Nervous system activation detected.", position: "header" },
+        { type: "subtext", content: "Slow down. Ground yourself.", position: "header" },
+        { type: "breath_animation", cycles: 5 },
+        {
+          type: "primary_button",
+          label: "I Am Grounded",
+          action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } },
+        },
       ],
     },
   },
@@ -2019,61 +2881,347 @@ export const InsightsProgressContainerSeed = {
       blocks: [
         { type: "micro_label", content: "PATTERN INSIGHTS" },
         { type: "headline", content: "You remained steady 62% of the time." },
-        { type: "subtext", content: "Reactivity peaked on Tuesday afternoons." },
-        { type: "graph", id: "stability_trend", data: "reps_consistency" },
-        { 
-          type: "identity_map", 
-          id: "trait_radar", 
-          axes: ["Stability", "Integrity", "Follow-through", "Regulation", "Awareness"],
-          data: "identity_map_data" 
+        {
+          type: "subtext",
+          content: "Reactivity peaked on Tuesday afternoons.",
         },
-        { 
-          type: "insight_box", 
-          content: "You are most steady in the morning. Reactivity increases after 4 PM.",
-          tone: "analytical"
+        { type: "graph", id: "stability_trend", data_key: "reps_consistency" },
+        {
+          type: "identity_map",
+          id: "trait_radar_insights",
+          data_key: "identity_map_data",
+        },
+        {
+          type: "insight_box",
+          content:
+            "You are most steady in the morning. Reactivity increases after 4 PM.",
+          tone: "analytical",
+        },
+        {
+          type: "primary_button",
+          label: "Trigger Patterns",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "insights_progress",
+              state_id: "trigger_pattern_graph",
+            },
+          },
+          style_variant: "outline",
+        },
+        {
+          type: "primary_button",
+          label: "Behavioral Insight",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "insights_progress",
+              state_id: "behavioral_summary",
+            },
+          },
+          style_variant: "outline",
+        },
+        {
+          type: "primary_button",
+          label: "Voice Reflection",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "insights_progress",
+              state_id: "voice_reflection",
+            },
+          },
+          style_variant: "outline",
         },
         {
           type: "primary_button",
           label: "Dashboard",
           action: {
             type: "navigate",
-            target: { container_id: "companion_dashboard", state_id: "day_active" }
-          }
-        }
-      ]
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
+          },
+        },
+      ],
     },
     milestone_7_day: {
       tone: "holy_gold",
       blocks: [
-        { type: "micro_label", content: "7-DAY MILESTONE" },
-        { type: "headline", content: "Cycle Complete." },
-        { type: "subtext", content: "You have completed Phase 1 of your transformation." },
-        { type: "identity_map", id: "trait_radar_milestone", data: "identity_map_data" },
+        { type: "micro_label", content: "7-DAY MILESTONE", position: "header" },
+        { type: "headline", content: "Cycle Complete.", position: "header" },
+        {
+          type: "subtext",
+          content: "You have completed Phase 1 of your transformation.",
+          position: "header",
+        },
+        {
+          type: "identity_map",
+          id: "trait_radar_milestone",
+          data_key: "identity_map_data",
+        },
         {
           type: "primary_button",
           label: "Review Progress",
-          action: { type: "navigate", target: "insights_progress", state_id: "weekly_insights" }
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "insights_progress",
+              state_id: "weekly_insights",
+            },
+          },
         },
         {
           type: "primary_button",
           label: "Continue / Deepen",
-          action: { type: "navigate", target: "cycle_transitions", state_id: "continue_deepen" }
-        }
-      ]
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "cycle_transitions",
+              state_id: "continue_deepen",
+            },
+          },
+        },
+      ],
     },
     cycle_graduation: {
       tone: "sacred",
       blocks: [
-        { type: "headline", content: "You are no longer the same person who began." },
-        { type: "subtext", content: "Cycle Graduation (Day 14)" },
-        { type: "image", src: "graduation_emblem" },
+        {
+          type: "headline",
+          content: "You are no longer the same person who began.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Cycle Graduation (Day 14)",
+          position: "header",
+        },
+        {
+          type: "image",
+          url: "/graduation_emblem.png",
+          position: "content",
+          style: {
+            maxWidth: "280px",
+            margin: "0 auto 32px",
+            border: "none",
+            boxShadow: "0 0 50px rgba(201, 162, 39, 0.3)",
+          },
+        },
+        {
+          type: "identity_map",
+          id: "grad_radar",
+          data_key: "identity_map_data",
+          position: "content",
+        },
+        {
+          type: "summary_block",
+          content:
+            "You have maintained focus for 14 days, crossing the threshold of habit into integrated rhythm.",
+          tone: "sacred",
+          position: "content",
+        },
         {
           type: "primary_button",
           label: "Enter Legacy Timeline",
-          action: { type: "navigate", target: "insights_progress", state_id: "legacy_timeline" }
-        }
-      ]
-    }
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "insights_progress",
+              state_id: "legacy_timeline",
+            },
+          },
+        },
+      ],
+    },
+    legacy_timeline: {
+      tone: "analytical",
+      blocks: [
+        { type: "micro_label", content: "HISTORY", position: "header" },
+        {
+          type: "headline",
+          content: "Your Evolution Archive.",
+          position: "header",
+        },
+        { type: "timeline", id: "history_timeline", data_key: "cycle_history" },
+        {
+          type: "primary_button",
+          label: "Back to Dashboard",
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
+          },
+        },
+      ],
+    },
+    identity_reflection_portal: {
+      tone: "reflective",
+      blocks: [
+        { type: "micro_label", content: "IDENTITY REFLECTION", position: "header" },
+        { type: "headline", content: "Who are you becoming?", position: "header" },
+        { type: "subtext", content: "A moment to observe your trajectory.", position: "header" },
+        { type: "identity_map", id: "reflection_radar", data_key: "identity_map_data" },
+        {
+          type: "summary_block",
+          content: "Your Sankalp shapes your identity. Observe the shift.",
+          tone: "sacred",
+        },
+        {
+          type: "primary_button",
+          label: "View Trait Radar",
+          position: "footer",
+          action: { type: "navigate", target: { container_id: "insights_progress", state_id: "trait_strength_radar" } },
+        },
+        {
+          type: "primary_button",
+          label: "Back to Dashboard",
+          position: "footer",
+          style_variant: "outline",
+          action: { type: "navigate", target: { container_id: "companion_dashboard", state_id: "day_active" } },
+        },
+      ],
+    },
+    trait_strength_radar: {
+      tone: "analytical",
+      blocks: [
+        { type: "micro_label", content: "TRAIT RADAR", position: "header" },
+        { type: "headline", content: "Your Strength Profile.", position: "header" },
+        { type: "subtext", content: "5 axes of character development.", position: "header" },
+        { type: "identity_map", id: "full_trait_radar", data_key: "identity_map_data" },
+        {
+          type: "insight_box",
+          content: "Stability and Awareness are your strongest axes. Follow-through has room for growth.",
+          tone: "analytical",
+        },
+        {
+          type: "primary_button",
+          label: "Back to Insights",
+          position: "footer",
+          action: { type: "navigate", target: { container_id: "insights_progress", state_id: "weekly_insights" } },
+        },
+      ],
+    },
+    trigger_pattern_graph: {
+      tone: "analytical",
+      blocks: [
+        {
+          type: "micro_label",
+          content: "TRIGGER PATTERNS",
+          position: "header",
+        },
+        { type: "headline", content: "Your Trigger Map.", position: "header" },
+        {
+          type: "subtext",
+          content: "Frequency and timing of reactive episodes.",
+          position: "header",
+        },
+        {
+          type: "graph",
+          id: "trigger_frequency_graph",
+          data_key: "trigger_patterns",
+        },
+        {
+          type: "insight_box",
+          content:
+            "Most triggers occur between 2–5 PM. Consider an anchor session before meetings.",
+          tone: "analytical",
+        },
+        {
+          type: "primary_button",
+          label: "Back to Insights",
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "insights_progress",
+              state_id: "weekly_insights",
+            },
+          },
+        },
+      ],
+    },
+    behavioral_summary: {
+      tone: "analytical",
+      blocks: [
+        {
+          type: "micro_label",
+          content: "BEHAVIORAL INSIGHT",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "Your Pattern Narrative.",
+          position: "header",
+        },
+        {
+          type: "summary_block",
+          id: "behavioral_narrative",
+          content:
+            "You demonstrate strongest stability in mornings, with a consistent pattern of reactivity increasing post-lunch. Your mantra completion rate of 89% suggests strong discipline, but anchor sessions are frequently shortened. Consider prioritizing full anchor duration over additional mantra reps.",
+          tone: "analytical",
+        },
+        {
+          type: "identity_map",
+          id: "narrative_radar",
+          data_key: "identity_map_data",
+        },
+        {
+          type: "primary_button",
+          label: "Back to Insights",
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "insights_progress",
+              state_id: "weekly_insights",
+            },
+          },
+        },
+      ],
+    },
+    voice_reflection: {
+      tone: "reflective",
+      blocks: [
+        {
+          type: "micro_label",
+          content: "WEEKLY REFLECTION",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "One minute on this week.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content:
+            "What felt different in your body when you lived your Sankalp?",
+          position: "header",
+        },
+        { type: "voice_recorder", id: "weekly_voice", max_duration: 60 },
+        {
+          type: "primary_button",
+          label: "Skip",
+          style_variant: "outline",
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "insights_progress",
+              state_id: "weekly_insights",
+            },
+          },
+        },
+      ],
+    },
   },
 
   /**
@@ -2184,85 +3332,817 @@ export const CycleTransitionsContainerSeed = {
   states: {
     resistance: {
       blocks: [
-         { type: "micro_label", content: "PATTERN DETECTED" },
-         { type: "headline", content: "Resistance is increasing." },
-         { type: "subtext", content: "You skipped 3 consecutive anchors." },
-         {
-           type: "choice_card",
-           options: [
-             { id: "simplify", title: "Simplify Today", description: "Stability Pivot", action: "STABILITY_PIVOT" },
-             { id: "maintain", title: "Maintain Structure", description: "Keep pushing", action: "MAINTAIN" }
-           ]
-         }
-      ]
+        {
+          type: "micro_label",
+          content: "PATTERN DETECTED",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "Resistance is increasing.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "You skipped 3 consecutive anchors.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "simplify",
+              title: "Simplify Today",
+              description: "Stability Pivot",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "stability_pivot",
+                },
+              },
+            },
+            {
+              id: "maintain",
+              title: "Maintain Structure",
+              description: "Keep pushing",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+          ],
+        },
+      ],
     },
-    continue_deepen: {
+    resistance_reflection: {
       blocks: [
-         { type: "micro_label", content: "MILESTONE REACHED" },
-         { type: "headline", content: "7 Days Complete." },
-         { type: "subtext", content: "Extend or deepen?" },
-         {
-           type: "choice_card",
-           options: [
-             { id: "extend", title: "Continue to Day 14", description: "Extend Cycle", action: { type: "navigate", target: "companion_dashboard" } },
-             { id: "deepen", title: "Deepen Layer", description: "Select new layer", action: { type: "navigate", target: "cycle_transitions", state_id: "deepen_select" } }
-           ]
-         }
-      ]
-    },
-    deepen_select: {
-      blocks: [
-         { type: "micro_label", content: "EVOLUTION" },
-         { type: "headline", content: "Select deeper layer." },
-         {
-           type: "choice_card",
-           options: [
-             { id: "reps", title: "Increase mantra reps", description: "Deepen repetition", action: "DEEPEN_REPS" },
-             { id: "duration", title: "Increase anchor duration", description: "Deepen stillness", action: "DEEPEN_DURATION" },
-             { id: "refinement", title: "Add refinement layer", description: "Add observation", action: "ADD_REFINEMENT" }
-           ]
-         }
-      ]
+        {
+          type: "micro_label",
+          content: "REFLECTION",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "What caused this resistance?",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Optional. One line.",
+          position: "header",
+        },
+        {
+          type: "text_input",
+          id: "resistance_note",
+          placeholder: "What happened...",
+          max_length: 120,
+          required: false,
+        },
+        {
+          type: "primary_button",
+          label: "Continue",
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "cycle_transitions",
+              state_id: "stability_pivot",
+            },
+          },
+        },
+      ],
     },
     ego_check: {
       blocks: [
-         { type: "headline", content: "Structure feels effortless." },
-         { type: "subtext", content: "Ensure you’re not over-extending." },
-         {
-           type: "choice_card",
-           options: [
-             { id: "maintain", title: "Maintain Current Level", description: "Verify stability", action: "MAINTAIN" },
-             { id: "deepen", title: "Deepen Layer", description: "Challenge self", action: "ROUTE_DEEPEN_SELECT" }
-           ]
-         }
-      ]
+        {
+          type: "micro_label",
+          content: "STRUCTURAL AUDIT",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "Structure feels effortless.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Ensure you’re not over-extending.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "maintain",
+              title: "Maintain Current Level",
+              description: "Verify stability",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+            {
+              id: "deepen",
+              title: "Deepen Layer",
+              description: "Challenge self",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "deepen_select",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    refinement_suggestion: {
+      blocks: [
+        {
+          type: "micro_label",
+          content: "REFINEMENT",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "Consider refining your approach.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Small adjustments can deepen impact without adding complexity.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "refine",
+              title: "Apply Refinement",
+              description: "Adjust current layer",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "deepen_select",
+                },
+              },
+            },
+            {
+              id: "maintain",
+              title: "Keep Current",
+              description: "No changes",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    escalation_suggestion: {
+      blocks: [
+        {
+          type: "micro_label",
+          content: "ESCALATION",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "You may be ready to escalate.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Sustained stability detected. Consider deepening structure.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "escalate",
+              title: "Deepen Practice",
+              description: "Advance layer",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "deepen_select",
+                },
+              },
+            },
+            {
+              id: "maintain",
+              title: "Maintain Current",
+              description: "Stay at this level",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    plateau: {
+      blocks: [
+        {
+          type: "micro_label",
+          content: "STABILITY REACHED",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "Progress has stabilized.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "You may be ready to deepen.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "deepen",
+              title: "Deepen Practice",
+              description: "Advance layer",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "deepen_select",
+                },
+              },
+            },
+            {
+              id: "continue",
+              title: "Continue Current Cycle",
+              description: "Refine current level",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+          ],
+        },
+      ],
     },
     stability_pivot: {
       blocks: [
-         { type: "headline", content: "Simplify to stabilize." },
-         { type: "subtext", content: "Reduce reps temporarily to preserve rhythm." },
-         {
-           type: "choice_card",
-           options: [
-             { id: "reduce", title: "Reduce Structure", description: "Preserve rhythm", action: "REDUCE_INTENSITY" },
-             { id: "maintain", title: "Maintain", description: "Try again", action: "MAINTAIN" }
-           ]
-         }
-      ]
+        { type: "micro_label", content: "ADAPTIVE PIVOT", position: "header" },
+        {
+          type: "headline",
+          content: "Simplify to stabilize.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Reduce reps temporarily to preserve rhythm.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "reduce",
+              title: "Reduce Structure",
+              description: "Preserve rhythm",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            }, // Logic to scale down
+            {
+              id: "maintain",
+              title: "Maintain",
+              description: "Try again",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    inactivity: {
+      blocks: [
+        { type: "micro_label", content: "CYCLE SUSPENDED", position: "header" },
+        { type: "headline", content: "Structure paused.", position: "header" },
+        {
+          type: "subtext",
+          content: "You have been inactive for 4 days.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "resume",
+              title: "Resume",
+              description: "Continue same day count",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+            {
+              id: "restart",
+              title: "Restart",
+              description: "Reset day counter",
+              action: {
+                type: "navigate",
+                target: { container_id: "portal", state_id: "welcome_portal" },
+              },
+            },
+            {
+              id: "recalibrate",
+              title: "Recalibrate",
+              description: "Adjust structure",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "choice_stack",
+                  state_id: "mode_toggle",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    pause: {
+      blocks: [
+        {
+          type: "micro_label",
+          content: "INTENTIONAL SUSPENSION",
+          position: "header",
+        },
+        { type: "headline", content: "Pause Cycle?", position: "header" },
+        {
+          type: "subtext",
+          content: "Structure will suspend without reset.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "pause",
+              title: "Pause",
+              description: "Suspend structure",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "re_entry_warm_start",
+                },
+              },
+            },
+            {
+              id: "cancel",
+              title: "Cancel",
+              description: "Return to dashboard",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    exit: {
+      blocks: [
+        { type: "micro_label", content: "CLOSURE", position: "header" },
+        { type: "headline", content: "Exit Cycle?", position: "header" },
+        {
+          type: "subtext",
+          content: "This will close your active structure.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "exit",
+              title: "Exit",
+              description: "End current cycle",
+              action: {
+                type: "navigate",
+                target: { container_id: "portal", state_id: "welcome_portal" },
+              },
+            },
+            {
+              id: "continue",
+              title: "Continue",
+              description: "Stay in flow",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    continue_deepen: {
+      blocks: [
+        {
+          type: "micro_label",
+          content: "MILESTONE REACHED",
+          position: "header",
+        },
+        { type: "headline", content: "7 Days Complete.", position: "header" },
+        { type: "subtext", content: "Extend or deepen?", position: "header" },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "extend",
+              title: "Continue to Day 14",
+              description: "Extend Cycle",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "continue_confirmed",
+                },
+              },
+            },
+            {
+              id: "deepen",
+              title: "Deepen Layer",
+              description: "Select new layer",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "deepen_select",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    continue_confirmed: {
+      tone: "holy_gold",
+      blocks: [
+        { type: "micro_label", content: "CYCLE EXTENDED", position: "header" },
+        {
+          type: "headline",
+          content: "Momentum Sustained.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Your commitment is locked until Day 14.",
+          position: "header",
+        },
+        {
+          type: "primary_button",
+          label: "Enter Day 8",
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "cycle_transitions",
+              state_id: "extension_activation",
+            },
+          },
+        },
+      ],
+    },
+    deepen_select: {
+      blocks: [
+        { type: "micro_label", content: "EVOLUTION", position: "header" },
+        {
+          type: "headline",
+          content: "Select deeper layer.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Choose your next structural anchor.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "reps",
+              title: "Increase mantra reps",
+              description: "Deepen repetition",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "deepen_confirmed",
+                },
+              },
+            },
+            {
+              id: "duration",
+              title: "Increase anchor duration",
+              description: "Deepen stillness",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "deepen_confirmed",
+                },
+              },
+            },
+            {
+              id: "refinement",
+              title: "Add refinement layer",
+              description: "Add observation",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "deepen_confirmed",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    deepen_confirmed: {
+      tone: "holy_gold",
+      blocks: [
+        {
+          type: "micro_label",
+          content: "STRUCTURAL SHIFT",
+          position: "header",
+        },
+        { type: "headline", content: "Evolution Locked.", position: "header" },
+        {
+          type: "subtext",
+          content:
+            "Deepening layer integrated. Your updated structure begins with the next ritual.",
+          position: "header",
+        },
+        {
+          type: "primary_button",
+          label: "Dashboard",
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
+          },
+        },
+      ],
+    },
+    switch_focus: {
+      blocks: [
+        { type: "micro_label", content: "GOVERNANCE", position: "header" },
+        {
+          type: "headline",
+          content: "Switching focus resets momentum.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Proceed intentionally.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "confirm",
+              title: "Confirm Switch",
+              description: "Reset cycle",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "cycle_transitions",
+                  state_id: "new_focus_confirm",
+                },
+              },
+            },
+            {
+              id: "cancel",
+              title: "Cancel",
+              description: "Keep current focus",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+          ],
+        },
+      ],
     },
     integrity_guardrail: {
       blocks: [
-         { type: "headline", content: "Integration is incomplete." },
-         { type: "subtext", content: "Consider reflection before restarting." },
-         {
-           type: "choice_card",
-           options: [
-             { id: "continue", title: "Continue Anyway", description: "Proceed", action: "CONTINUE" },
-             { id: "review", title: "Review Insights", description: "Reflect first", action: { type: "navigate", target: "insights_progress" } }
-           ]
-         }
-      ]
-    }
+        { type: "micro_label", content: "INTEGRITY CHECK", position: "header" },
+        {
+          type: "headline",
+          content: "Integration is incomplete.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Consider reflection before restarting.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "continue",
+              title: "Continue Anyway",
+              description: "Proceed",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+            {
+              id: "review",
+              title: "Review Insights",
+              description: "Reflect first",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "insights_progress",
+                  state_id: "weekly_insights",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    extension_activation: {
+      tone: "holy_gold",
+      blocks: [
+        {
+          type: "micro_label",
+          content: "EXTENSION ACTIVE",
+          position: "header",
+        },
+        {
+          type: "headline",
+          content: "Extension Activated.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Your structure continues with renewed intention.",
+          position: "header",
+        },
+        {
+          type: "primary_button",
+          label: "Begin Day 8",
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: {
+              container_id: "companion_dashboard",
+              state_id: "day_active",
+            },
+          },
+        },
+      ],
+    },
+    new_focus_confirm: {
+      tone: "holy_gold",
+      blocks: [
+        { type: "micro_label", content: "NEW FOCUS", position: "header" },
+        {
+          type: "headline",
+          content: "New focus confirmed.",
+          position: "header",
+        },
+        {
+          type: "subtext",
+          content: "Previous cycle archived. Begin fresh.",
+          position: "header",
+        },
+        {
+          type: "primary_button",
+          label: "Begin New Cycle",
+          position: "footer",
+          action: {
+            type: "navigate",
+            target: { container_id: "portal", state_id: "welcome_portal" },
+          },
+        },
+      ],
+    },
+    re_entry_warm_start: {
+      blocks: [
+        { type: "micro_label", content: "WELCOME BACK", position: "header" },
+        { type: "headline", content: "Welcome back.", position: "header" },
+        {
+          type: "subtext",
+          content: "Your cycle was paused. Choose how to continue.",
+          position: "header",
+        },
+        {
+          type: "choice_card",
+          selection_mode: "auto",
+          options: [
+            {
+              id: "resume",
+              title: "Resume",
+              description: "Continue same day count",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "companion_dashboard",
+                  state_id: "day_active",
+                },
+              },
+            },
+            {
+              id: "restart",
+              title: "Restart",
+              description: "Reset day counter",
+              action: {
+                type: "navigate",
+                target: { container_id: "portal", state_id: "welcome_portal" },
+              },
+            },
+            {
+              id: "recalibrate",
+              title: "Recalibrate",
+              description: "Adjust structure",
+              action: {
+                type: "navigate",
+                target: {
+                  container_id: "routine_builder",
+                  state_id: "routine_builder_setup",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
   },
 
   /**

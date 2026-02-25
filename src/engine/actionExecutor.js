@@ -20,7 +20,18 @@ export function executeAction(actionOrString, context) {
       ROUTE_SANKALP_PRACTICE: { type: "navigate", target: "sankalp_embody" },
       ROUTE_TRIGGER_RESET: { type: "navigate", target: "breath_reset" },
       ROUTE_DASHBOARD: { type: "navigate", target: "day_active" },
-      ROUTE_ROUTINE_REVIEW: { type: "navigate", target: "routine_builder_setup" }, // Simplified mapping
+      ROUTE_ROUTINE_REVIEW: { type: "navigate", target: "routine_builder_setup" },
+      seal_day: { type: "seal_day" },
+      STABILITY_PIVOT: { type: "navigate", target: "stability_pivot" },
+      MAINTAIN: { type: "navigate", target: "day_active" },
+      REDUCE_STRUCTURE: { type: "navigate", target: "day_active" },
+      RESUME: { type: "navigate", target: "day_active" },
+      RESTART: { type: "navigate", target: "welcome_portal" },
+      PAUSE_CYCLE: { type: "navigate", target: "day_active" },
+      EXIT_CYCLE: { type: "navigate", target: "welcome_portal" },
+      OPEN_LEARN_SHEET: { type: "noop" },
+      ROUTE_TO_ROUTINE_BUILDER: { type: "navigate", target: "routine_builder_setup" },
+      CLOSE_MODAL: { type: "back" },
     };
     action = routeMap[actionOrString] || { type: actionOrString };
   }
@@ -37,8 +48,26 @@ export function executeAction(actionOrString, context) {
       }
       break;
 
+    case "set_and_navigate": {
+      const { key, value, target: navTarget } = action;
+      if (key && value !== undefined) {
+        setScreenValue(value, key);
+      }
+      if (navTarget) {
+        loadScreen(navTarget);
+      }
+      break;
+    }
+
     case "back":
       goBack();
+      break;
+
+    case "open_sheet":
+      console.log(`Open sheet: ${action.sheet_id || "unknown"}`);
+      break;
+
+    case "noop":
       break;
 
     case "view_info": {

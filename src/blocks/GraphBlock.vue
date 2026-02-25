@@ -6,7 +6,7 @@ const props = defineProps({
 });
 
 const screenStore = useScreenStore();
-const data = screenStore.screenState[props.block.data_key || 'identity_delta'] || [];
+const data = screenStore.screenState[props.block.data_key || props.block.data || 'identity_delta'] || [];
 </script>
 
 <template>

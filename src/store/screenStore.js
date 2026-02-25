@@ -24,20 +24,38 @@ export const useScreenStore = defineStore("screen", () => {
     anchor_minutes: 0,
     reps_total: 21,
     cycle_history: [],
-    identity_delta: [],
+    identity_delta: [
+      { label: "Stability", initial: 4, current: 7 },
+      { label: "Clarity", initial: 3, current: 6 },
+      { label: "Presence", initial: 5, current: 8 },
+    ],
+    reps_consistency: [
+      { label: "Mon", initial: 10, current: 18 },
+      { label: "Tue", initial: 12, current: 15 },
+      { label: "Wed", initial: 8, current: 21 },
+      { label: "Thu", initial: 15, current: 20 },
+      { label: "Fri", initial: 10, current: 19 },
+    ],
     identity_map_data: {
-      Stability: 0,
-      Focus: 0,
-      Clarity: 0,
-      Awareness: 0,
-      Resilience: 0,
-      Presence: 0,
+      Stability: 8,
+      Focus: 7,
+      Clarity: 9,
+      Awareness: 6,
+      Resilience: 7,
+      Presence: 8,
     },
     insight_data: {
       total_sessions: 0,
       consistency_score: "0%",
       momentum: "None",
     },
+    trigger_patterns: [
+      { label: "Mon", initial: 1, current: 3 },
+      { label: "Tue", initial: 2, current: 5 },
+      { label: "Wed", initial: 1, current: 2 },
+      { label: "Thu", initial: 3, current: 4 },
+      { label: "Fri", initial: 2, current: 3 },
+    ],
     dharmic_response_options: [
       {
         id: "patient",
@@ -174,8 +192,9 @@ export const useScreenStore = defineStore("screen", () => {
 
   function handleAction(action) {
     if (!action) return;
+    const actionObj = typeof action === "string" ? { type: action } : action;
     executeAction(
-      { ...action, currentScreen: currentScreen.value },
+      { ...actionObj, currentScreen: currentScreen.value },
       { loadScreen, goBack, setScreenValue, mockScreens, screenState },
     );
   }

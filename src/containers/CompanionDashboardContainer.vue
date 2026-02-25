@@ -7,22 +7,34 @@ const props = defineProps({
 });
 
 // Group blocks for the home-base layout
-const headerBlocks = computed(() => props.schema.blocks.filter(b => b.position === 'header'));
-const practiceBlocks = computed(() => props.schema.blocks.filter(b => b.type === 'practice_card' && b.category !== 'awareness'));
-const awarenessBlocks = computed(() => props.schema.blocks.filter(b => b.category === 'awareness'));
-const footerBlocks = computed(() => props.schema.blocks.filter(b => b.position === 'footer'));
-const floatingBlocks = computed(() => props.schema.blocks.filter(b => b.type === 'floating_button' || b.position === 'floating'));
+const headerBlocks = computed(() =>
+  props.schema.blocks.filter((b) => b.position === "header"),
+);
+const practiceBlocks = computed(() =>
+  props.schema.blocks.filter(
+    (b) => b.type === "practice_card" && b.category !== "awareness",
+  ),
+);
+
+const footerBlocks = computed(() =>
+  props.schema.blocks.filter((b) => b.position === "footer"),
+);
+const floatingBlocks = computed(() =>
+  props.schema.blocks.filter(
+    (b) => b.type === "floating_button" || b.position === "floating",
+  ),
+);
 </script>
 
 <template>
   <div class="dashboard-wrap" :class="[`tone-${schema.tone || 'grounded'}`]">
     <div class="ambient-glow"></div>
-    
+
     <!-- Top Companion Anchor -->
     <div class="header-anchor">
       <BlockRenderer
         v-for="(block, i) in headerBlocks"
-        :key="'header-'+i"
+        :key="'header-' + i"
         :block="block"
       />
     </div>
@@ -30,23 +42,10 @@ const floatingBlocks = computed(() => props.schema.blocks.filter(b => b.type ===
     <div class="dashboard-scroll-area">
       <!-- Main Practice Section -->
       <section v-if="practiceBlocks.length" class="practice-section">
-        <h4 class="section-label">Main Practice</h4>
         <div class="cards-stack">
           <BlockRenderer
             v-for="(block, i) in practiceBlocks"
-            :key="'practice-'+i"
-            :block="block"
-          />
-        </div>
-      </section>
-
-      <!-- Awareness / Support Section -->
-      <section v-if="awarenessBlocks.length" class="awareness-section">
-        <h4 class="section-label">Daily Awareness</h4>
-        <div class="cards-stack">
-          <BlockRenderer
-            v-for="(block, i) in awarenessBlocks"
-            :key="'awareness-'+i"
+            :key="'practice-' + i"
             :block="block"
           />
         </div>
@@ -55,9 +54,9 @@ const floatingBlocks = computed(() => props.schema.blocks.filter(b => b.type ===
 
     <!-- Bottom Actions / Nav -->
     <div class="dashboard-footer">
-       <BlockRenderer
+      <BlockRenderer
         v-for="(block, i) in footerBlocks"
-        :key="'footer-'+i"
+        :key="'footer-' + i"
         :block="block"
       />
     </div>
@@ -66,7 +65,7 @@ const floatingBlocks = computed(() => props.schema.blocks.filter(b => b.type ===
     <div class="floating-layer">
       <BlockRenderer
         v-for="(block, i) in floatingBlocks"
-        :key="'floating-'+i"
+        :key="'floating-' + i"
         :block="block"
       />
     </div>
@@ -79,11 +78,11 @@ const floatingBlocks = computed(() => props.schema.blocks.filter(b => b.type ===
   min-height: 100vh;
   width: 100%;
   /* Spec: #111827 to #0B1220 */
-  background: linear-gradient(180deg, #111827 0%, #0B1220 100%);
+  background: linear-gradient(180deg, #111827 0%, #0b1220 100%);
   display: flex;
   flex-direction: column;
   padding: 0;
-  color: #F3F4F6;
+  color: #f3f4f6;
   overflow: hidden;
 }
 
@@ -124,7 +123,9 @@ const floatingBlocks = computed(() => props.schema.blocks.filter(b => b.type ===
   scrollbar-width: none;
 }
 
-.dashboard-scroll-area::-webkit-scrollbar { display: none; }
+.dashboard-scroll-area::-webkit-scrollbar {
+  display: none;
+}
 
 .section-label {
   font-family: var(--font-sans);
@@ -147,7 +148,7 @@ const floatingBlocks = computed(() => props.schema.blocks.filter(b => b.type ===
   position: relative;
   z-index: 10;
   padding: 24px;
-  background: linear-gradient(to top, #0B1220 70%, transparent);
+  background: linear-gradient(to top, #0b1220 70%, transparent);
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -59,6 +59,19 @@
   --glass-effect: blur(15px) saturate(120%);
 }
 
+.theme-sacred,
+.theme-holy_gold {
+  --bg-primary: #080a0c;
+  --bg-gradient: radial-gradient(circle at center, #1a1e24 0%, #080a0c 100%),
+                 radial-gradient(circle at 50% -20%, rgba(201, 162, 39, 0.15) 0%, transparent 60%);
+  --text-primary: #fdfaf3;
+  --text-secondary: rgba(253, 250, 243, 0.6);
+  --accent-primary: #C9A227;
+  --surface-1: rgba(255, 255, 255, 0.04);
+  --border-color: rgba(201, 162, 39, 0.2);
+  --glass-effect: blur(30px) saturate(200%);
+}
+
 /* Base Body Styles */
 body {
   margin: 0;

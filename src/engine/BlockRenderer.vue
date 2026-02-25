@@ -40,6 +40,8 @@ import OptionPicker from "../blocks/OptionPicker.vue";
 import ChoiceGrid from "../blocks/ChoiceGrid.vue";
 import InsightBoxBlock from "../blocks/InsightBoxBlock.vue";
 
+import DevToolsBlock from "../blocks/DevToolsBlock.vue";
+
 const blockMap = {
   headline: HeadlineBlock,
   subtext: SubtextBlock,
@@ -81,6 +83,7 @@ const blockMap = {
   breath_animation: BreathAnimation,
   mantra_display: MantraDisplay,
   rep_counter: RepCounter,
+  dev_tools: DevToolsBlock,
 };
 
 const props = defineProps({
